@@ -1,0 +1,14 @@
+{
+  "name": "AutoQuestionGenerator",
+  "authors": [
+    "Dalhome3 <da.ledger01@gmail.com>"
+  ],
+  "description": "Automatic Question Generator for Web",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.1.3"
+  }
+}
