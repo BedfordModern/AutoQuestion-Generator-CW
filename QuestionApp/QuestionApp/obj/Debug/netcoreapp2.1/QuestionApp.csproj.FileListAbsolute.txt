@@ -1,0 +1,11 @@
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\bin\Debug\netcoreapp2.1\QuestionApp.deps.json
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\bin\Debug\netcoreapp2.1\QuestionApp.runtimeconfig.json
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\bin\Debug\netcoreapp2.1\QuestionApp.runtimeconfig.dev.json
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\bin\Debug\netcoreapp2.1\QuestionApp.dll
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\bin\Debug\netcoreapp2.1\QuestionApp.pdb
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\obj\Debug\netcoreapp2.1\QuestionApp.csprojAssemblyReference.cache
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\obj\Debug\netcoreapp2.1\QuestionApp.csproj.CoreCompileInputs.cache
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\obj\Debug\netcoreapp2.1\QuestionApp.AssemblyInfoInputs.cache
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\obj\Debug\netcoreapp2.1\QuestionApp.AssemblyInfo.cs
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\obj\Debug\netcoreapp2.1\QuestionApp.dll
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\QuestionApp\QuestionApp\obj\Debug\netcoreapp2.1\QuestionApp.pdb
