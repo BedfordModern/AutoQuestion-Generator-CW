@@ -9,7 +9,7 @@ namespace QuestionApp.Questions
     {
         public string Qust;
         public int Ans;
-        public BinaryIntegers(int seed) : base(seed)
+        public BinaryIntegers(int seed, int dificulty) : base(seed, dificulty)
         {
             Question();
         }
@@ -19,13 +19,12 @@ namespace QuestionApp.Questions
             if (string.IsNullOrEmpty(Qust))
             {
                 Qust = "";
-                int num = base.rand.Next(2000);
+                int num = base.rand.Next((int)Math.Pow(2, Dificulty));
                 Ans = num;
-                int count = (int)Math.Log(num, 2);
 
-                for (int i = count; i > 0; i--)
+                for (int i = (Dificulty - 1); i >= 0; i--)
                 {
-                    if (num > (int)Math.Pow(2, i))
+                    if (num >= (int)Math.Pow(2, i))
                     {
                         Qust += "1";
                         num -= (int)Math.Pow(2, i);

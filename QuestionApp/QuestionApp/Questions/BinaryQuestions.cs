@@ -15,6 +15,7 @@ namespace QuestionApp.Questions
             if (seed == 0)
             {
                 rand = new Random();
+                rand = new Random(rand.Next());
             }
             else {
                 rand = new Random(seed);
