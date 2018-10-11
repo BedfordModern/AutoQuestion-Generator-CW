@@ -1,5 +1,5 @@
 ﻿using System;
-using QuestionApp.Questions;
+using QuestionApp.Accounts;
 namespace QuestionApp
 {
     class Program
@@ -7,11 +7,9 @@ namespace QuestionApp
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            BinaryIntegers qu = new BinaryIntegers(0, 12);
-            Console.WriteLine(qu.Qust);
-            int input = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine(qu.Answer(input));
-            Console.WriteLine(qu.Ans);
+            string hash = Hasher.Hash("ThisIsAPassword");
+            Console.WriteLine(hash);
+            Console.WriteLine(Hasher.ValidatePassword("ThisIsAPassword", hash));
             Console.ReadLine();
         }
     }

@@ -3,13 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoQuestionGenerator.Questions
+namespace QuestionApp.Questions
 {
     public class BinaryToDenaryQuestion : Question
     {
+        public int Dificulty;
         public Random rand;
-        public BinaryToDenaryQuestion(int seed)
+
+        public string Question_Value;
+        public int Answer_Value;
+
+        public BinaryToDenaryQuestion(int seed, int difficulty)
         {
+            Dificulty = difficulty;
+            if (seed == 0)
+            {
+                rand = new Random();
+                seed = rand.Next();
+            }
             rand = new Random(seed);
         }
 
@@ -17,7 +28,7 @@ namespace AutoQuestionGenerator.Questions
         {
             foreach(char chars in input)
             {
-                if(!(chars == '0' || chars == '1'))
+                if(!(chars == '0' || chars == '1' || chars == '.'))
                 {
                     return false;
                 }
@@ -33,14 +44,37 @@ namespace AutoQuestionGenerator.Questions
             }
             return "Error";
         }
+
+
+        public object GetQuestion()
+        {
+            return Question_Value;
+        }
+        public object GetAnswer()
+        {
+            return Answer_Value;
+        }
     }
     public class DenaryToBinaryQuestion : Question
     {
+        public int Dificulty;
 
-        Random rand;
-        public DenaryToBinaryQuestion(int seed)
+        public int Question_Value;
+        public string Answer_Value;
+
+        public Random rand;
+        public DenaryToBinaryQuestion(int seed, int difficulty)
         {
-            rand = new Random(seed);
+            Dificulty = difficulty;
+            if (seed == 0)
+            {
+                rand = new Random();
+                rand = new Random(rand.Next());
+            }
+            else
+            {
+                rand = new Random(seed);
+            }
         }
 
         public string Answer(object Answer)
@@ -64,6 +98,17 @@ namespace AutoQuestionGenerator.Questions
                 return output;
             }
             return false;
+        }
+
+
+
+        public object GetQuestion()
+        {
+            return Question_Value;
+        }
+        public object GetAnswer()
+        {
+            return Answer_Value;
         }
     }
 

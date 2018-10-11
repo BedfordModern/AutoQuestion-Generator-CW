@@ -3,40 +3,98 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoQuestionGenerator.Questions
+namespace QuestionApp.Questions
 {
-    public class BinaryIntegers : BinaryToDenaryQuestion
+    public class BinaryToIntegers : BinaryToDenaryQuestion
     {
-        public string Qust;
-        public int Answer;
-        public BinaryIntegers(int seed) : base(seed)
+        public BinaryToIntegers(int seed, int dificulty) : base(seed, dificulty)
         {
             Question();
         }
-        
+
         private object Question()
         {
-            if (string.IsNullOrEmpty(Qust))
+            if (string.IsNullOrEmpty(Question_Value))
             {
-                Qust = "";
-                int num = base.rand.Next(2000);
-                Answer = num;
-                int count = (int)Math.Log(num, 2);
+                Question_Value = "";
+                int num = base.rand.Next((int)Math.Pow(2, Dificulty));
+                Answer_Value = num;
 
-                for (int i = count; i > 0; i--)
+                for (int i = (Dificulty - 1); i >= 0; i--)
                 {
-                    if (num > (2 ^ i))
+                    if (num >= (int)Math.Pow(2, i))
                     {
-                        Qust += "1";
-                        num -= (2 ^ i);
+                        Question_Value += "1";
+                        num -= (int)Math.Pow(2, i);
                     }
                     else
                     {
-                        Qust += "0";
+                        Question_Value += "0";
                     }
                 }
             }
-            return base.Question(Qust);
+            return base.Question(Question_Value);
+        }
+
+        public new string Answer(object Question)
+        {
+            if (Question is int)
+            {
+                if ((int)Question == Answer_Value)
+                {
+                    return "True";
+                }
+                else
+                {
+                    return "False";
+                }
+            }
+            return "Error";
+        }
+    }
+
+    public class IntegerToBinary : DenaryToBinaryQuestion
+    {
+
+        public IntegerToBinary(int seed, int difficulty) : base(seed, difficulty)
+        {
+            Question();
+        }
+
+        public object Question()
+        {
+            if (string.IsNullOrEmpty(Answer_Value))
+            {
+                Answer_Value = "";
+                int num = base.rand.Next((int)Math.Pow(2, Dificulty));
+                Question_Value = num;
+
+                for (int i = (Dificulty - 1); i >= 0; i--)
+                {
+                    if (num >= (int)Math.Pow(2, i))
+                    {
+                        Answer_Value += "1";
+                        num -= (int)Math.Pow(2, i);
+                    }
+                    else
+                    {
+                        Answer_Value += "0";
+                    }
+                }
+            }
+            return base.Question(Question_Value.ToString());
+        }
+
+        public new string Answer(object Question)
+        {
+            if(Question is string)
+            {
+                if((Question as string) == Answer_Value)
+                {
+                    return "True";
+                }
+            }
+            return "False";
         }
     }
 }
