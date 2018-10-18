@@ -1,12 +1,13 @@
-﻿
+﻿@model List<AutoQuestionGenerator.DatabaseModels.Users>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Index</h2>
 <br />
-@for(int i = 0; i < 10; i++)
+@foreach(var usr in Model)
 {
-    @i
+<p>@usr.First_Name @usr.Last_Name @usr.Last_Logged_In</p>
+    <br />
 }
 

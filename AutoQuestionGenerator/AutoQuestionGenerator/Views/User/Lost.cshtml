@@ -1,0 +1,13 @@
+﻿@model AutoQuestionGenerator.DatabaseModels.Users
+@{
+    ViewData["Title"] = "Lost";
+}
+
+<h2>Lost</h2>
+<br />
+@using (Html.BeginForm())
+{
+    <text>Username: @Html.TextBoxFor(m => m.Username)</text><br /><br />
+    <text>Password: @Html.TextBoxFor(m => m.Password, new { type = "password" })</text>
+    <button type="submit" class="=btn btn-primary">Login</button>
+}
