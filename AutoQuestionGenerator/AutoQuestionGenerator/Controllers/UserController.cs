@@ -31,13 +31,14 @@ namespace AutoQuestionGenerator.Controllers
         [HttpPost]
         public IActionResult Login(Users user, string returnUrl)
         {
-            var DbUser = _context.users.FirstOrDefault(x => x.Username == user.Username);
+            var DbUser = UserHelper.getUser(user.Username, _context);
 
             if (!ModelState.IsValid || DbUser == null) return View(user);
 
             if(Hasher.ValidatePassword(user.Password, DbUser.Password))
             {
-                HttpContext.Session.Set("User", Encoding.ASCII.GetBytes("dalhome3"));
+                HttpContext.Session.Set("UId", Encoding.ASCII.GetBytes(DbUser.UserID.ToString()));
+                HttpContext.Session.Set("Username", Encoding.ASCII.GetBytes(user.Username));
                 DbUser.Last_Logged_In = DateTime.Now;
                 _context.SaveChanges();
                 if (!string.IsNullOrEmpty(returnUrl))

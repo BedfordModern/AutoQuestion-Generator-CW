@@ -22,7 +22,6 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Index()
         {
-            HttpContext.Session.Set("User", Encoding.ASCII.GetBytes("dalhome3"));
             return View(_context.worksets.Where(x => x.SetBy == 0));
         }
     }

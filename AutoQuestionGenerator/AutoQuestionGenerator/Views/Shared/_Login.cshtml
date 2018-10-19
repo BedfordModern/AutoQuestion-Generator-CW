@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<ul class="nav navbar-nav navbar-right">
+    @{byte[] username; }
+    @if (HttpContextAccessor.HttpContext.Session.TryGetValue("Username", out username))
+    {
+        <li><a asp-area="" asp-controller="Account" asp-action="Index">Welcome @System.Text.Encoding.ASCII.GetString(username)!</a></li>
+        <li><a asp-area="" asp-controller="User" asp-action="Logout"></a>Logout</li>
+    }
+    else
+    {
+        <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
+    }
+
+    </ul>

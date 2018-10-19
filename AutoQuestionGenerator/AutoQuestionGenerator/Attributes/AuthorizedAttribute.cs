@@ -10,7 +10,7 @@ namespace AutoQuestionGenerator.Controllers
         {
             byte[] usr;
             if (!filterContext.HttpContext.Session.TryGetValue("User", out usr))
-                filterContext.Result = new RedirectResult(string.Format("/User/Login?targetUrl={0}", filterContext.HttpContext.Request.Path));
+                filterContext.Result = new RedirectResult(string.Format("/User/Login?returnUrl={0}", filterContext.HttpContext.Request.Path));
         }
     }
 }
