@@ -53,6 +53,18 @@ namespace AutoQuestionGenerator.Controllers
             }
         }
 
+        public IActionResult Logout(string returnUrl)
+        {
+            HttpContext.Session.Remove("UId");
+            HttpContext.Session.Remove("Username");
+
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
         public IActionResult Lost()
         {
             return View();

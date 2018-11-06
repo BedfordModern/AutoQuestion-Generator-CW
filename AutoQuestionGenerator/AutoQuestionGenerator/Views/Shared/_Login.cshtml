@@ -7,11 +7,10 @@
     @if (HttpContextAccessor.HttpContext.Session.TryGetValue("Username", out username))
     {
         <li><a asp-area="" asp-controller="Account" asp-action="Index">Welcome @System.Text.Encoding.ASCII.GetString(username)!</a></li>
-        <li><a asp-area="" asp-controller="User" asp-action="Logout"></a>Logout</li>
+        <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
     }
     else
     {
         <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
     }
-
-    </ul>
+</ul>
