@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoQuestionGenerator.Models;
+using AutoQuestionGenerator.Questions.Interpreter;
 
 namespace AutoQuestionGenerator.Controllers
 {
@@ -12,6 +13,7 @@ namespace AutoQuestionGenerator.Controllers
     {
         public IActionResult Index()
         {
+            PythonInterpreter.GetParam(4000);
             return View();
         }
 

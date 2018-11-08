@@ -22,7 +22,12 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.worksets.Where(x => x.SetBy == 0));
+            return View(_context.worksets.Where(x => x.SetBy == 0).ToList());
+        }
+
+        public IActionResult Workset(int id)
+        {
+            return View(_context.work.Where(x => x.WorkSetID == id).ToList());
         }
     }
 }

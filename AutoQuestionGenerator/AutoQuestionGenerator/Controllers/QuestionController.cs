@@ -8,6 +8,7 @@ using AutoQuestionGenerator.Accounts;
 
 namespace AutoQuestionGenerator.Controllers
 {
+    [Authorized]
     public class QuestionController : Controller
     {
         IdentityModels _context;

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<AutoQuestionGenerator.DatabaseModels.Work>
+
+@{
+    ViewData["Title"] = "Workset";
+}
+
+<h2>Workset</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Seed)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.QuestionType)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Seed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionType)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

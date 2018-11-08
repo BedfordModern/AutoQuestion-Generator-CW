@@ -1,0 +1,13 @@
+﻿@model List<AutoQuestionGenerator.Questions.Question>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+@{int  i = 0;}
+@foreach(var Question in Model)
+{
+    <div id="Question:@Question.GetQuestion()">
+        <p>Question @i: @Question.GetAnswer()</p>
+    </div>
+}

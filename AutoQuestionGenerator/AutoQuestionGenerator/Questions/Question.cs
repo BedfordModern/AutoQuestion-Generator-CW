@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuestionApp.Questions
+namespace AutoQuestionGenerator.Questions
 {
-    interface Question
+    public interface Question
     {
         object GetQuestion();
         object GetAnswer();

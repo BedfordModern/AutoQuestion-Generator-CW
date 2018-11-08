@@ -9,7 +9,7 @@ namespace AutoQuestionGenerator.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             byte[] usr;
-            if (!filterContext.HttpContext.Session.TryGetValue("User", out usr))
+            if (!filterContext.HttpContext.Session.TryGetValue("UId", out usr))
                 filterContext.Result = new RedirectResult(string.Format("/User/Login?returnUrl={0}", filterContext.HttpContext.Request.Path));
         }
     }
