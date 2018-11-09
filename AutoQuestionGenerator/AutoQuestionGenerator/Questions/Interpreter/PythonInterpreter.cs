@@ -9,7 +9,7 @@ namespace AutoQuestionGenerator.Questions.Interpreter
 {
     public class PythonInterpreter
     {
-        public static string GetParam(int serviceid)
+        public static (string, string) GetParam(int serviceid)
         {
             string Question= "", Answer = "";
 
@@ -28,7 +28,7 @@ namespace AutoQuestionGenerator.Questions.Interpreter
             object result = source.Execute(scope);
             Question = scope.GetVariable<string>("question");
             Answer = scope.GetVariable<string>("answer");
-            return Question;
+            return (Question, Answer);
         }
     }
 }
