@@ -49,7 +49,10 @@
                 <td>@set.WorksetID</td>
                 <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
                 <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
-                <td><a href="~/Work/Workset?id=@set.WorksetID">View</a></td>
+                <td>
+                    <a href="~/Set?WorkSetID=@set.WorksetID">View</a>
+                    <a href="~/Work/Workset?id=@set.WorksetID">Details</a>
+                </td>
             </tr>
         }
     </table>

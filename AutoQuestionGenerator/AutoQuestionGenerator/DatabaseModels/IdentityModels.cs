@@ -144,7 +144,7 @@ namespace AutoQuestionGenerator.DatabaseModels
         [Key]
         public int QuestionSetID { get; set; }
         public int UserID { get; set; }
-        public DateTime DateAsked { get; set; }
+        public DateTime Date_Asked { get; set; }
     }
 
     [Table("questions")]
@@ -179,5 +179,6 @@ namespace AutoQuestionGenerator.DatabaseModels
         public int WorkSetID { get; set; }
         public int Seed { get; set; }
         public int QuestionType { get; set; }
+        public int? Difficulty { get; set; }
     }
 }

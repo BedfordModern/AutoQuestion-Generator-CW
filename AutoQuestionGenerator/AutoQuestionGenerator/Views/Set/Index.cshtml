@@ -1,4 +1,4 @@
-﻿@model List<AutoQuestionGenerator.Questions.Question>
+﻿@model List<AutoQuestionGenerator.QuestionModels.Question>
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,7 +8,7 @@
 @foreach (var Question in Model)
 {
     <div id="Question:@Question.GetQuestion()">
-        <p>Question @i: @Question.GetAnswer()</p>
+        <p>Question @i: @Question.GetQuestion()</p>
     </div>
 }
 <div class="alert alert-warning alert-dismissible" role="alert">

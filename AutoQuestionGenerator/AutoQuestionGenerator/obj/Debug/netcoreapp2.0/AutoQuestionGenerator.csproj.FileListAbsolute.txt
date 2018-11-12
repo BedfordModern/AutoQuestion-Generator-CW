@@ -20,3 +20,4 @@ C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\AutoQuestionGenerator\AutoQu
 C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.0\AutoQuestionGenerator.AssemblyInfo.cs
 C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.0\AutoQuestionGenerator.dll
 C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.0\AutoQuestionGenerator.pdb
+C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\AutoQuestionGenerator\AutoQuestionGenerator\bin\Debug\netcoreapp2.0\wwwroot\lib\Python\testPart.py

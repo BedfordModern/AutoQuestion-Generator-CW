@@ -18,9 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Questions\Groups\" />
+    <Folder Include="QuestionModels\Groups\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Organisation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\Python\testPart.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
