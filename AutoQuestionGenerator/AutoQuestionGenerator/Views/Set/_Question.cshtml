@@ -1,0 +1,11 @@
+﻿@model QuestionSetViewModel
+
+
+<div id="Question:@Model.Qusts.Value.GetQuestion()">
+    <p>Q: @Model.Qusts.Value.GetQuestion() </p>
+    <form asp-controller="Set" asp-action="Checkquestion" data-ajax="true" data-ajax-method="POST">
+        Answer: @Html.TextBoxFor(m => m.answer)
+        @Html.HiddenFor(x => x.Qusts)
+    </form>
+</div>
+<br />

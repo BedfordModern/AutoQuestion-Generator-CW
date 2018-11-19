@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoQuestionGenerator.DatabaseModels;
+using AutoQuestionGenerator.Models;
 using AutoQuestionGenerator.QuestionModels.Interpreter;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace AutoQuestionGenerator.Controllers
         {
             var set = _context.worksets.FirstOrDefault(x => x.WorksetID == WorkSetID);
 
-            if(set == null)
+            if (set == null)
             {
                 return RedirectToAction("Index", "Work");
             }
@@ -46,9 +47,9 @@ namespace AutoQuestionGenerator.Controllers
             _context.questionSets.Add(qSet);
             _context.SaveChanges();
 
-            List<QuestionModels.Question> Qusts = new List<QuestionModels.Question>();
+            List<QuestionSetViewModel> Qusts = new List<QuestionSetViewModel>();
 
-            foreach(var piece in work)
+            foreach (var piece in work)
             {
                 Questions qust = new Questions()
                 {
@@ -58,10 +59,20 @@ namespace AutoQuestionGenerator.Controllers
                     Seed = piece.Seed
                 };
                 _context.questions.Add(qust);
-                Qusts.Add(Interpreter.GenerateQuestion("~/lib/Python/" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class));
+                Qusts.Add(new QuestionSetViewModel()
+                {
+                    Qusts = new KeyValuePair<int, QuestionModels.Question>(qust.QuestionID, Interpreter.GenerateQuestion(@"C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\AutoQuestionGenerator\AutoQuestionGenerator\wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class)),
+                    answer = ""
+                }
+                );
             }
-
+            _context.SaveChangesAsync();
             return View(Qusts);
+        }
+
+        public IActionResult Checkquestion(QuestionSetViewModel model)
+        {
+            return PartialView("");
         }
     }
 }

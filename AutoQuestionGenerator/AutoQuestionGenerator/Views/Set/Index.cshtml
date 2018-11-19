@@ -1,17 +1,10 @@
-﻿@model List<AutoQuestionGenerator.QuestionModels.Question>
+﻿@model List<QuestionSetViewModel>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Index</h2>
-@{int i = 0;}
 @foreach (var Question in Model)
 {
-    <div id="Question:@Question.GetQuestion()">
-        <p>Question @i: @Question.GetQuestion()</p>
-    </div>
+    { Html.RenderPartial("_Question", Question); }
 }
-<div class="alert alert-warning alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-</div>

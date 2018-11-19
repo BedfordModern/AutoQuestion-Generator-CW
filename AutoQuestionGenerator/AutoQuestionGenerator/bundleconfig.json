@@ -20,5 +20,17 @@
     },
     // Optionally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/jquery.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery.min.js",
+      "wwwroot/lib/jquery.unobtrusive-ajax.min.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
   }
 ]
