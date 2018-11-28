@@ -1,3 +1,6 @@
+#The ran python file will recieve a random number called 'random' based on the question seed. 
+#You should then set 'question' equal to the question you wish to ask and 'answer' equal to the question's answer.
+
 import sys
 import math
 

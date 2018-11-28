@@ -1,0 +1,21 @@
+﻿@model CreateSetViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create New Question Set</h2>
+<br />
+<div id="pageSelector">
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.SelectFromList) Select questions from a list
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.RandomQuestions) Randomise Questions
+            </label>
+        </div>
+    </div>
+</div>

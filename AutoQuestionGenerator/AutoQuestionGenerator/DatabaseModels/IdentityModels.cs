@@ -156,7 +156,7 @@ namespace AutoQuestionGenerator.DatabaseModels
         public int Difficulty { get; set; }
         public int Question_Type { get; set; }
         public int QuestionSetID { get; set; }
-        public bool AnsweredCorrect { get; set; }
+        public int AnswerCorrect { get; set; }
     }
 
     [Table("worksets")]

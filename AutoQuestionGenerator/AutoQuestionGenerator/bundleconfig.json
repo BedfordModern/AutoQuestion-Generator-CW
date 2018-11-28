@@ -24,13 +24,9 @@
   {
     "outputFileName": "wwwroot/js/jquery.min.js",
     "inputFiles": [
-      "wwwroot/lib/jquery.min.js",
-      "wwwroot/lib/jquery.unobtrusive-ajax.min.js"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    "sourceMap": false
+      "wwwroot/lib/jquery/dist/jquery.min.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "wwwroot/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"
+    ]
   }
 ]

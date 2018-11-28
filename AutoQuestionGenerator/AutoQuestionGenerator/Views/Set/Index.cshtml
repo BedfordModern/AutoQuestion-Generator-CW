@@ -4,7 +4,42 @@
 }
 
 <h2>Index</h2>
-@foreach (var Question in Model)
+@if (!Model[0].PerQuestion)
 {
-    { Html.RenderPartial("_Question", Question); }
+<form asp-controller="Set" asp-action="Checkworkset" data-ajax="true" data-ajax-method="POST" data-ajax-update="#answer" data-ajax-mode="replace" id="Question-Form" method="post" novalidate="novalidate">
+    @foreach (var Question in Model)
+    {
+
+        <div id="Question:@Question.question.GetQuestion()">
+            <p>Q: @Question.question.GetQuestion() </p>
+            @if (Question.PerQuestion)
+            {
+                <div id="answer-@Question.questionID">
+                    @{ Html.RenderPartial("_Question", Question); }
+                </div>
+            }
+        </div>
+        <br />
+    }
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+}
+else
+{
+    @foreach (var Question in Model)
+    {
+
+        <div id="Question:@Question.question.GetQuestion()">
+            <p>Q: @Question.question.GetQuestion() </p>
+            @if (Question.PerQuestion)
+            {
+                <form asp-controller="Set" asp-action="Checkquestion" data-ajax="true" data-ajax-method="POST" data-ajax-update="#answer-@Question.questionID" data-ajax-mode="replace" id="Question-@Question.questionID-Form" method="post" novalidate="novalidate">
+                    <div id="answer-@Question.questionID">
+                        @{ Html.RenderPartial("_Question", Question); }
+                    </div>
+                </form>
+            }
+        </div>
+        <br />
+    }
 }

@@ -1,11 +1,8 @@
 ﻿@model QuestionSetViewModel
-
-
-<div id="Question:@Model.Qusts.Value.GetQuestion()">
-    <p>Q: @Model.Qusts.Value.GetQuestion() </p>
-    <form asp-controller="Set" asp-action="Checkquestion" data-ajax="true" data-ajax-method="POST">
-        Answer: @Html.TextBoxFor(m => m.answer)
-        @Html.HiddenFor(x => x.Qusts)
-    </form>
-</div>
-<br />
+Answer: @Html.TextBoxFor(m => m.answer, new { style = (Model.correct < 0 ? "background:#FF0000" : (Model.correct > 0 ? "background:#0F0" : "background:#FFF")) })
+@Html.HiddenFor(m => m.questionID)
+@Html.HiddenFor(m => m.PerQuestion)
+@if (Model.PerQuestion && Model.correct <= 0)
+{
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

@@ -16,6 +16,20 @@ namespace AutoQuestionGenerator.QuestionModels
 
     public class StoredQuestion : Question
     {
+        public static int GenerateSeed(int seed = 0)
+        {
+            if (seed != 0)
+            {
+                Random rand = new Random(seed);
+                return rand.Next();
+            }
+            else
+            {
+                Random rand = new Random();
+                return rand.Next();
+            }
+        }
+
         private object Quest;
         private object Ans;
 

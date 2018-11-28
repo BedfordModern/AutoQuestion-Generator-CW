@@ -7,8 +7,10 @@ namespace AutoQuestionGenerator.Models
 {
     public class QuestionSetViewModel
     {
-        public KeyValuePair<int, QuestionModels.Question> Qusts { get; set; }
-
+        public int questionID { get; set; }
+        public QuestionModels.Question question { get; set; }
+        public int correct { get; set; }
         public string answer { get; set; }
+        public bool PerQuestion { get; set; }
     }
 }
