@@ -3,19 +3,33 @@
     ViewData["Title"] = "Create";
 }
 
+<script type="text/javascript">
+    function NextClick() {
+        if (document.getElementById("nextButton").innerHTML == "Next") {
+            document.getElementById("CreatetionForm").submit();
+        }
+    }
+</script>
+
 <h2>Create New Question Set</h2>
 <br />
 <div id="pageSelector">
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.SelectFromList) Select questions from a list
-            </label>
+    <form asp-action="Build" method="post" id="CreatetionForm">
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(m => m.SelectFromList) Select questions from a list
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(m => m.RandomQuestions) Randomise Questions
+                </label>
+            </div>
+            @Html.DropDownListFor(m => m.SetType, new SelectList(CreateSetViewModel.SetTypes, "SetType_id", "SetType_name"), new { @class = "form-control" })
+            <br />
+            @Html.DropDownListFor(m => m.GroupID, new SelectList(Model.Groups, "GroupID", "Group_Name"), new { @class = "form-control", onchage="GroupSelectorOnChage()" })
         </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.RandomQuestions) Randomise Questions
-            </label>
-        </div>
-    </div>
+        <button class="btn btn-primary" type="button" onclick="NextClick" id="nextButton">Next</button>
+    </form>
 </div>

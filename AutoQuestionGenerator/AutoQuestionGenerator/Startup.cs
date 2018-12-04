@@ -66,6 +66,8 @@ namespace AutoQuestionGenerator
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            Models.CreateSetViewModel.SetTypes = new IdentityModels().worktype.ToArray();
         }
     }
 }

@@ -66,7 +66,7 @@ namespace AutoQuestionGenerator.Controllers
                 var questionSet = new QuestionSetViewModel()
                 {
                     questionID = qust.QuestionID,
-                    question = Interpreter.GenerateQuestion(@"C:\Users\Daniel Ledger 9CLW\Source\repos\GitCW\DanL\AutoQuestionGenerator\AutoQuestionGenerator\wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class, seed),
+                    question = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class, seed),
                     answer = "",
                     correct = 0,
                     PerQuestion = true
@@ -79,7 +79,9 @@ namespace AutoQuestionGenerator.Controllers
         
         public IActionResult Create()
         {
-            return View();
+            var Model = new CreateSetViewModel();
+            Model.Groups = Accounts.UserHelper.GetGroups(Accounts.UserHelper.GetUserId(HttpContext.Session), _context);
+            return View(Model);
         }
 
         #region Ajax Callbacks

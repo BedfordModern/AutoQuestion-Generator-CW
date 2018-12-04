@@ -26,7 +26,7 @@ namespace AutoQuestionGenerator.DatabaseModels
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=localhost;port=3306;database=question-database;user=appUser;password=D3ggyo123!;SslMode=none");
+            optionsBuilder.UseMySQL("server=localhost;port=3306;database=question-database;user=appUser;password=D3ggyo123!;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,6 +46,8 @@ namespace AutoQuestionGenerator.DatabaseModels
         public DbSet<Questions> questions { get; set; }
         public DbSet<Worksets> worksets { get; set; }
         public DbSet<Work> work { get; set; }
+        public DbSet<SetTypes> worktype { get; set; }
+        
     }
     
     [Table("subscriptions")]
@@ -110,7 +112,7 @@ namespace AutoQuestionGenerator.DatabaseModels
         public string AccessType_Description { get; set; }
     }
 
-    [Table("groups")]
+    [Table("group_table")]
     public class Groups
     {
         [Key]
@@ -167,6 +169,7 @@ namespace AutoQuestionGenerator.DatabaseModels
         public int GroupID { get; set; }
         public int SetBy { get; set; }
         public int Time_Allowed { get; set; }
+        public int SetType { get; set; }
         public DateTime Date_Set { get; set; }
         public DateTime Date_Due { get; set; }
     }
@@ -180,5 +183,13 @@ namespace AutoQuestionGenerator.DatabaseModels
         public int Seed { get; set; }
         public int QuestionType { get; set; }
         public int? Difficulty { get; set; }
+    }
+
+    [Table("settypes")]
+    public class SetTypes
+    {
+        [Key]
+        public int SetType_ID { get; set; }
+        public string SetType_Name { get; set; }
     }
 }

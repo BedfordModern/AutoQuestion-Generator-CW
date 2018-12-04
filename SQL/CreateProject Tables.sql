@@ -1,6 +1,8 @@
+CREATE SCHEMA IF NOT EXISTS `question-database`;
+USE `question-database`;
 START TRANSACTION;
 
-CREATE TABLE IF NOT EXISTS Subsriptions(
+CREATE TABLE IF NOT EXISTS Subscriptions(
 	SubscriptionID INT AUTO_INCREMENT PRIMARY KEY,
     Subsription_Length INT NOT NULL,
     Subscription_Name VARCHAR(50) NOT NULL,
@@ -12,8 +14,9 @@ CREATE TABLE IF NOT EXISTS Organisations(
     Organisation_Username VARCHAR(50) NOT NULL UNIQUE,
     Organisation_Password TEXT NOT NULL,
     Organisation_Name VARCHAR(100) NOT NULL,
-    Subscription_Type INT REFERENCES Subscriptions(SubscriptionID),
-    Subscription_Renew_Date DATE
+    Subscription_Type INT,
+    Subscription_Renew_Date DATE,
+    FOREIGN KEY (Subscription_Type) REFERENCES Subscriptions(SubscriptionID)
 );
 
 CREATE TABLE IF NOT EXISTS Users(
@@ -22,8 +25,9 @@ CREATE TABLE IF NOT EXISTS Users(
     Password TEXT NOT NULL,
     First_Name VARCHAR(50) NOT NULL,
     Last_Name VARCHAR(70) NOT NULL,
-	OrganisationID INT REFERENCES Organisations(OrganisationID),
-    Last_Logged_In DATETIME
+	OrganisationID INT,
+    Last_Logged_In DATETIME,
+    FOREIGN KEY (OrganisationID) REFERENCES Organisations(OrganisationID)
 );
 
 CREATE TABLE IF NOT EXISTS Roles(
@@ -34,8 +38,10 @@ CREATE TABLE IF NOT EXISTS Roles(
 
 CREATE TABLE IF NOT EXISTS UserRoles(
 	UserRoleID INT AUTO_INCREMENT PRIMARY KEY,
-	UserID INT REFERENCES Users(UserID),
-    RoleID INT REFERENCES Roles(RoleID)
+	UserID INT,
+    RoleID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 );
 
 CREATE TABLE IF NOT EXISTS AccessTypes(
@@ -44,16 +50,20 @@ CREATE TABLE IF NOT EXISTS AccessTypes(
     AccessType_Description TEXT
 );
 
-CREATE TABLE IF NOT EXISTS Groups(
+CREATE TABLE IF NOT EXISTS Group_Table(
 	GroupID INT AUTO_INCREMENT PRIMARY KEY,
     Group_Name VARCHAR(50) NOT NULL,
-    CreatedBy INT REFERENCES Users(UserID),
-    AccessType INT REFERENCES AccessTypes(AccessTypeID)
+    CreatedBy INT,
+    AccessType INT,
+    FOREIGN KEY (CreatedBy) REFERENCES Users(UserID),
+    FOREIGN KEY (AccessType) REFERENCES AccessTypes(AccessTypeID)
 );
 CREATE TABLE IF NOT EXISTS GroupUsers(
 	GroupUserID INT auto_increment PRIMARY KEY,
-	UserID INT REFERENCES Users(UserID),
-    GroupID INT REFERENCES Groups(GroupID)
+	UserID INT,
+    GroupID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (GroupID) REFERENCES Group_Table(GroupID)
 );
 
 CREATE TABLE IF NOT EXISTS QuestionTypes(
@@ -62,35 +72,53 @@ CREATE TABLE IF NOT EXISTS QuestionTypes(
     Class VARCHAR(50)
 );
 
+CREATE TABLE IF NOT EXISTS SetTypes(
+	SetType_ID INT AUTO_INCREMENT PRIMARY KEY,
+    SetType_Name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Worksets(
+	WorksetID INT AUTO_INCREMENT PRIMARY KEY,
+    GroupID INT,
+	SetBy INT,
+    SetType INT,
+    Time_Allowed INT UNSIGNED,
+    Date_Set DATE NOT NULL,
+    Date_Due DATE,
+    FOREIGN KEY (GroupID) REFERENCES Group_Table(GroupID),
+    FOREIGN KEY (SetBy) REFERENCES Users(UserID),
+    FOREIGN KEY (SetType) REFERENCES SetTypes(SetType_ID)
+);
+
+CREATE TABLE IF NOT EXISTS Work(
+	WorkID INT AUTO_INCREMENT PRIMARY KEY,
+    WorkSetID INT,
+	Difficulty INT,
+    Seed INT NOT NULL,
+    QuestionType INT,
+    FOREIGN KEY (WorkSetID) REFERENCES Worksets(WorksetID),
+    FOREIGN KEY (QuestionType)  REFERENCES QuestionTypes(TypeID)
+);
+
 CREATE TABLE IF NOT EXISTS QuestionSets(
 	QuestionSetID INT AUTO_INCREMENT PRIMARY KEY,
-    UserID INT REFERENCES Users(UserID),
-    Date_Asked DATETIME NOT NULL
+    UserID INT,
+    WorkSetID INT NULL,
+    Date_Asked DATETIME NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (WorkSetID) REFERENCES Worksets(WorksetID)
 );
 
 CREATE TABLE IF NOT EXISTS Questions(
 	QuestionID INT AUTO_INCREMENT PRIMARY KEY,
     Seed INT NOT NULL,
     Difficulty INT NOT NULL,
-    Question_Type INT REFERENCES QuestionTypes(TypeID),
-    QuestionSetID INT REFERENCES QuestionSets(QuestionSetID),
-    AnswerCorrect BOOL
+    Question_Type INT,
+    QuestionSetID INT,
+    AnswerCorrect BOOL,
+    FOREIGN KEY (Question_Type) REFERENCES QuestionTypes(TypeID),
+    FOREIGN KEY (QuestionSetID) REFERENCES QuestionSets(QuestionSetID)
 );
 
-CREATE TABLE IF NOT EXISTS Worksets(
-	WorksetID INT AUTO_INCREMENT PRIMARY KEY,
-    GroupID INT REFERENCES Groups(GroupID),
-	SetBy INT REFERENCES Users(UserID),
-    Time_Allowed INT UNSIGNED,
-    Date_Set DATE NOT NULL,
-    Date_Due DATE
-);
-
-CREATE TABLE IF NOT EXISTS Work(
-	WorkID INT AUTO_INCREMENT PRIMARY KEY,
-    WorkSetID INT REFERENCES Worksets(WorksetID),
-    Seed INT NOT NULL,
-    QuestionType INT REFERENCES QuestionTypes(TypeID)
-);
 
 COMMIT;

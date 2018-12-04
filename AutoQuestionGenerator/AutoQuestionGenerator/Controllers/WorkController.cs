@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using AutoQuestionGenerator.DatabaseModels;
+using AutoQuestionGenerator.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoQuestionGenerator.Controllers
@@ -22,7 +23,7 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.worksets.Where(x => x.SetBy == 0).ToList());
+            return View(_context.worksets.Where(x => x.SetBy == UserHelper.GetUserId(HttpContext.Session)).ToList());
         }
 
         public IActionResult Workset(int id)
