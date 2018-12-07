@@ -9,6 +9,18 @@
             document.getElementById("CreatetionForm").submit();
         }
     }
+
+    function GroupSelectorOnChange() {
+        var e = document.getElementById("groupSelector");
+        var strOut = e.options[e.selectedIndex].value;
+        if (strOut == "-1") {
+            document.getElementById("nextButton").innerHTML = "Create"
+        } else {
+            document.getElementById("nextButton").innerHTML = "Next"
+        }
+    }
+
+    $(document).ready(GroupSelectorOnChange)
 </script>
 
 <h2>Create New Question Set</h2>
@@ -26,10 +38,10 @@
                     @Html.CheckBoxFor(m => m.RandomQuestions) Randomise Questions
                 </label>
             </div>
-            @Html.DropDownListFor(m => m.SetType, new SelectList(CreateSetViewModel.SetTypes, "SetType_id", "SetType_name"), new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.SetType, new SelectList(CreateSetViewModel.SetTypes, "SetType_ID", "SetType_Name"), new { @class = "form-control" })
             <br />
-            @Html.DropDownListFor(m => m.GroupID, new SelectList(Model.Groups, "GroupID", "Group_Name"), new { @class = "form-control", onchage="GroupSelectorOnChage()" })
+            @Html.DropDownListFor(m => m.GroupID, new SelectList(Model.Groups, "GroupID", "Group_Name"), new { @class = "form-control", onchange= "GroupSelectorOnChange()", id="groupSelector" })
         </div>
-        <button class="btn btn-primary" type="button" onclick="NextClick" id="nextButton">Next</button>
+        <button class="btn btn-primary" type="button" onclick="NextClick()" id="nextButton">Next</button>
     </form>
 </div>

@@ -1,7 +1,20 @@
-﻿
+﻿@model AutoQuestionGenerator.Models.CreateGroupViewModel
 @{
     ViewData["Title"] = "Create";
 }
 
 <h2>Create</h2>
 
+<form asp-action="Create">
+    Group Name:
+    @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control", style = "max-width:30%" })
+    <br />
+    Access Type:
+    @Html.DropDownListFor(m => m.AccessType, new SelectList(Model.AccessTypes, "AccessTypeID", "AccessType_Name"), new { @class = "form-control", style = "max-width:30%" })
+    <br />
+    @{ Html.RenderPartial("_AddToGroup", Model); }
+    <br />
+    <br />
+    @Html.HiddenFor(m => m.CloseAfter)
+    <button type="submit" class="btn btn-primary">Create Group</button>
+</form>
