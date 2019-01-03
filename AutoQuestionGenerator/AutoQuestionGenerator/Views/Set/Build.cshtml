@@ -1,0 +1,47 @@
+﻿@model BuildViewModel
+@{
+    ViewData["Title"] = "Build List";
+}
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+</script>
+
+<div class="sidenav">
+    <div style="padding-left: 7px">
+        @{Html.RenderPartial("_workSets", Model.createdWork);}
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" style="background-color: Transparent;
+background-repeat:no-repeat;
+border: none;
+cursor:pointer;
+overflow: hidden;">
+            &raquo; Simple collapsible
+        </button>
+        <div id="demo" class="collapse">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </div>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="#contact">Contact</a>
+    </div>
+</div>
+
+<div class="main">
+    <h2>Build</h2>
+
+    @{// Html.RenderPartial("_workSets", model.xyz);
+    }
+</div>

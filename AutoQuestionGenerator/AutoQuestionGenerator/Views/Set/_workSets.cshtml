@@ -1,0 +1,25 @@
+﻿@model CreatedWork
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@foreach (var piece in Model.WorkTypes)
+{
+    if (Model.SelectFromList)
+    {
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#@piece.WorkType" style="background-color: Transparent;
+background-repeat:no-repeat;
+border: none;
+cursor:pointer;
+overflow: hidden;">
+            &raquo; Simple collapsible
+        </button>
+        <div id="@piece.WorkType" class="collapse">
+            @foreach (var genWork in piece.PossibleWork)
+            {
+            <div ondrop="drop(event)" ondragover="allowDrop(event)">
+                <p draggable="true" ondragstart="drag(event)">@genWork.Answer</p>
+            </div>
+            }
+        </div>
+    }
+}

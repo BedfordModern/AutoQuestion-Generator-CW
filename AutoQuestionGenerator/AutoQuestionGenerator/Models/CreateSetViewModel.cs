@@ -12,6 +12,8 @@ namespace AutoQuestionGenerator.Models
         public bool SelectFromList { get; set; }
         public int SetType { get; set; }
         public int GroupID { get; set; }
+        public int TimeAllowed { get; set; }
+        public DateTime Date_Due { get; set; }
 
         public static IEnumerable<SetTypes> SetTypes;
         public IEnumerable<Groups> Groups;

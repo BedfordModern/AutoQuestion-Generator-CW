@@ -84,6 +84,41 @@ namespace AutoQuestionGenerator.Controllers
             return View(Model);
         }
 
+        [HttpPost]
+        public IActionResult Create(CreateSetViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Groups = Accounts.UserHelper.GetGroups(Accounts.UserHelper.GetUserId(HttpContext.Session), _context);
+                return View(model);
+            }
+
+            Worksets sets = new Worksets()
+            {
+                GroupID = model.GroupID,
+                SetBy = Accounts.UserHelper.GetUserId(HttpContext.Session),
+                Time_Allowed = model.TimeAllowed,
+                Date_Set = DateTime.Now.Date,
+                SetType = model.SetType,
+                Date_Due = model.Date_Due
+            };
+
+            _context.worksets.Add(sets);
+            _context.SaveChanges();
+
+            return View("Build", sets);
+        }
+
+        public IActionResult Build(int setID)
+        {
+            var model = new BuildViewModel()
+            {
+                WorkSetID = setID
+            };
+
+            return View(model);
+        }
+
         #region Ajax Callbacks
 
 

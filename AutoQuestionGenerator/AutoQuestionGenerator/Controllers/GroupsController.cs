@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoQuestionGenerator.Accounts;
 using AutoQuestionGenerator.DatabaseModels;
 using AutoQuestionGenerator.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,43 @@ namespace AutoQuestionGenerator.Controllers
         [HttpPost]
         public IActionResult Create(CreateGroupViewModel model)
         {
-            return RedirectToAction("Close", "Home");
+            if (!ModelState.IsValid)
+            {
+                model.AccessTypes = _context.accessTypes.ToArray();
+                model.Users = _context.users.ToArray();
+                return View(model);
+            }
+
+            Groups newGroup = new Groups()
+            {
+                Group_Name = model.GroupName,
+                CreatedBy = UserHelper.GetUserId(HttpContext.Session),
+                AccessType = model.AccessType
+            };
+
+            _context.groups.Add(newGroup);
+            _context.SaveChanges();
+
+            if (model.GroupUsers != null)
+            {
+                foreach (var usr in model.GroupUsers)
+                {
+                    GroupUsers user = new GroupUsers()
+                    {
+                        GroupID = newGroup.GroupID,
+                        UserID = usr
+                    };
+                    _context.groupUsers.Add(user);
+                }
+                _context.SaveChanges();
+            }
+
+            if (model.CloseAfter)
+            {
+                return new JsonResult(newGroup.GroupID + ";" + newGroup.Group_Name);
+            }
+
+            return RedirectToAction("Index", "Groups");
         }
     }
 }

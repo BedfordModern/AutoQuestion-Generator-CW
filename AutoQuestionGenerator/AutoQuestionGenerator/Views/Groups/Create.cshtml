@@ -5,7 +5,7 @@
 
 <h2>Create</h2>
 
-<form asp-action="Create">
+<form asp-action="Create" id="createGroupForm">
     Group Name:
     @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control", style = "max-width:30%" })
     <br />
@@ -16,5 +16,5 @@
     <br />
     <br />
     @Html.HiddenFor(m => m.CloseAfter)
-    <button type="submit" class="btn btn-primary">Create Group</button>
+    <button type="button" class="btn btn-primary" id="createGroupButton">Create Group</button>
 </form>

@@ -7,6 +7,36 @@
     function NextClick() {
         if (document.getElementById("nextButton").innerHTML == "Next") {
             document.getElementById("CreatetionForm").submit();
+        } else {
+            var win = window.open("/groups/create?closeAfter=true", "MsgWindow", "width=1000,height=800");
+            win.document.addEventListener("unload", function () {
+                if (win.location.href.includes("/groups/create")) {
+
+                }
+            });
+            win.addEventListener('load', function () {
+                var button = win.document.getElementById("createGroupButton");
+                button.onclick = function () {
+                    var dta = win.$("form").serialize();
+                    win.$.ajax({
+                        type: 'POST',
+                        url: win.$("createGroupForm").attr("action"),
+                        data: dta,
+
+                        success: function (result) {
+                            var x = document.getElementById("groupSelector");
+                            var res = result.split(";")
+                            if (x.selectedIndex >= 0) {
+                                var option = document.createElement("option");
+                                option.value = res[0];
+                                option.text = res[1];
+                                x.add(option);
+                            }
+                            win.close();
+                        },
+                    });
+                }
+            }, false);
         }
     }
 
@@ -26,21 +56,27 @@
 <h2>Create New Question Set</h2>
 <br />
 <div id="pageSelector">
-    <form asp-action="Build" method="post" id="CreatetionForm">
-        <div class="form-group">
+    <form asp-action="Create" method="post" id="CreatetionForm">
+        <div class="form-group" style="max-width:400px">
             <div class="checkbox">
                 <label>
-                    @Html.CheckBoxFor(m => m.SelectFromList) Select questions from a list
+                    @Html.CheckBoxFor(m => m.SelectFromList) Select questions and give them set answers?
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    @Html.CheckBoxFor(m => m.RandomQuestions) Randomise Questions
+                    @Html.CheckBoxFor(m => m.RandomQuestions) Randomise Question Order
                 </label>
             </div>
             @Html.DropDownListFor(m => m.SetType, new SelectList(CreateSetViewModel.SetTypes, "SetType_ID", "SetType_Name"), new { @class = "form-control" })
             <br />
-            @Html.DropDownListFor(m => m.GroupID, new SelectList(Model.Groups, "GroupID", "Group_Name"), new { @class = "form-control", onchange= "GroupSelectorOnChange()", id="groupSelector" })
+            @Html.DropDownListFor(m => m.GroupID, new SelectList(Model.Groups, "GroupID", "Group_Name"), new { @class = "form-control", onchange = "GroupSelectorOnChange()", id = "groupSelector" })
+            <br />
+            Time allowed (in minutes):
+            @Html.TextBoxFor(m => m.TimeAllowed, new { @class = "form-control", type = "number" })
+            <br />
+            Due Date:
+            @Html.TextBoxFor(m => m.Date_Due, new { @class = "form-control", type = "date" })
         </div>
         <button class="btn btn-primary" type="button" onclick="NextClick()" id="nextButton">Next</button>
     </form>
