@@ -3,45 +3,115 @@
     ViewData["Title"] = "Build List";
 }
 <script>
+    var i = @(Model.Work != null ? Model.Work.Length : 0);
     function allowDrop(ev) {
         ev.preventDefault();
     }
 
-    function drag(ev) {
+    function drag(ev, type, typeID, copy) {
         ev.dataTransfer.setData("text", ev.target.id);
+        ev.dataTransfer.setData("copy", copy);
+        ev.dataTransfer.setData("type", type);
+        ev.dataTransfer.setData("id", typeID);
     }
 
     function drop(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
+        var copy = ev.dataTransfer.getData("copy");
+        var type = ev.dataTransfer.getData("type");
+
+        var node;
+
+        if (copy == "true") {
+            node = document.getElementById(data).cloneNode(true);
+        } else {
+            node = document.getElementById(data);
+        }
+
+
+
+        if (ev.target.parentNode == node.parentNode || ev.target == node.parentNode) return;
+
+        node.id = i + "-question"
+
+        var ele = document.createElement("input");
+        ele.type = "hidden";
+        ele.id = "Work_" + i + "__Seed";
+        ele.name = "Work[" + i + "].Seed";
+        if (copy == "true") {
+            ele.value = 0;
+        } else {
+            ele.value = data;
+        }
+        ele.setAttribute("data-val", "true");
+        ele.setAttribute("data-val-required", "This is Required");
+
+        var eli = document.createElement("input");
+        eli.type = "hidden";
+        eli.id = "Work_" + i + "__TypeID";
+        eli.name = "Work[" + i + "].TypeID";
+        eli.value = ev.dataTransfer.getData("id", type);
+        eli.setAttribute("data-val", "true");
+        eli.setAttribute("data-val-required", "This is Required");
+
+        document.getElementById("BuildForm").appendChild(ele);
+        document.getElementById("BuildForm").appendChild(eli);
+
+        i++;
+
+        node.innerHTML = type + "-" + node.innerHTML + " " + "<a style=\"color:red\" onclick=\"deleteEle('" + node.id + "')\" href=\"#\">&times;</a>"
+        if (ev.target.tagName.toLowerCase() == "div") {
+            ev.target.appendChild(node)
+        } else {
+            ev.target.parentNode.appendChild(node)
+        }
+    }
+
+    function deleteEle(id){
+        document.getElementById(id).remove();
+        var count = id.split('-')[0]
+        document.getElementById("Work_" + count + "__Seed").remove();
+        document.getElementById("Work_" + count + "__TypeID").remove();
     }
 </script>
 
-<div class="sidenav">
-    <div style="padding-left: 7px">
-        @{Html.RenderPartial("_workSets", Model.createdWork);}
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" style="background-color: Transparent;
-background-repeat:no-repeat;
-border: none;
-cursor:pointer;
-overflow: hidden;">
-            &raquo; Simple collapsible
-        </button>
-        <div id="demo" class="collapse">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </div>
-        <a href="#services">Services</a>
-        <a href="#clients">Clients</a>
-        <a href="#contact">Contact</a>
+<div class="sidenav" style="padding-left: 7px">
+    <div id="possibles" style="overflow-y:scroll; max-height:70%;">>
+        @{
+            Html.RenderPartial("_workSets", Model.createdWork);
+        }
     </div>
-</div>
 
-<div class="main">
-    <h2>Build</h2>
-
-    @{// Html.RenderPartial("_workSets", model.xyz);
+    @if (Model.createdWork.SelectFromList)
+    {
+        <form asp-controller="Set" asp-action="UpdatePossibleQuestion" data-ajax="true" data-ajax-method="POST" data-ajax-update="#possibles" data-ajax-mode="replace" id="Questions--Form" method="post" novalidate="novalidate">
+            <button class="btn btn-primary" type="submit">Refresh</button>
+        </form>
     }
 </div>
+<h2>Build</h2>
+
+<h4>Drag and drop elements below to add them to the worksheet</h4>
+<div ondrop="drop(event)" ondragover="allowDrop(event)" style="min-height:100px; border:3px solid black; max-width:500px; padding:5px">
+    @if (Model.Work != null && Model.Work.Length > 0)
+    {
+        for (int i = 0; i < Model.Work.Length; i++)
+        {
+            <p id="@(i*-1)">@Model.Work[i].TypeName-@Model.Work[i].Answer <a style="color:red" onclick="deleteEle('@(i*-1)')" href="#">&times;</a></p>
+        }
+    }
+</div>
+<br />
+<form asp-controller="set" asp-action="build" id="BuildForm">
+    @Html.HiddenFor(m => m.WorkSetID)
+    <button type="submit" class="btn btn-primary">Finnish</button>
+    @if (Model.Work != null && Model.Work.Length > 0)
+    {
+        for (int i = 0; i < Model.Work.Length; i++)
+        {
+            @Html.HiddenFor(m => m.Work[i].Seed)
+            @Html.HiddenFor(m => m.Work[i].TypeID)
+        }
+    }
+</form>

@@ -58,6 +58,8 @@
 <div id="pageSelector">
     <form asp-action="Create" method="post" id="CreatetionForm">
         <div class="form-group" style="max-width:400px">
+            Workset Name:
+            @Html.TextBoxFor(m => m.WorksetName, new { @class = "form-control" })
             <div class="checkbox">
                 <label>
                     @Html.CheckBoxFor(m => m.SelectFromList) Select questions and give them set answers?
@@ -73,7 +75,7 @@
             @Html.DropDownListFor(m => m.GroupID, new SelectList(Model.Groups, "GroupID", "Group_Name"), new { @class = "form-control", onchange = "GroupSelectorOnChange()", id = "groupSelector" })
             <br />
             Time allowed (in minutes):
-            @Html.TextBoxFor(m => m.TimeAllowed, new { @class = "form-control", type = "number" })
+            @Html.TextBoxFor(m => m.TimeAllowed, new { @class = "form-control", type = "number", title="Leave at 0 to allow infinate time!"})
             <br />
             Due Date:
             @Html.TextBoxFor(m => m.Date_Due, new { @class = "form-control", type = "date" })

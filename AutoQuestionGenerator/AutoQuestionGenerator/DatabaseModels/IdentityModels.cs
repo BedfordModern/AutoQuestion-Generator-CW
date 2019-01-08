@@ -100,7 +100,7 @@ namespace AutoQuestionGenerator.DatabaseModels
         [Key]
         public int UserRoleID { get; set; }
         public int UserID { get; set; }
-        public int GroupID { get; set; }
+        public int RoleID { get; set; }
     }
 
     [Table("accesstypes")]
@@ -146,6 +146,7 @@ namespace AutoQuestionGenerator.DatabaseModels
         [Key]
         public int QuestionSetID { get; set; }
         public int UserID { get; set; }
+        public int WorkSetID { get; set; }
         public DateTime Date_Asked { get; set; }
     }
 
@@ -166,10 +167,13 @@ namespace AutoQuestionGenerator.DatabaseModels
     {
         [Key]
         public int WorksetID { get; set; }
-        public int GroupID { get; set; }
+        public string WorksetName { get; set; }
+        public int? GroupID { get; set; }
         public int SetBy { get; set; }
-        public int Time_Allowed { get; set; }
         public int SetType { get; set; }
+        public int Time_Allowed { get; set; }
+        public bool ExamStyle { get; set; }
+        public bool RandomOrdering { get; set; }
         public DateTime Date_Set { get; set; }
         public DateTime Date_Due { get; set; }
     }

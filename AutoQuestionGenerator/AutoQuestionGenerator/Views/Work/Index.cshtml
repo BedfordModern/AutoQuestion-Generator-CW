@@ -1,4 +1,4 @@
-﻿@model List<AutoQuestionGenerator.DatabaseModels.Worksets>
+﻿@model WorksetViewModel[]
 @{
     ViewData["Title"] = "Index";
 }
@@ -33,27 +33,33 @@
 </style>
 
 <h2>Index</h2>
-@if (Model.Count > 0)
+@if (Model.Length > 0)
 {
     <table id="workTbl">
 
         <tr>
-            <th>Workset ID</th>
+            <th>Workset Name</th>
+            <th>Time Allowed</th>
+            <th>Set By</th>
+            <th>Answering Type</th>
             <th>Date Set</th>
             <th>Date Due</th>
             <th>View</th>
         </tr>
         @foreach (var set in Model)
         {
-            <tr>
-                <td>@set.WorksetID</td>
-                <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
-                <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
-                <td>
-                    <a href="~/Set?WorkSetID=@set.WorksetID">View</a>
-                    <a href="~/Work/Workset?id=@set.WorksetID">Details</a>
-                </td>
-            </tr>
+        <tr>
+            <td>@set.WorksetName</td>
+            <td>@(set.Time_Allowed == 0 ? "Unlimited" : "" + set.Time_Allowed)</td>
+            <td>@set.SetBy</td>
+            <td>@set.SetType</td>
+            <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
+            <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
+            <td>
+                <a href="~/Set?WorkSetID=@set.WorksetID">View</a>
+                <a href="~/Work/Workset?id=@set.WorksetID">Details</a>
+            </td>
+        </tr>
         }
     </table>
 }

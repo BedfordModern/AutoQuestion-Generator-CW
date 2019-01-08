@@ -1,0 +1,71 @@
+﻿@model WorksetViewModel[]
+@{ 
+    ViewData["Title"] = "Work Set";
+}
+
+<style>
+    #workTbl {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #workTbl td, #workTbl th {
+            border: 1px solid #ddd;
+            padding: 3px;
+        }
+
+        #workTbl tr:nth-child(odd) {
+            background-color: #9d9393
+        }
+
+        #workTbl tr:hover {
+            background-color: #ddd;
+        }
+
+        #workTbl th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #0d6fa8;
+            color: white;
+            cursor: pointer;
+        }
+            #workTbl th:hover {
+                background-color: #0d49a8;
+            }
+</style>
+
+<h2>Work You've Set</h2>
+@if (Model.Length > 0)
+{
+    <table id="workTbl">
+
+        <tr>
+            <th onclick="sortTable(0, 'workTbl')">Set Name</th>
+            <th onclick="sortTable(1, 'workTbl')">Time Left</th>
+            <th onclick="sortTable(2, 'workTbl')">Answering Type</th>
+            <th onclick="sortTable(3, 'workTbl')">Date Set</th>
+            <th onclick="sortTable(4, 'workTbl')">Date Due</th>
+            <th>View</th>
+        </tr>
+        @foreach (var set in Model)
+        {
+        <tr>
+            <td>@set.WorksetName</td>
+            <td>@((set.Date_Due - set.Date_Set).Days) Days</td>
+            <td>@set.SetType</td>
+            <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
+            <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
+            <td>
+                <a href="~/Work/Workset?id=@set.WorksetID">Details</a>
+                <a href="~/Set/Build?setID=@set.WorksetID">Edit</a>
+            </td>
+        </tr>
+        }
+    </table>
+}
+else
+{
+    <h4>You have set no work for anyone.</h4>
+}

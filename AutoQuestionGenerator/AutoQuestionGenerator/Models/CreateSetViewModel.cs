@@ -8,6 +8,7 @@ namespace AutoQuestionGenerator.Models
 {
     public class CreateSetViewModel
     {
+        public string WorksetName { get; set; }
         public bool RandomQuestions { get; set; }
         public bool SelectFromList { get; set; }
         public int SetType { get; set; }

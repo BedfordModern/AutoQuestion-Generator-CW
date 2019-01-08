@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoQuestionGenerator.Accounts;
 using AutoQuestionGenerator.DatabaseModels;
 using AutoQuestionGenerator.Models;
 using AutoQuestionGenerator.QuestionModels;
 using AutoQuestionGenerator.QuestionModels.Interpreter;
+using AutoQuestionGenerator.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoQuestionGenerator.Controllers
@@ -25,63 +27,72 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Index(int WorkSetID)
         {
-            var set = _context.worksets.FirstOrDefault(x => x.WorksetID == WorkSetID);
+            int uid = UserHelper.GetUserId(HttpContext.Session);
 
-            if (set == null)
+            if (UserHelper.UserHasBasicAccess(uid, WorkSetID, _context))
             {
-                return RedirectToAction("Index", "Work");
-            }
+                var set = _context.worksets.FirstOrDefault(x => x.WorksetID == WorkSetID);
 
-            var work = _context.work.Where(x => x.WorkSetID == set.WorksetID).ToList();
-
-            byte[] uidArr;
-            HttpContext.Session.TryGetValue("UId", out uidArr);
-            string idStr = Encoding.ASCII.GetString(uidArr);
-            int uid = Convert.ToInt32(idStr);
-
-            QuestionSets qSet = new QuestionSets()
-            {
-                UserID = uid,
-                Date_Asked = DateTime.Today
-            };
-
-            _context.questionSets.Add(qSet);
-            _context.SaveChanges();
-
-            List<QuestionSetViewModel> Qusts = new List<QuestionSetViewModel>();
-
-            foreach (var piece in work)
-            {
-                var seed = StoredQuestion.GenerateSeed(piece.Seed);
-                Questions qust = new Questions()
+                if (set == null)
                 {
-                    QuestionSetID = qSet.QuestionSetID,
-                    Question_Type = piece.QuestionType,
-                    Difficulty = (int)piece.Difficulty,
-                    Seed = seed,
-                    AnswerCorrect = 0
+                    return RedirectToAction("Index", "Work");
+                }
+
+                var work = _context.work.Where(x => x.WorkSetID == set.WorksetID).ToList();
+
+                if (set.RandomOrdering)
+                    work.Shuffle();
+
+                QuestionSets qSet = new QuestionSets()
+                {
+                    UserID = uid,
+                    WorkSetID = WorkSetID,
+                    Date_Asked = DateTime.Today
                 };
-                _context.questions.Add(qust);
+
+                _context.questionSets.Add(qSet);
                 _context.SaveChanges();
-                var questionSet = new QuestionSetViewModel()
+
+                List<QuestionSetViewModel> Qusts = new List<QuestionSetViewModel>();
+
+                foreach (var piece in work)
                 {
-                    questionID = qust.QuestionID,
-                    question = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class, seed),
-                    answer = "",
-                    correct = 0,
-                    PerQuestion = true
-                };
-                Qusts.Add(questionSet);
-                HttpContext.Session.Set("Q" + qust.QuestionID, Encoding.ASCII.GetBytes(questionSet.question.GetAnswer().ToString()));
+                    var seed = StoredQuestion.GenerateSeed(piece.Seed);
+                    Questions qust = new Questions()
+                    {
+                        QuestionSetID = qSet.QuestionSetID,
+                        Question_Type = piece.QuestionType,
+                        Difficulty = (int)piece.Difficulty,
+                        Seed = seed,
+                        AnswerCorrect = 0
+                    };
+                    _context.questions.Add(qust);
+                    _context.SaveChanges();
+                    var questionSet = new QuestionSetViewModel()
+                    {
+                        questionID = qust.QuestionID,
+                        question = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class, seed),
+                        answer = "",
+                        correct = 0,
+                        PerQuestion = true
+                    };
+                    Qusts.Add(questionSet);
+                    HttpContext.Session.Set("Q" + qust.QuestionID, Encoding.ASCII.GetBytes(questionSet.question.GetAnswer().ToString()));
+                }
+                return View(Qusts);
             }
-            return View(Qusts);
+            return Unauthorized();
         }
-        
+
         public IActionResult Create()
         {
-            var Model = new CreateSetViewModel();
-            Model.Groups = Accounts.UserHelper.GetGroups(Accounts.UserHelper.GetUserId(HttpContext.Session), _context);
-            return View(Model);
+            if (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_TEACHER, _context) || UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context))
+            {
+                var Model = new CreateSetViewModel();
+                Model.Groups = UserHelper.GetGroups(UserHelper.GetUserId(HttpContext.Session), _context);
+                return View(Model);
+            }
+            return Unauthorized();
         }
 
         [HttpPost]
@@ -89,38 +100,217 @@ namespace AutoQuestionGenerator.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.Groups = Accounts.UserHelper.GetGroups(Accounts.UserHelper.GetUserId(HttpContext.Session), _context);
+                model.Groups = UserHelper.GetGroups(UserHelper.GetUserId(HttpContext.Session), _context);
                 return View(model);
             }
 
             Worksets sets = new Worksets()
             {
                 GroupID = model.GroupID,
-                SetBy = Accounts.UserHelper.GetUserId(HttpContext.Session),
+                WorksetName = model.WorksetName,
+                SetBy = UserHelper.GetUserId(HttpContext.Session),
                 Time_Allowed = model.TimeAllowed,
                 Date_Set = DateTime.Now.Date,
                 SetType = model.SetType,
-                Date_Due = model.Date_Due
+                Date_Due = model.Date_Due,
+                ExamStyle = model.SelectFromList,
+                RandomOrdering = model.RandomQuestions
             };
+
+            if (sets.GroupID == -2) sets.GroupID = null;
 
             _context.worksets.Add(sets);
             _context.SaveChanges();
 
-            return View("Build", sets);
+            List<TypedWork> works = new List<TypedWork>();
+            var qtypes = _context.questionTypes.ToArray();
+            int seed = 0;
+            foreach (var item in qtypes)
+            {
+                WorkPartial[] possibleWork = new WorkPartial[5];
+                for (int i = 0; i < 5; i++)
+                {
+                    seed = StoredQuestion.GenerateSeed();
+                    var work = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == item.TypeID).Class, 0);
+
+                    possibleWork[i] = new WorkPartial()
+                    {
+                        Seed = seed,
+                        TypeID = item.TypeID,
+                        Answer = work.GetAnswer().ToString()
+                    };
+                }
+                works.Add(new TypedWork()
+                {
+                    WorkType = item.Type_Name,
+                    PossibleWork = possibleWork.ToArray()
+                });
+            }
+
+            var Model = new BuildViewModel()
+            {
+                WorkSetID = sets.WorksetID,
+                createdWork = new CreatedWork()
+                {
+                    SelectFromList = sets.ExamStyle,
+                    WorkTypes = works.ToArray()
+                }
+            };
+            
+            return View("Build", Model);
         }
 
         public IActionResult Build(int setID)
         {
-            var model = new BuildViewModel()
+            if (setID == 0) return Unauthorized();
+            if (UserHelper.OwnsWorkset(UserHelper.GetUserId(HttpContext.Session), setID, _context) || (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context) && UserHelper.InSameOrganisation(UserHelper.GetUserId(HttpContext.Session), setID, _context)))
             {
-                WorkSetID = setID
-            };
+                List<TypedWork> works = new List<TypedWork>();
+                var qtypes = _context.questionTypes.ToArray();
+                int seed = 0;
+                foreach (var item in qtypes)
+                {
+                    WorkPartial[] possibleWork = new WorkPartial[5];
+                    for (int i = 0; i < 5; i++)
+                    {
+                        seed = StoredQuestion.GenerateSeed();
+                        var work = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == item.TypeID).Class, 0);
 
-            return View(model);
+                        possibleWork[i] = new WorkPartial()
+                        {
+                            Seed = seed,
+                            TypeID = item.TypeID,
+                            Answer = work.GetAnswer().ToString()
+                        };
+                    }
+                    works.Add(new TypedWork()
+                    {
+                        WorkType = item.Type_Name,
+                        PossibleWork = possibleWork.ToArray()
+                    });
+                }
+
+                List<WorkPartial> currentwork = new List<WorkPartial>();
+                var current = _context.work.Where(x => x.WorkSetID == setID);
+
+                foreach (var piece in current)
+                {
+                    currentwork.Add(new WorkPartial()
+                    {
+                        TypeID = piece.QuestionType,
+                        TypeName = _context.questionTypes.FirstOrDefault(x => x.TypeID == piece.QuestionType).Type_Name,
+                        Seed = piece.Seed,
+                        Answer = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == piece.QuestionType).Class, piece.Seed).GetAnswer().ToString()
+                });
+                }
+
+                var model = new BuildViewModel()
+                {
+                    WorkSetID = setID,
+                    createdWork = new CreatedWork()
+                    {
+                        SelectFromList = _context.worksets.FirstOrDefault(x => x.WorksetID == setID).ExamStyle,
+                        WorkTypes = works.ToArray()
+                    },
+                    Work = currentwork.ToArray() 
+                };
+
+                return View(model);
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        public IActionResult Build(BuildViewModel Model)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<TypedWork> works = new List<TypedWork>();
+                var qtypes = _context.questionTypes.ToArray();
+                int seed = 0;
+                foreach (var item in qtypes)
+                {
+                    WorkPartial[] possibleWork = new WorkPartial[5];
+                    for (int i = 0; i < 5; i++)
+                    {
+                        seed = StoredQuestion.GenerateSeed();
+                        var work = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == item.TypeID).Class, 0);
+
+                        possibleWork[i] = new WorkPartial()
+                        {
+                            Seed = seed,
+                            TypeID = item.TypeID,
+                            Answer = work.GetAnswer().ToString()
+                        };
+                    }
+                    works.Add(new TypedWork()
+                    {
+                        WorkType = item.Type_Name,
+                        PossibleWork = possibleWork.ToArray()
+                    });
+                }
+                Model.createdWork = new CreatedWork()
+                {
+                    SelectFromList = _context.worksets.FirstOrDefault(x => x.WorksetID == Model.WorkSetID).ExamStyle,
+                    WorkTypes = works.ToArray()
+                };
+                return View(Model);
+            }
+
+
+            _context.work.RemoveRange(_context.work.Where(x => x.WorkSetID == Model.WorkSetID).ToArray());
+
+            foreach (var work in Model.Work)
+            {
+                _context.work.Add(new Work()
+                {
+                    Difficulty = 1,
+                    QuestionType = work.TypeID,
+                    Seed = work.Seed,
+                    WorkSetID = Model.WorkSetID
+                });
+            }
+            _context.SaveChanges();
+
+            return Redirect("~/Work/Set");
         }
 
         #region Ajax Callbacks
 
+        public IActionResult UpdatePossibleQuestion()
+        {
+            List<TypedWork> works = new List<TypedWork>();
+            var qtypes = _context.questionTypes.ToArray();
+            int seed = 0;
+            foreach (var item in qtypes)
+            {
+                WorkPartial[] possibleWork = new WorkPartial[5];
+                for (int i = 0; i < 5; i++)
+                {
+                    seed = StoredQuestion.GenerateSeed();
+                    var work = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == item.TypeID).Class, 0);
+
+                    possibleWork[i] = new WorkPartial()
+                    {
+                        Seed = seed,
+                        TypeID = item.TypeID,
+                        Answer = work.GetAnswer().ToString()
+                    };
+                }
+                works.Add(new TypedWork()
+                {
+                    TypeID = item.TypeID,
+                    WorkType = item.Type_Name,
+                    PossibleWork = possibleWork.ToArray()
+                });
+            }
+
+            return PartialView("_workSets", new CreatedWork()
+            {
+                SelectFromList = true,
+                WorkTypes = works.ToArray()
+            });
+        }
 
         public IActionResult Checkquestion(QuestionSetViewModel model)
         {
@@ -132,9 +322,9 @@ namespace AutoQuestionGenerator.Controllers
 
             if (answer.EndsWith(model.answer.Trim()))
             {
-                question.AnswerCorrect = (int)Math.Abs(question.AnswerCorrect ) + 1;
+                question.AnswerCorrect = (int)Math.Abs(question.AnswerCorrect) + 1;
             }
-            else if(question.AnswerCorrect <= 0)
+            else if (question.AnswerCorrect <= 0)
             {
                 question.AnswerCorrect -= 1;
             }
@@ -146,7 +336,7 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Checkworkset(List<QuestionSetViewModel> modelSet)
         {
-            foreach(var model in modelSet)
+            foreach (var model in modelSet)
             {
 
                 byte[] vals;
