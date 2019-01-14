@@ -53,7 +53,7 @@ namespace AutoQuestionGenerator.Controllers
                 _context.questionSets.Add(qSet);
                 _context.SaveChanges();
 
-                List<QuestionSetViewModel> Qusts = new List<QuestionSetViewModel>();
+                List<QuestionViewModel> Qusts = new List<QuestionViewModel>();
 
                 foreach (var piece in work)
                 {
@@ -68,18 +68,20 @@ namespace AutoQuestionGenerator.Controllers
                     };
                     _context.questions.Add(qust);
                     _context.SaveChanges();
-                    var questionSet = new QuestionSetViewModel()
+                    var questionSet = new QuestionViewModel()
                     {
                         questionID = qust.QuestionID,
                         question = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class, seed),
                         answer = "",
-                        correct = 0,
-                        PerQuestion = true
+                        correct = 0
                     };
                     Qusts.Add(questionSet);
                     HttpContext.Session.Set("Q" + qust.QuestionID, Encoding.ASCII.GetBytes(questionSet.question.GetAnswer().ToString()));
                 }
-                return View(Qusts);
+                return View(new QuestionSetViewModel() {
+                    PerQuestion = (set.SetType == 1 ? true : false),
+                    questions = Qusts.ToArray()
+                });
             }
             return Unauthorized();
         }
@@ -312,7 +314,7 @@ namespace AutoQuestionGenerator.Controllers
             });
         }
 
-        public IActionResult Checkquestion(QuestionSetViewModel model)
+        public IActionResult Checkquestion(QuestionViewModel model)
         {
             byte[] vals;
             HttpContext.Session.TryGetValue("Q" + model.questionID, out vals);
@@ -334,18 +336,18 @@ namespace AutoQuestionGenerator.Controllers
             return PartialView("_Question", model);
         }
 
-        public IActionResult Checkworkset(List<QuestionSetViewModel> modelSet)
+        public IActionResult Checkworkset(QuestionSetViewModel modelSet)
         {
-            foreach (var model in modelSet)
+            for (int i = 0; i < modelSet.questions.Length; i++)
             {
 
                 byte[] vals;
-                HttpContext.Session.TryGetValue("Q" + model.questionID, out vals);
+                HttpContext.Session.TryGetValue("Q" + modelSet.questions[i].questionID, out vals);
 
                 string answer = Encoding.ASCII.GetString(vals);
-                var question = _context.questions.FirstOrDefault(x => x.QuestionID == model.questionID);
+                var question = _context.questions.FirstOrDefault(x => x.QuestionID == modelSet.questions[i].questionID);
 
-                if (answer.EndsWith(model.answer.Trim()))
+                if (answer.EndsWith(modelSet.questions[i].answer.Trim()))
                 {
                     question.AnswerCorrect = (int)Math.Abs(question.AnswerCorrect) + 1;
                 }
@@ -353,12 +355,13 @@ namespace AutoQuestionGenerator.Controllers
                 {
                     question.AnswerCorrect -= 1;
                 }
-                model.correct = question.AnswerCorrect;
+                modelSet.questions[i].correct = question.AnswerCorrect;
+                modelSet.questions[i].question = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == question.Question_Type).Class, question.Seed);
             }
 
             _context.SaveChanges();
 
-            return View();
+            return PartialView("_FullSet", modelSet);
         }
         #endregion
     }

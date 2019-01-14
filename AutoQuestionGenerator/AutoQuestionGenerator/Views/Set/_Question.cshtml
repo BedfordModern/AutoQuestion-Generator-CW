@@ -1,8 +1,3 @@
-﻿@model QuestionSetViewModel
+﻿@model QuestionViewModel
 Answer: @Html.TextBoxFor(m => m.answer, new { style = (Model.correct < 0 ? "background:#FF0000" : (Model.correct > 0 ? "background:#0F0" : "background:#FFF")) })
 @Html.HiddenFor(m => m.questionID)
-@Html.HiddenFor(m => m.PerQuestion)
-@if (Model.PerQuestion && Model.correct <= 0)
-{
-    <button type="submit" class="btn btn-primary">Submit</button>
-}

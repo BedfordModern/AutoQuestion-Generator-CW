@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoQuestionGenerator.Controllers
 {
+    [Organisation]
     public class UserController : Controller
     {
         IdentityModels _context;

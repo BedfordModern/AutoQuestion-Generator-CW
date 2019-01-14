@@ -31,7 +31,7 @@ namespace AutoQuestionGenerator.Controllers
             List<WorksetViewModel> viewModels = new List<WorksetViewModel>();
             foreach(var group in groups)
             {
-                var sets = _context.worksets.Where(x => x.GroupID == group);
+                var sets = _context.worksets.Where(x => x.GroupID == group).ToArray();
 
                 foreach (var set in sets)
                 {

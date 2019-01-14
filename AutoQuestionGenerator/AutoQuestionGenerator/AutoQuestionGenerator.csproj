@@ -22,10 +22,15 @@
   <ItemGroup>
     <Folder Include="QuestionModels\Groups\" />
     <Folder Include="Views\Account\" />
-    <Folder Include="Views\Organisation\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Organisation\Login.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\User\Lost.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="wwwroot\lib\Python\testPart.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

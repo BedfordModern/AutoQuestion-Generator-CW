@@ -1,0 +1,22 @@
+﻿@model AutoQuestionGenerator.DatabaseModels.Organisations
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Organisation Login</h2>
+<br />
+<br />
+@using (Html.BeginForm(FormMethod.Post, new
+{
+    autocomplete = "off"
+}))
+{
+    <text>Username: @Html.TextBoxFor(m => m.Organisation_Username, new { autocomplete = "off" })</text><br /><br />
+    <text>Password: @Html.TextBoxFor(m => m.Organisation_Password, new { type = "password", autocomplete = "off" })</text>
+    <button type="submit" class="=btn btn-primary">Login</button>
+    if (Model != null && !string.IsNullOrEmpty(Model.Organisation_Username))
+    {
+        <br />
+        <p style="color:red">Username or password incorrect</p>
+    }
+}

@@ -1,44 +1,27 @@
-﻿@model List<QuestionSetViewModel>
+﻿@model QuestionSetViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Index</h2>
-@if (!Model[0].PerQuestion)
+@if (!Model.PerQuestion)
 {
-<form asp-controller="Set" asp-action="Checkworkset" data-ajax="true" data-ajax-method="POST" data-ajax-update="#answer" data-ajax-mode="replace" id="Question-Form" method="post" novalidate="novalidate">
-    @foreach (var Question in Model)
-    {
-
-        <div id="Question:@Question.question.GetQuestion()">
-            <p>Q: @Question.question.GetQuestion() </p>
-            @if (Question.PerQuestion)
-            {
-                <div id="answer-@Question.questionID">
-                    @{ Html.RenderPartial("_Question", Question); }
-                </div>
-            }
-        </div>
-        <br />
-    }
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<div id="Question-Form">
+    @{ Html.RenderPartial("_FullSet", Model); }
+</div>
 }
 else
 {
-    @foreach (var Question in Model)
+    @foreach (var Question in Model.questions)
     {
 
         <div id="Question:@Question.question.GetQuestion()">
             <p>Q: @Question.question.GetQuestion() </p>
-            @if (Question.PerQuestion)
-            {
-                <form asp-controller="Set" asp-action="Checkquestion" data-ajax="true" data-ajax-method="POST" data-ajax-update="#answer-@Question.questionID" data-ajax-mode="replace" id="Question-@Question.questionID-Form" method="post" novalidate="novalidate">
-                    <div id="answer-@Question.questionID">
-                        @{ Html.RenderPartial("_Question", Question); }
-                    </div>
-                </form>
-            }
+            <form asp-controller="Set" asp-action="Checkquestion" data-ajax="true" data-ajax-method="POST" data-ajax-update="#answer-@Question.questionID" data-ajax-mode="replace" id="Question-@Question.questionID-Form" method="post" novalidate="novalidate" autocomplete="off">
+                <div id="answer-@Question.questionID">
+                    @{ Html.RenderPartial("_Question", Question); }
+                </div>
+            </form>
         </div>
         <br />
     }

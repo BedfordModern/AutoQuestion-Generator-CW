@@ -1,0 +1,33 @@
+﻿@model QuestionSetViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<form asp-controller="Set" asp-action="Checkworkset" data-ajax="true" data-ajax-method="POST" data-ajax-update="#Question-Form" data-ajax-mode="replace" id="Questions" method="post" novalidate="novalidate" autocomplete="off">
+    @Html.HiddenFor(m => m.QuestionSetID)
+    @{ int correct = 0; }
+    @for (int i = 0; i < Model.questions.Length; i++)
+    {
+        <div id="Question:@Model.questions[i].question.GetQuestion()">
+            <p>Q: @Model.questions[i].question.GetQuestion() </p>
+            <div id="answer-@Model.questions[i].questionID">
+                Answer: @Html.TextBoxFor(m => m.questions[i].answer, new { style = (Model.questions[i].correct < 0 ? "background:#FF0000" : (Model.questions[i].correct > 0 ? "background:#0F0" : "background:#FFF")) })
+                @Html.HiddenFor(m => m.questions[i].questionID)
+                @if (Model.questions[i].correct < 0)
+                {
+                    correct++;
+                }
+            </div>
+        </div>
+        <br />
+    }
+    @if (correct == Model.questions.Length - 1)
+    {
+        <button type="button" onclick="window.location='~/Set/Complete?QuestionSet=@Model.QuestionSetID';">Review</button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" onclick="window.location='~/Set/Complete?QuestionSet=@Model.QuestionSetID';">Quit & Review</button>
+    }
+</form>
