@@ -58,5 +58,26 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             Question ret = new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2);
             return ret;
         }
+
+        public async Task<bool> CheckQuestion(string path)
+        {
+            rand = new Random();
+            try
+            {
+                int seed = rand.Next();
+                var questionBase = GenerateQuestion(path, seed);
+                var questionCheck = GenerateQuestion(path, seed);
+                if (questionBase.GetAnswer().ToString() == questionCheck.GetAnswer().ToString())
+                {
+                    questionCheck = GenerateQuestion(path);
+                    if (questionBase.GetAnswer().ToString() != questionCheck.GetAnswer().ToString())
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch { }
+            return false;
+        }
     }
 }

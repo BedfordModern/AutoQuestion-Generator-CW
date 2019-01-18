@@ -1,0 +1,18 @@
+﻿@model UploadViewModel
+@{
+    ViewData["Title"] = "UploadPython";
+}
+
+<h2>UploadPython</h2>
+<input id="guid" type="hidden" value="@Model.identifier.ToString()" />
+@foreach (var item in Model.documents)
+{
+<div style="
+    text-align: left;
+vertical-align: middle;" id="container-@item.Key">
+    @item.Value <div id="file-@item.Key" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>
+    <br />
+}
+<br />
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/files.js"></script>

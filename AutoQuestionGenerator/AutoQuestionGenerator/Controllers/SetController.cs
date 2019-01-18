@@ -86,6 +86,26 @@ namespace AutoQuestionGenerator.Controllers
             return Unauthorized();
         }
 
+        public IActionResult Complete(int setID)
+        {
+            var questions = _context.questions.Where(x => x.QuestionSetID == setID).ToList();
+
+            CompleteQuestionViewModel model = new CompleteQuestionViewModel();
+            List<CompletedQuestion> qs = new List<CompletedQuestion>();
+            foreach (var q in questions)
+            {
+                qs.Add(new CompletedQuestion()
+                {
+                    Type = _context.questionTypes.First(x => x.TypeID == q.Question_Type),
+                    AnsweredCorrent = q.AnswerCorrect
+                });
+            }
+
+            model.Question = qs.ToArray();
+
+            return View(model);
+        }
+
         public IActionResult Create()
         {
             if (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_TEACHER, _context) || UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context))

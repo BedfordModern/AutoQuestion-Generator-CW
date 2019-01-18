@@ -1,7 +1,69 @@
 ﻿@model CompleteQuestionViewModel
+@using static AutoQuestionGenerator.Helper.Extentions
+@using AutoQuestionGenerator.Models.Statistics
 @{
     ViewData["Title"] = "Complete";
 }
+@{ var list =
+          from question in Model.Question
+          group question by question.Type.TypeID into QGroup
+          select new PercentageModel {
+              Current = QGroup.Where(x => x.AnsweredCorrent > 0).Count(),
+              Total = QGroup.Count()
+          };
+
+    var questionTypes =
+        (from question in Model.Question
+         select question.Type.Type_Name).ToList();
+    questionTypes = questionTypes.Unique().ToList();
+            }
 
 <h2>Complete</h2>
+<div style="max-width: 50%; max-height:30%">
+    <canvas id="CorrectByType" width="400" height="400"></canvas>
+</div>
+<script>
+    var ctx = document.getElementById("CorrectByType");
+            var myChart = new Chart(ctx, {
 
+                type: 'bar',
+                data: {
+
+                    labels: [@foreach (var item in questionTypes)
+            {
+
+                        <text>'@item',</text>
+            }],
+            datasets: [{
+            label: '% of Answers Correct',
+                data: [@list.Select(x => x.Percentage).ToList().Connect(","),2,3,4,5],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.4)',
+                    'rgba(54, 162, 235, 0.4)',
+                    'rgba(255, 206, 86, 0.4)',
+                    'rgba(75, 192, 192, 0.4)',
+                    'rgba(153, 102, 255, 0.4)',
+                    'rgba(255, 159, 64, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>

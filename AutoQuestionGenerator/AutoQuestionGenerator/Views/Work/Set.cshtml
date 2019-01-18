@@ -42,18 +42,18 @@
     <table id="workTbl">
 
         <tr>
-            <th onclick="sortTable(0, 'workTbl')">Set Name</th>
-            <th onclick="sortTable(1, 'workTbl')">Time Left</th>
-            <th onclick="sortTable(2, 'workTbl')">Answering Type</th>
-            <th onclick="sortTable(3, 'workTbl')">Date Set</th>
-            <th onclick="sortTable(4, 'workTbl')">Date Due</th>
+            <th onclick="sortTable(0, 'workTbl')">Set Name </th>
+            <th onclick="sortTable(1, 'workTbl')">Time Left </th>
+            <th onclick="sortTable(2, 'workTbl')">Answering Type </th>
+            <th onclick="sortTable(3, 'workTbl')">Date Set </th>
+            <th onclick="sortTable(4, 'workTbl')">Date Due </th>
             <th>View</th>
         </tr>
         @foreach (var set in Model)
         {
         <tr>
             <td>@set.WorksetName</td>
-            <td>@((set.Date_Due - set.Date_Set).Days) Days</td>
+            <td>@((set.Date_Due - DateTime.Now).Days) Days</td>
             <td>@set.SetType</td>
             <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
             <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
