@@ -158,13 +158,13 @@ namespace AutoQuestionGenerator.Controllers
                     possibleWork[i] = new WorkPartial()
                     {
                         Seed = seed,
-                        TypeID = item.TypeID,
                         Answer = work.GetAnswer().ToString()
                     };
                 }
                 works.Add(new TypedWork()
                 {
                     WorkType = item.Type_Name,
+                    TypeID = item.TypeID,
                     PossibleWork = possibleWork.ToArray()
                 });
             }
@@ -201,13 +201,13 @@ namespace AutoQuestionGenerator.Controllers
                         possibleWork[i] = new WorkPartial()
                         {
                             Seed = seed,
-                            TypeID = item.TypeID,
                             Answer = work.GetAnswer().ToString()
                         };
                     }
                     works.Add(new TypedWork()
                     {
                         WorkType = item.Type_Name,
+                        TypeID = item.TypeID,
                         PossibleWork = possibleWork.ToArray()
                     });
                 }
@@ -219,7 +219,6 @@ namespace AutoQuestionGenerator.Controllers
                 {
                     currentwork.Add(new WorkPartial()
                     {
-                        TypeID = piece.QuestionType,
                         TypeName = _context.questionTypes.FirstOrDefault(x => x.TypeID == piece.QuestionType).Type_Name,
                         Seed = piece.Seed,
                         Answer = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == piece.QuestionType).Class, piece.Seed).GetAnswer().ToString()

@@ -11,10 +11,15 @@ connection.on("ReceiveMessage", function (id, message, error) {
         ele.innerHTML = "&check;";
         ele.style.color = "green";
         container.innerHTML = container.innerHTML + "<br />" + "Name: "
-        child = document.createElement("input");
+        var child = document.createElement("input");
+        child.setAttribute("data-val", "true");
+        child.setAttribute("id", "Items_" + id + "__Name");
+        child.setAttribute("name", "Items[" + id+ "].Name");
         child.type = "text";
         child.className = "form-control";
-        container.addChildNode(child);
+        container.appendChild(child);
+        container.innerHTML = container.innerHTML + "<br />" + "Type: "
+        CreateSelect(id, container)
     } else if(msg == "fail") {
         ele.innerHTML = "&times;";
         ele.style.color = "red";

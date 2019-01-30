@@ -24,6 +24,9 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             ScriptRuntimeSetup setup = Python.CreateRuntimeSetup(null);
             ScriptRuntime runtime = new ScriptRuntime(setup);
             var engine = Python.GetEngine(runtime);
+            var paths = engine.GetSearchPaths();
+            paths.Add(@"C:\Python27\Lib");
+            engine.SetSearchPaths(paths);
             ScriptSource source = engine.CreateScriptSourceFromFile(path);
             var scope = engine.CreateScope();
             var d = new Dictionary<string, object>
@@ -35,7 +38,7 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             
 
             scope.SetVariable("params", d);
-            scope.SetVariable("random", RandInt);
+            scope.SetVariable("seed", RandInt);
             object result = source.Execute(scope);
             Question = scope.GetVariable<string>("question");
             Answer = scope.GetVariable<string>("answer");
@@ -59,8 +62,9 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             return ret;
         }
 
-        public async Task<bool> CheckQuestion(string path)
+        public async Task<string> CheckQuestion(string path)
         {
+            string error = "";
             rand = new Random();
             try
             {
@@ -72,12 +76,22 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
                     questionCheck = GenerateQuestion(path);
                     if (questionBase.GetAnswer().ToString() != questionCheck.GetAnswer().ToString())
                     {
-                        return true;
+                        return "None";
+                    }
+                    else
+                    {
+                        error = "File returned the same value for multiple different seeds!";
                     }
                 }
+                else
+                {
+                    error = "File did not return same value for the same seed!";
+                }
             }
-            catch { }
-            return false;
+            catch {
+                error = "The file is not a python file!";
+            }
+            return error;
         }
     }
 }

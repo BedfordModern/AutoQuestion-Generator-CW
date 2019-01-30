@@ -187,16 +187,6 @@ i {
     padding: 3px;
 }
 
-.right {
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-}
-
-.left {
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-}
-
 .up {
     transform: rotate(-135deg);
     -webkit-transform: rotate(-135deg);
@@ -205,4 +195,20 @@ i {
 .down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
+}
+
+.short-group{
+    max-width:400px;
+}
+
+.editableBox {
+    width: 300px;
+    height: 30px;
+}
+
+.editTextBox {
+    width: 270px;
+    margin-left: -295px;
+    height: 25px;
+    border: none;
 }

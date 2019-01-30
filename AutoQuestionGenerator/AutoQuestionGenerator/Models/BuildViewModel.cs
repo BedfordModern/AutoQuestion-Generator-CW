@@ -16,8 +16,8 @@ namespace AutoQuestionGenerator.Models
 
     public class WorkPartial
     {
-        public int TypeID { get; set; }
         public string TypeName { get; set; }
+        public int TypeID { get; set; }
         public int Seed { get; set; }
         public string Answer { get; set; }
     }

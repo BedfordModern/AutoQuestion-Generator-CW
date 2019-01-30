@@ -1,0 +1,19 @@
+﻿@model UploadCompleteViewModel
+@{
+    ViewData["Title"] = "UploadComplete";
+}
+
+<h2>UploadComplete</h2>
+<p>You have added a new catagory(ies) for your items please can you choose what base catagories they are in.</p>
+<br />
+<form asp-action="SetCatagories" asp-controller="Account">
+    @for (int i = 0; i < Model.Catagories.Length; i++)
+    {
+        @Model.Catagories[i].CatagoryName<text>:</text>
+        @Html.DropDownListFor(x => x.Catagories[i].CatagoryType, new SelectList(Model.Types, "CatTypeID", "CatTypeName"))
+        @Html.HiddenFor(x => x.Catagories[i].CatagoryID)
+        <br />
+    }
+
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>

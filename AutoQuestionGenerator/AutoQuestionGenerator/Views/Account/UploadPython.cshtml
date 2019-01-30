@@ -3,16 +3,111 @@
     ViewData["Title"] = "UploadPython";
 }
 
+
+
 <h2>UploadPython</h2>
 <input id="guid" type="hidden" value="@Model.identifier.ToString()" />
-@foreach (var item in Model.documents)
-{
-<div style="
+
+<form method="post" asp-controller="Account" asp-action="UploadComplete">
+    <div class="form-group short-group">
+        @foreach (var item in Model.documents)
+        {
+            <div style="
     text-align: left;
-vertical-align: middle;" id="container-@item.Key">
-    @item.Value <div id="file-@item.Key" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>
+vertical-align: middle;
+border: 2px solid black;
+padding: 3px;" id="container-@item.Key">
+                @item.Value <div id="file-@item.Key" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+            <br />
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>
     <br />
-}
-<br />
-<script src="~/lib/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/files.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script>
+    "use strict";
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/fileHub").build();
+
+    connection.on("ReceiveMessage", function (id, message, error) {
+        var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var err = error.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ele = document.getElementById("file-" + id);
+        var container = document.getElementById("container-" + id);
+        if (msg == "success") {
+            ele.innerHTML = "&check;";
+            ele.style.color = "green";
+            container.innerHTML = container.innerHTML + "<br />" + "Name: "
+            var child = document.createElement("input");
+            child.setAttribute("data-val", "true");
+            child.setAttribute("id", "Items_" + id + "__Name");
+            child.setAttribute("name", "Items[" + id + "].Name");
+            child.type = "text";
+            child.className = "form-control";
+            container.appendChild(child);
+            container.innerHTML = container.innerHTML + "<br />" + "Type: "
+            CreateSelect(id, container)
+        } else if (msg == "fail") {
+            ele.innerHTML = "&times;";
+            ele.style.color = "red";
+            container.title = err;
+            var child = document.createElement("input");
+            child.setAttribute("data-val", "true");
+            child.setAttribute("id", "Items_" + id + "__Name");
+            child.setAttribute("name", "Items[" + id + "].Name");
+            child.type = "hidden";
+            child.value = "Error";
+            child.className = "form-control";
+            container.appendChild(child);
+        }
+    });
+
+    connection.start();
+
+    setTimeout(function () {
+        var url = new URL(connection.connection.transport.webSocket.url);
+        var UserID = url.searchParams.get("id");
+        var guid = document.getElementById("guid").value;
+        connection.invoke("GetUserID", UserID, guid).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }, 1000);
+    function CreateSelect(id, container) {
+        var names = ["",@foreach (var item in Model.Catagories.Select(x => x.CatagoryName).ToArray())
+        {
+            <text>"@item",</text>
+        }]
+        
+        var dive = document.createElement("div");
+        dive.classList = "wrapper";
+        var selectList = document.createElement("select");
+        selectList.id = "editBox-" + id;
+        selectList.classList = "editableBox";
+        selectList.setAttribute("onchange", "SelectOnChange(" + id + ")");
+        var List = document.createElement("input");
+        List.id = "Items_" + id + "__Catagory";
+        List.name = "Items[" + id + "].Catagory";
+        List.classList = "editTextBox";
+        dive.appendChild(selectList);
+        dive.appendChild(List);
+
+        //Create and append the options
+        for (var i = 0; i < names.length; i++) {
+            var option = document.createElement("option");
+            option.value = names[i];
+            option.text = names[i];
+            selectList.appendChild(option);
+        }
+
+
+        container.appendChild(dive);
+        }
+
+        function SelectOnChange(id) {
+            var x = document.getElementById("editBox-" + id)
+            document.getElementById("Items_" + id + "__Catagory").value = x.options[x.selectedIndex].value
+        }
+    </script>

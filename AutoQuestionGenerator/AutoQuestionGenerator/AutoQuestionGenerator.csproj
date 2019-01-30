@@ -32,6 +32,9 @@
     <Content Update="Views\User\Lost.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="wwwroot\lib\Python\636838611354299026.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\lib\Python\testPart.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

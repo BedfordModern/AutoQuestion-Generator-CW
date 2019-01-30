@@ -60,7 +60,25 @@ namespace AutoQuestionGenerator.DatabaseModels
         public DbSet<Worksets> worksets { get; set; }
         public DbSet<Work> work { get; set; }
         public DbSet<SetTypes> worktype { get; set; }
-        
+        public DbSet<Catagory> catagories { get; set; }
+        public DbSet<CatagoryType> CatagoryTypes { get; set; }
+    }
+
+    [Table("catagorytypes")]
+    public class CatagoryType
+    {
+        [Key]
+        public int CatTypeID { get; set; }
+        public string CatTypeName { get; set; }
+    }
+
+    [Table("catagories")]
+    public class Catagory
+    {
+        [Key]
+        public int CatagoryID { get; set; }
+        public string CatagoryName { get; set; }
+        public int CatagoryType { get; set; }
     }
     
     [Table("subscriptions")]
@@ -151,6 +169,7 @@ namespace AutoQuestionGenerator.DatabaseModels
         public int TypeID { get; set; }
         public string Type_Name { get; set; }
         public string Class { get; set; }
+        public int Catagory { get; set; }
     }
 
     [Table("questionsets")]

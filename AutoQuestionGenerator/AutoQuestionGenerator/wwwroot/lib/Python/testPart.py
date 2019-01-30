@@ -1,4 +1,4 @@
-#The ran python file will recieve a random number called 'random' based on the question seed. 
+#The ran python file will recieve a random number called 'seed' based on the question seed. 
 #You should then set 'question' equal to the question you wish to ask and 'answer' equal to the question's answer.
 
 import sys
@@ -16,5 +16,5 @@ def BinaryConverter(num):
             output += "0"
     return output
 
-question = "What is " + str(random) + " in binary?"
-answer = BinaryConverter(random)
+question = "What is " + str(seed) + " in binary?"
+answer = BinaryConverter(seed)

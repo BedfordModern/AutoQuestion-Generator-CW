@@ -19,7 +19,7 @@ overflow: hidden;">
         @foreach (var genWork in piece.PossibleWork)
         {
             <div ondragover="allowDrop(event)">
-                <p draggable="true" id="@genWork.Seed" ondragstart="drag(event, '@piece.WorkType', @genWork.TypeID, false)">@genWork.Answer</p>
+                <p draggable="true" id="@genWork.Seed" ondragstart="drag(event, '@piece.WorkType', @piece.TypeID, false)">@genWork.Answer</p>
             </div>
         }
     </div>
