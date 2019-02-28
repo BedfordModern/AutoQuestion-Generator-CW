@@ -52,6 +52,14 @@ namespace AutoQuestionGenerator.Accounts
             return -1;
         }
 
+        public static bool UserInRole(byte[] uid, string roleName, IdentityModels dbContext)
+        {
+            if(uid == null || uid.Length == 0)
+                return false;
+
+            return UserInRole(Convert.ToInt32(Encoding.ASCII.GetString(uid)), roleName, dbContext);
+        }
+
         public static bool UserInRole(int uid, string roleName, IdentityModels dbContext)
         {
             var role = dbContext.roles.FirstOrDefault(x => x.Role_Name == roleName);

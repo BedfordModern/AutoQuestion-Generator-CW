@@ -32,11 +32,25 @@ namespace AutoQuestionGenerator.QuestionModels
 
         private object Quest;
         private object Ans;
+        private object Box;
 
-        public StoredQuestion(object Question, object Answer)
+        public StoredQuestion(object Question, object Answer, object boxes = null)
         {
             Quest = Question;
             Ans = Answer;
+            Box = boxes;
+        }
+
+        public string Boxes()
+        {
+            try
+            {
+                return Box as string;
+            }
+            catch
+            {
+                return "!Nstr";
+            }
         }
 
         public string Answer(object Question)

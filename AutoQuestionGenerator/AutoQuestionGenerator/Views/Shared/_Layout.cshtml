@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <html>
 <head>
     <meta charset="utf-8" />
@@ -19,6 +20,7 @@
     <environment include="Development">
         <script src="~/js/jquery.min.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/chartjs/utils.js" asp-append-version="true"></script>
         <script src="~/lib/chartjs/Chart.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
@@ -36,6 +38,7 @@
         </script>
         <script src="~/js/jquery.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/chartjs/utils.js" asp-append-version="true"></script>
         <script src="~/lib/chartjs/Chart.min.js" asp-append-version="true"
                 asp-fallback-src="~/lib/chartjs/Chart.js"></script>
     </environment>
@@ -57,10 +60,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @{ byte[] uid; HttpContextAccessor.HttpContext.Session.TryGetValue("UId", out uid);
+                        bool teacher = AutoQuestionGenerator.Accounts.UserHelper.UserInRole(uid, AutoQuestionGenerator.Accounts.UserHelper.ROLE_TEACHER, new AutoQuestionGenerator.DatabaseModels.IdentityModels()); }
+                    <li><a asp-area="" asp-controller="Work" asp-action="@(teacher ? "Set" : "Index")">Work@(teacher ? " Set" : " to Do")</a></li>
+                    @if (teacher)
+                    {
+                        <li><a asp-area="" asp-controller="Set" asp-action="Create">Create Workset</a></li>
+                    }
                 </ul>
-                @{ Html.RenderPartial("_Login"); }
+                <partial name="_Login" />
             </div>
         </div>
     </nav>

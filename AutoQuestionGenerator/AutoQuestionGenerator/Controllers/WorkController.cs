@@ -9,6 +9,7 @@ using AutoQuestionGenerator.DatabaseModels;
 using AutoQuestionGenerator.Accounts;
 using Microsoft.AspNetCore.Mvc;
 using AutoQuestionGenerator.Models;
+using AutoQuestionGenerator.Helper;
 
 namespace AutoQuestionGenerator.Controllers
 {
@@ -60,7 +61,31 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Set()
         {
-            var sets = _context.worksets.Where(x => x.SetBy == UserHelper.GetUserId(HttpContext.Session)).ToList();
+            var sets = _context.worksets.Where(x => x.SetBy == UserHelper.GetUserId(HttpContext.Session) && x.GroupID != null).ToList();
+            List<WorksetViewModel> workset = new List<WorksetViewModel>();
+            foreach (var set in sets)
+            {
+                set.ToPDF();
+                workset.Add(new WorksetViewModel()
+                {
+                    WorksetID = set.WorksetID,
+                    WorksetName = set.WorksetName,
+                    Time_Allowed = set.Time_Allowed,
+                    SetType = _context.worktype.FirstOrDefault(x => x.SetType_ID == set.SetType).SetType_Name,
+                    Date_Set = set.Date_Set,
+                    Date_Due = set.Date_Due,
+                    Group_Name = _context.groups.FirstOrDefault(x => x.GroupID == set.GroupID).Group_Name,
+                    ExamStyle = set.ExamStyle,
+                    RandomOrdering = set.RandomOrdering
+                });
+            }
+
+            return View(workset.ToArray());
+        }
+
+        public IActionResult Later()
+        {
+            var sets = _context.worksets.Where(x => x.SetBy == UserHelper.GetUserId(HttpContext.Session) && x.GroupID == null).ToList();
             List<WorksetViewModel> workset = new List<WorksetViewModel>();
             foreach (var set in sets)
             {
@@ -102,6 +127,58 @@ namespace AutoQuestionGenerator.Controllers
                 return View(viewModel.ToArray());
             }
             return Unauthorized();
+        }
+
+        public PartialViewResult UpdateWork(int updateID)
+        {
+            var user = UserHelper.GetUserId(HttpContext.Session);
+
+            List<WorksetViewModel> viewModels = new List<WorksetViewModel>();
+
+            var groups = _context.groupUsers.Where(x => x.UserID == user).Select(x => x.GroupID).ToArray();
+            foreach (var group in groups)
+            {
+                var sets = _context.worksets.Where(x => x.GroupID == group).ToArray();
+
+                foreach (var set in sets)
+                {
+                    bool add = false;
+                    switch (updateID)
+                    {
+                        case 1:
+                            if (_context.questionSets.FirstOrDefault(x => x.WorkSetID == set.WorksetID && x.UserID == user) == null && set.Date_Due >= DateTime.Now.Date)
+                                add = true;
+                            break;
+                        case 2:
+                            if (_context.questionSets.FirstOrDefault(x => x.WorkSetID == set.WorksetID && x.UserID == user) == null && set.Date_Due <= DateTime.Now.Date)
+                                add = true;
+                            break;
+                        case 3:
+                            if (_context.questionSets.FirstOrDefault(x => x.WorkSetID == set.WorksetID && x.UserID == user) != null && set.Date_Due >= DateTime.Now.Date)
+                                add = true;
+                            break;
+                    }
+                    if (add)
+                    {
+                        var setBy = _context.users.FirstOrDefault(x => x.UserID == set.SetBy);
+                        viewModels.Add(new WorksetViewModel()
+                        {
+                            WorksetID = set.WorksetID,
+                            WorksetName = set.WorksetName,
+                            Time_Allowed = set.Time_Allowed,
+                            Date_Due = set.Date_Due,
+                            Date_Set = set.Date_Set,
+                            SetBy = setBy.First_Name + " " + setBy.Last_Name,
+                            Group_Name = _context.groups.FirstOrDefault(x => x.GroupID == group).Group_Name,
+                            SetType = _context.worktype.FirstOrDefault(x => x.SetType_ID == set.SetType).SetType_Name,
+                            RandomOrdering = set.RandomOrdering,
+                            ExamStyle = set.ExamStyle
+                        });
+                    }
+                }
+            }
+
+            return PartialView("_currentWorkTable", viewModels.ToArray());
         }
     }
 }

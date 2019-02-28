@@ -33,34 +33,26 @@
 </style>
 
 <h2>Index</h2>
-@if (Model.Length > 0)
-{
-    <table id="workTbl">
-
-        <tr>
-            <th>Workset Name</th>
-            <th>Time Allowed</th>
-            <th>Time Left</th>
-            <th>Set By</th>
-            <th>Answering Type</th>
-            <th>Date Set</th>
-            <th>Date Due</th>
-            <th>View</th>
-        </tr>
-        @foreach (var set in Model)
-        {
-        <tr>
-            <td>@set.WorksetName</td>
-            <td>@(set.Time_Allowed == 0 ? "Unlimited" : "" + set.Time_Allowed)</td>
-            <td>@((set.Date_Due - DateTime.Now).Days < 0 ? "Overdue" : (set.Date_Due - DateTime.Now).Days + " Days")</td>
-            <td>@set.SetBy</td>
-            <td>@set.SetType</td>
-            <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
-            <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
-            <td>
-                <a href="~/Set?WorkSetID=@set.WorksetID">Complete</a>
-            </td>
-        </tr>
-        }
-    </table>
-}
+<div class="row">
+    <div class="col-md-4" style="">
+        <form asp-controller="Work" asp-action="UpdateWork" data-ajax="true" data-ajax-method="POST" data-ajax-update="#table" data-ajax-mode="replace" id="Update--Form" method="post" novalidate="novalidate">
+            @Html.Hidden("updateID", 1)
+            <button class="btn btn-primary" type="submit">Work Due Next</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form asp-controller="Work" asp-action="UpdateWork" data-ajax="true" data-ajax-method="POST" data-ajax-update="#table" data-ajax-mode="replace" id="Update--Form" method="post" novalidate="novalidate">
+            @Html.Hidden("updateID", 2)
+            <button class="btn btn-primary" type="submit">Overdue Work</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form asp-controller="Work" asp-action="UpdateWork" data-ajax="true" data-ajax-method="POST" data-ajax-update="#table" data-ajax-mode="replace" id="Update--Form" method="post" novalidate="novalidate">
+            @Html.Hidden("updateID", 3)
+            <button class="btn btn-primary" type="submit">Already Completed Work</button>
+        </form>
+    </div>
+</div>
+<div id="table">
+    <partial name="_currentWorkTable" model="@Model" />
+</div>

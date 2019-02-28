@@ -23,11 +23,11 @@
     }
     @if (correct == Model.questions.Length - 1)
     {
-        <button type="button" onclick="window.location='~/Set/Complete?QuestionSet=@Model.QuestionSetID';">Review</button>
+        <button type="button" onclick="window.location='/Set/Complete?setIDt=@Model.QuestionSetID';">Review</button>
     }
     else
     {
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" onclick="window.location='~/Set/Complete?QuestionSet=@Model.QuestionSetID';">Quit & Review</button>
+        <button type="button" onclick="window.location='/Set/Complete?setID=@Model.QuestionSetID';">Quit & Review</button>
     }
 </form>

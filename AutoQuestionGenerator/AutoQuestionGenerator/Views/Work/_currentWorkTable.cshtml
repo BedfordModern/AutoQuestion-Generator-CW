@@ -1,0 +1,38 @@
+﻿@model WorksetViewModel[]
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@if (Model.Length > 0)
+{
+    <table id="workTbl">
+
+        <tr>
+            <th>Workset Name</th>
+            <th>Time Allowed</th>
+            <th>Time Left</th>
+            <th>Set By</th>
+            <th>Answering Type</th>
+            <th>Date Set</th>
+            <th>Date Due</th>
+            <th>View</th>
+        </tr>
+        @foreach (var set in Model)
+        {
+            <tr>
+                <td>@set.WorksetName</td>
+                <td>@(set.Time_Allowed == 0 ? "Unlimited" : "" + set.Time_Allowed)</td>
+                <td>@((set.Date_Due - DateTime.Now).Days < 0 ? "Overdue" : (set.Date_Due - DateTime.Now).Days + " Days")</td>
+                <td>@set.SetBy</td>
+                <td>@set.SetType</td>
+                <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
+                <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
+                <td>
+                    <a href="~/Set?WorkSetID=@set.WorksetID">Complete</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else {
+    <h4>You have no work set in this catagory.</h4>
+}

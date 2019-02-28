@@ -12,7 +12,7 @@
     Access Type:
     @Html.DropDownListFor(m => m.AccessType, new SelectList(Model.AccessTypes, "AccessTypeID", "AccessType_Name"), new { @class = "form-control", style = "max-width:30%" })
     <br />
-    @{ Html.RenderPartial("_AddToGroup", Model); }
+    <partial name="_AddToGroup" model="@Model" />
     <br />
     <br />
     @Html.HiddenFor(m => m.CloseAfter)

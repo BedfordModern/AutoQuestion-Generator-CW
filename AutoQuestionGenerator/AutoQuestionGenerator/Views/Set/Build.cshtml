@@ -77,10 +77,8 @@
 </script>
 
 <div class="sidenav" style="padding-left: 7px">
-    <div id="possibles" style="overflow-y:scroll; max-height:70%;">>
-        @{
-            Html.RenderPartial("_workSets", Model.createdWork);
-        }
+    <div id="possibles" style="overflow-y:scroll; max-height:70%;">
+            <partial name="_workSets" model = "@Model.createdWork" />
     </div>
 
     @if (Model.createdWork.SelectFromList)

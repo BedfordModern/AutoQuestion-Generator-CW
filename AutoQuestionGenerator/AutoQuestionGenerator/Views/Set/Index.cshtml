@@ -6,9 +6,9 @@
 <h2>Index</h2>
 @if (!Model.PerQuestion)
 {
-<div id="Question-Form">
-    <partial name="_FullSet" model="@Model" />
-</div>
+    <div id="Question-Form">
+        <partial name="_FullSet" model="@Model" />
+    </div>
 }
 else
 {
@@ -25,4 +25,6 @@ else
         </div>
         <br />
     }
+    <br />
+    <button type="submit" class="btn btn-primary" onclick="window.location='/Set/Complete?setID=@Model.QuestionSetID'">Complete</button>
 }

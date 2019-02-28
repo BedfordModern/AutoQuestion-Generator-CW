@@ -54,7 +54,7 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Reset()
         {
-            //if (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context))
+            if (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context))
             {
                 return View();
             }

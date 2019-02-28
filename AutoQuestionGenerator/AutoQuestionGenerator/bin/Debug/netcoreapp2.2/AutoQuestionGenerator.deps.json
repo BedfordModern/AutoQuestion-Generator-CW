@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "c8bf35f44573a0c540f7d27f018e6f85c9176cba"
+    "signature": "c9f30572888d8d6096a045ef63ba5152143e2ba5"
   },
   "compilationOptions": {
     "defines": [
@@ -34,7 +34,9 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
           "Microsoft.jQuery.Unobtrusive.Ajax": "3.2.6",
           "MySql.Data": "8.0.13",
-          "MySql.Data.EntityFrameworkCore": "8.0.13"
+          "MySql.Data.EntityFrameworkCore": "8.0.13",
+          "iTextSharp": "5.5.13",
+          "itext7": "7.1.5"
         },
         "runtime": {
           "AutoQuestionGenerator.dll": {}
@@ -50,6 +52,41 @@
         }
       },
       "BuildBundlerMinifier/2.8.391": {},
+      "Common.Logging/3.4.1": {
+        "dependencies": {
+          "Common.Logging.Core": "3.4.1",
+          "Microsoft.CSharp": "4.5.0",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Common.Logging.dll": {
+            "assemblyVersion": "3.4.1.0",
+            "fileVersion": "3.4.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.3/Common.Logging.dll": {}
+        }
+      },
+      "Common.Logging.Core/3.4.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard1.0/Common.Logging.Core.dll": {
+            "assemblyVersion": "3.4.1.0",
+            "fileVersion": "3.4.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.0/Common.Logging.Core.dll": {}
+        }
+      },
       "DynamicLanguageRuntime/1.2.2": {
         "dependencies": {
           "System.CodeDom": "4.5.0",
@@ -113,6 +150,85 @@
           "lib/netcoreapp2.1/IronPython.Modules.dll": {},
           "lib/netcoreapp2.1/IronPython.SQLite.dll": {},
           "lib/netcoreapp2.1/IronPython.dll": {}
+        }
+      },
+      "itext7/7.1.5": {
+        "dependencies": {
+          "Common.Logging": "3.4.1",
+          "Microsoft.Extensions.DependencyModel": "2.1.0",
+          "NETStandard.Library": "2.0.3",
+          "Portable.BouncyCastle": "1.8.1.3",
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.Diagnostics.Process": "4.3.0",
+          "System.Globalization.Extensions": "4.3.0",
+          "System.Net.Requests": "4.3.0",
+          "System.Runtime.Loader": "4.3.0",
+          "System.Runtime.Serialization.Formatters": "4.3.0",
+          "System.Security.Cryptography.Csp": "4.3.0",
+          "System.Text.Encoding.CodePages": "4.5.0",
+          "System.Threading.Thread": "4.3.0",
+          "System.Threading.ThreadPool": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.6/itext.barcodes.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.forms.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.io.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.kernel.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.layout.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.pdfa.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.sign.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.styledxmlparser.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          },
+          "lib/netstandard1.6/itext.svg.dll": {
+            "assemblyVersion": "7.1.5.0",
+            "fileVersion": "7.1.5.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.6/itext.barcodes.dll": {},
+          "lib/netstandard1.6/itext.forms.dll": {},
+          "lib/netstandard1.6/itext.io.dll": {},
+          "lib/netstandard1.6/itext.kernel.dll": {},
+          "lib/netstandard1.6/itext.layout.dll": {},
+          "lib/netstandard1.6/itext.pdfa.dll": {},
+          "lib/netstandard1.6/itext.sign.dll": {},
+          "lib/netstandard1.6/itext.styledxmlparser.dll": {},
+          "lib/netstandard1.6/itext.svg.dll": {}
+        }
+      },
+      "iTextSharp/5.5.13": {
+        "runtime": {
+          "lib/itextsharp.dll": {
+            "assemblyVersion": "5.5.13.0",
+            "fileVersion": "5.5.13.0"
+          }
+        },
+        "compile": {
+          "lib/itextsharp.dll": {}
         }
       },
       "jQuery/1.8.0": {},
@@ -499,6 +615,17 @@
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
         }
       },
+      "Portable.BouncyCastle/1.8.1.3": {
+        "runtime": {
+          "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
+            "assemblyVersion": "1.8.1.0",
+            "fileVersion": "1.8.1.146"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/BouncyCastle.Crypto.dll": {}
+        }
+      },
       "System.CodeDom/4.5.0": {
         "runtime": {
           "lib/netstandard2.0/System.CodeDom.dll": {
@@ -660,6 +787,57 @@
           "System.Runtime.Extensions": "4.3.0",
           "System.Threading": "4.3.0",
           "System.Threading.Tasks": "4.3.0"
+        }
+      },
+      "System.Net.Requests/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.2.0",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Net.Http": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Net.WebHeaderCollection": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
+        },
+        "runtimeTargets": {
+          "runtime/unix/lib/_._": {
+            "rid": "unix",
+            "assetType": "runtime"
+          },
+          "runtime/win/lib/_._": {
+            "rid": "win",
+            "assetType": "runtime"
+          }
+        }
+      },
+      "System.Net.WebHeaderCollection/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0"
+        }
+      },
+      "System.Runtime.Loader/4.3.0": {
+        "dependencies": {
+          "System.IO": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Runtime.Serialization.Formatters/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
         }
       },
       "System.Security.Cryptography.ProtectedData/4.5.0": {
@@ -4269,6 +4447,20 @@
       "path": "buildbundlerminifier/2.8.391",
       "hashPath": "buildbundlerminifier.2.8.391.nupkg.sha512"
     },
+    "Common.Logging/3.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-B7mOrLAiALcadDoMzuKyMEYbdfLUUixeZVbBQqn1t0Oyolz7LaBC6OyVOC094S8XfOxx+RImYf7r9O5NcLhlug==",
+      "path": "common.logging/3.4.1",
+      "hashPath": "common.logging.3.4.1.nupkg.sha512"
+    },
+    "Common.Logging.Core/3.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6F/bYCvIZePJf7WeCqgMVCY9mvuM4VlKY+yZRqalsLddMQSqGp2lgs0yowObmNUlOsK7SxrX/cZrSLKSzwTEQw==",
+      "path": "common.logging.core/3.4.1",
+      "hashPath": "common.logging.core.3.4.1.nupkg.sha512"
+    },
     "DynamicLanguageRuntime/1.2.2": {
       "type": "package",
       "serviceable": true,
@@ -4289,6 +4481,20 @@
       "sha512": "sha512-lGN9Dxn6m39m/zPVsQWTBk7e4zNgRb7k2T/Eazp7/0PnbJ1raalpOYVr0//RpX2Mw4X3ZdjnV1WguBoDs7zIMQ==",
       "path": "ironpython/2.7.9",
       "hashPath": "ironpython.2.7.9.nupkg.sha512"
+    },
+    "itext7/7.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZuQ0YIIg2erHNzKAOg8zOYu5ImWUhdtjRt/1aiJCRBL00miTXpoNFD0DGxaHLfsivlLzYU1peHHQ2TvcmlgrOw==",
+      "path": "itext7/7.1.5",
+      "hashPath": "itext7.7.1.5.nupkg.sha512"
+    },
+    "iTextSharp/5.5.13": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Vukh80ACfWR5hKBCfPobpUny/icva7SRmauowXWTg8N0TGvDqsbrL4Vq6UdWI/fJCsiNfu4mC4zbcxdr7KlIoA==",
+      "path": "itextsharp/5.5.13",
+      "hashPath": "itextsharp.5.5.13.nupkg.sha512"
     },
     "jQuery/1.8.0": {
       "type": "package",
@@ -4458,6 +4664,13 @@
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
     },
+    "Portable.BouncyCastle/1.8.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Gas5/eVCmh5CzivrSWq/n4LoQc7x0EzQ5WDJpj6yP5+fKBczVZrtoqGXPwApvRXC9Brcr0DnNAtMPvXxNH/N2w==",
+      "path": "portable.bouncycastle/1.8.1.3",
+      "hashPath": "portable.bouncycastle.1.8.1.3.nupkg.sha512"
+    },
     "System.CodeDom/4.5.0": {
       "type": "package",
       "serviceable": true,
@@ -4520,6 +4733,34 @@
       "sha512": "sha512-td7x21K8LalpjTWCzW/nQboQIFbq9i0r+PCyBBCdLWWnm4NBcdN18vpz/G9hCpUaCIfRL+ZxJNVTywlNlB1aLQ==",
       "path": "system.linq.parallel/4.3.0",
       "hashPath": "system.linq.parallel.4.3.0.nupkg.sha512"
+    },
+    "System.Net.Requests/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8A5Yu2B68jLbGmomlBmCNGqrXBgNp5Y4lTorNdqzAm6s0UMgZDZ/Yxpnkjy6e0ZB0rP++HaL/R3P/kx5xsdmKQ==",
+      "path": "system.net.requests/4.3.0",
+      "hashPath": "system.net.requests.4.3.0.nupkg.sha512"
+    },
+    "System.Net.WebHeaderCollection/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/aQLXlO/M2SjvKjMyX15IRHK/BJgb4qE1FZGZPjnFxhE7jHwduu65TMuVsyKxUOhYQg/2cr9zpm0olhD1icjTw==",
+      "path": "system.net.webheadercollection/4.3.0",
+      "hashPath": "system.net.webheadercollection.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.Loader/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-G6WmvAI9yOEi5GOWtZT3+pJWHXGaat59qZKQ7Z75fGpacllPmLizNFZvZXj3CysSyMkQBsm50b9xTM/x9L3yCQ==",
+      "path": "system.runtime.loader/4.3.0",
+      "hashPath": "system.runtime.loader.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.Serialization.Formatters/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KT591AkTNFOTbhZlaeMVvfax3RqhH1EJlcwF50Wm7sfnBLuHiOeZRRKrr1ns3NESkM20KPZ5Ol/ueMq5vg4QoQ==",
+      "path": "system.runtime.serialization.formatters/4.3.0",
+      "hashPath": "system.runtime.serialization.formatters.4.3.0.nupkg.sha512"
     },
     "System.Security.Cryptography.ProtectedData/4.5.0": {
       "type": "package",

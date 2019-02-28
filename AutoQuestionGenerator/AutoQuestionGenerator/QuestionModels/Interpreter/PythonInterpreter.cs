@@ -16,9 +16,9 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
     {
         private Random rand;
 
-        private (string, string) GetParam(int serviceid, string path)
+        private (string, string, string) GetParam(int serviceid, string path)
         {
-            string Question= "", Answer = "";
+            string Question= "", Answer = "", Boxes = "";
             int RandInt = rand.Next(1000);
 
             ScriptRuntimeSetup setup = Python.CreateRuntimeSetup(null);
@@ -34,6 +34,7 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
                 { "serviceid", serviceid},
                 { "question", Question},
                 { "answer", Answer },
+                { "ansName", Boxes },
             };
             
 
@@ -42,10 +43,11 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             object result = source.Execute(scope);
             Question = scope.GetVariable<string>("question");
             Answer = scope.GetVariable<string>("answer");
-            return (Question, Answer);
+            Boxes = scope.GetVariable<string>("ansName");
+            return (Question, Answer, Boxes);
         }
 
-        public Question GenerateQuestion(string path, int seed = 0)
+        public StoredQuestion GenerateQuestion(string path, int seed = 0)
         {
             if (seed != 0)
             {
@@ -58,12 +60,19 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
 
             var scriptOutput = GetParam(4000, path);
 
-            Question ret = new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2);
-            return ret;
+            if (scriptOutput.Item2.Contains(","))
+            {
+                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2, scriptOutput.Item3);
+            }
+            else
+            {
+                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2);
+            }
         }
 
         public async Task<string> CheckQuestion(string path)
         {
+            await Task.Delay(0);
             string error = "";
             rand = new Random();
             try

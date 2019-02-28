@@ -79,6 +79,7 @@ namespace AutoQuestionGenerator.Controllers
                     HttpContext.Session.Set("Q" + qust.QuestionID, Encoding.ASCII.GetBytes(questionSet.question.GetAnswer().ToString()));
                 }
                 return View(new QuestionSetViewModel() {
+                    QuestionSetID = qSet.QuestionSetID,
                     PerQuestion = (set.SetType == 1 ? true : false),
                     questions = Qusts.ToArray()
                 });
@@ -86,22 +87,20 @@ namespace AutoQuestionGenerator.Controllers
             return Unauthorized();
         }
 
+        public IActionResult Results(int setID)
+        {
+            if (UserHelper.OwnsWorkset(UserHelper.GetUserId(HttpContext.Session), setID, _context))
+            {
+                GroupResultsViewModel model = new GroupResultsViewModel(setID, _context);
+                return View(model);
+            }
+            return Unauthorized();
+        }
+
         public IActionResult Complete(int setID)
         {
-            var questions = _context.questions.Where(x => x.QuestionSetID == setID).ToList();
 
-            CompleteQuestionViewModel model = new CompleteQuestionViewModel();
-            List<CompletedQuestion> qs = new List<CompletedQuestion>();
-            foreach (var q in questions)
-            {
-                qs.Add(new CompletedQuestion()
-                {
-                    Type = _context.questionTypes.First(x => x.TypeID == q.Question_Type),
-                    AnsweredCorrent = q.AnswerCorrect
-                });
-            }
-
-            model.Question = qs.ToArray();
+            CompleteQuestionViewModel model = new CompleteQuestionViewModel(setID, _context);
 
             return View(model);
         }
