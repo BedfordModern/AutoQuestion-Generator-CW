@@ -21,5 +21,8 @@ namespace AutoQuestionGenerator
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args);
     }
 }

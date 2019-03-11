@@ -74,7 +74,7 @@ padding: 3px;" id="container-@item.Key">
         connection.invoke("GetUserID", UserID, guid).catch(function (err) {
             return console.error(err.toString());
         });
-    }, 1000);
+    }, 2000);
     function CreateSelect(id, container) {
         var names = ["",@foreach (var item in Model.Catagories.Select(x => x.CatagoryName).ToArray())
         {

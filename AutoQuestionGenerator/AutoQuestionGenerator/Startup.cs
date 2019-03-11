@@ -33,6 +33,11 @@ namespace AutoQuestionGenerator
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -60,15 +65,18 @@ namespace AutoQuestionGenerator
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
 
             app.UseSignalR(routes =>
             {
+                routes.MapHub<FileHub>("/fileHub");
                 routes.MapHub<FileHub>("/fileHub");
             });
 

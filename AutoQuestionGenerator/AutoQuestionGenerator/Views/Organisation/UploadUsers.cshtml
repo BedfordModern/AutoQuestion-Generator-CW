@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "UploadUsers";
+}
+
+<h2>UploadUsers</h2>
+<br />
+<p>
+    Either upload an excel(XLS/XLSX) Or a CSV file. The headers of the file should include "firstname", "lastname", "username", "password" and one column for each "role" that the user has.
+    These columns can be in any order. However the roles must be an exact copy of "admin", "teacher", or "student".
+</p>
+<form method="post" enctype="multipart/form-data" asp-controller="Organisation" asp-action="UploadUsers">
+    <div class="form-group">
+        <p>Upload one or more files for convertion to users using this form:</p>
+        <input class="form-control" type="file" name="files" multiple />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Upload" />
+    </div>
+</form>

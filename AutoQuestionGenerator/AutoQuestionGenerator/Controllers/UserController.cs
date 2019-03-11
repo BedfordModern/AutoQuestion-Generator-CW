@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoQuestionGenerator.Accounts;
 using AutoQuestionGenerator.DatabaseModels;
+using AutoQuestionGenerator.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoQuestionGenerator.Controllers
 {
-    [Organisation]
     public class UserController : Controller
     {
         IdentityModels _context;
@@ -30,14 +30,18 @@ namespace AutoQuestionGenerator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(Users user, string returnUrl)
+        public IActionResult Login(LoginViewModel user, string returnUrl)
         {
+            var DbOrganisation = _context.organisations.FirstOrDefault(x => x.Organisation_Username == user.Organisation);
             var DbUser = UserHelper.getUser(user.Username, _context);
+            if (!ModelState.IsValid || DbUser == null || DbOrganisation == null) return View(user);
 
-            if (!ModelState.IsValid || DbUser == null) return View(user);
+            if(DbUser.OrganisationID != DbOrganisation.OrganisationID) return View(user);
 
-            if(Hasher.ValidatePassword(user.Password, DbUser.Password))
+            if (Hasher.ValidatePassword(user.Password, DbUser.Password))
             {
+                HttpContext.Session.Set("OrgId", Encoding.ASCII.GetBytes(DbOrganisation.OrganisationID.ToString()));
+                HttpContext.Session.Set("Org_Uname", Encoding.ASCII.GetBytes(DbOrganisation.Organisation_Username));
                 HttpContext.Session.Set("UId", Encoding.ASCII.GetBytes(DbUser.UserID.ToString()));
                 HttpContext.Session.Set("Username", Encoding.ASCII.GetBytes(user.Username));
                 DbUser.Last_Logged_In = DateTime.Now;

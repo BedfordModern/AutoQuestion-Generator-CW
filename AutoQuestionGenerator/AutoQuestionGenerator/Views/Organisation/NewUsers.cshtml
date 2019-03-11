@@ -1,0 +1,15 @@
+﻿@model string[]
+@{
+    ViewData["Title"] = "NewUsers";
+}
+
+<h2>New Users</h2>
+
+<h4>Errors and information from the parse</h4>
+<br />
+<p>
+    @foreach (var item in Model)
+    {
+        @item<br />
+    }
+</p>

@@ -1,8 +1,9 @@
 ﻿@model QuestionViewModel
-@if (Model.answer.Length == 1)
+@Html.HiddenFor(m => m.questionID)
+@if (Model.Boxes.Length <= 1)
 {
     <text>Answer: </text>@Html.TextBoxFor(m => m.answer[0], new { style = (Model.correct[0] < 0 ? "background:#FF0000" : (Model.correct[0] > 0 ? "background:#0F0" : "background:#FFF")) })
-    @Html.HiddenFor(m => m.questionID)
+    @Html.HiddenFor(m => m.Boxes[0])
     @if (Model.correct[0] <= 0)
     {
         <button type="submit" class="btn">Submit</button>
@@ -10,11 +11,10 @@
 }
 else
 {
-    @Html.HiddenFor(m => m.questionID)
-    var asks = Model.question.Boxes().Split(',');
     for (int i = 0; i < Model.Boxes.Length; i++)
     {
-        <text>@Model.Boxes[i]: </text>@Html.TextBoxFor(m => m.answer[i], new { style = (Model.correct[0] < 0 ? "background:#FF0000" : (Model.correct[0] > 0 ? "background:#0F0" : "background:#FFF")) })<br />
+        @Html.HiddenFor(x => x.Boxes[i])
+        <text>@Model.Boxes[i]: </text>@Html.TextBoxFor(m => m.answer[i], new { style = (Model.correct[i] < 0 ? "background:#FF0000" : (Model.correct[i] > 0 ? "background:#0F0" : "background:#FFF")) })<br />
     }
 
     @if (Model.correct.Where(x => x <= 0).Count() > 0)

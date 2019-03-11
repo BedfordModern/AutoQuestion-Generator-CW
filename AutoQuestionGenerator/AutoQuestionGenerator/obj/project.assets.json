@@ -3352,6 +3352,15 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
+        "type": "package",
+        "compile": {
+          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
+        },
+        "runtime": {
+          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
+        }
+      },
       "Microsoft.Rest.ClientRuntime/2.3.8": {
         "type": "package",
         "dependencies": {
@@ -11371,6 +11380,18 @@
         "version.txt"
       ]
     },
+    "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
+      "sha512": "iNGgO/2HBH9sy5AtVTvNW30NFpPBVngRqd8CN9d/LYk7KnstiOrRLPOOrJesqmdeDAUZwetCYEO8RvUxSd7UBg==",
+      "type": "package",
+      "path": "microsoft.office.interop.excel/15.0.4795.1000",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/Microsoft.Office.Interop.Excel.dll",
+        "microsoft.office.interop.excel.15.0.4795.1000.nupkg.sha512",
+        "microsoft.office.interop.excel.nuspec"
+      ]
+    },
     "Microsoft.Rest.ClientRuntime/2.3.8": {
       "sha512": "QWtcuaiHYDz/zDIkzupegr7O5bagWfAuEtbBYDKfAkERxTK4U6moxi6cgSinElJXCJ47WRcnhQVXbs/F229jgg==",
       "type": "package",
@@ -18058,6 +18079,7 @@
       "Microsoft.AspNetCore.SignalR >= 1.1.0",
       "Microsoft.CodeAnalysis.Common >= 2.8.0",
       "Microsoft.NETCore.App >= 2.2.0",
+      "Microsoft.Office.Interop.Excel >= 15.0.4795.1000",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.0",
       "Microsoft.jQuery.Unobtrusive.Ajax >= 3.2.6",
       "MySql.Data >= 8.0.13",
@@ -18137,6 +18159,10 @@
             "version": "[2.2.0, )",
             "autoReferenced": true
           },
+          "Microsoft.Office.Interop.Excel": {
+            "target": "Package",
+            "version": "[15.0.4795.1000, )"
+          },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[2.2.0, )"
@@ -18177,6 +18203,16 @@
       "warningLevel": 1,
       "message": "Package 'iTextSharp 5.5.13' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v2.2'. This package may not be fully compatible with your project.",
       "libraryId": "iTextSharp",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.2"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Office.Interop.Excel 15.0.4795.1000' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v2.2'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Office.Interop.Excel",
       "targetGraphs": [
         ".NETCoreApp,Version=v2.2"
       ]

@@ -4,8 +4,7 @@
     ViewData["Title"] = "Workset";
 }
 
-<h2>Workset - @Model[0].WorkSetName</h2>
-
+<h2>Workset - @(Model.Length > 0 ? Model[0].WorkSetName : "")</h2>
 <table class="table">
     <thead>
         <tr>

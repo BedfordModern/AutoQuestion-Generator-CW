@@ -7,19 +7,19 @@
 <br />
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>Enter Username:</td>
-            <td>@Html.TextBoxFor(m => m.Username, new { id="organisationUname" })</td>
-        </tr>
-        <tr>
-            <td>New Password:</td>
-            <td>@Html.TextBoxFor(m => m.Password, new { type = "password", id = "organisationPassword" })</td>
-        </tr>
-        <tr>
-            <td>Re-enter Password:</td>
-            <td>@Html.TextBoxFor(m => m.VerifyPassword, new { type = "password", id = "Password Reset" })</td>
-        </tr>
-    </table>
+<table>
+    <tr>
+        <td>Enter Old-password:</td>
+        <td>@Html.TextBoxFor(m => m.Username, new { type = "password", id= "organisationOriginal" })</td>
+    </tr>
+    <tr>
+        <td>New Password:</td>
+        <td>@Html.TextBoxFor(m => m.Password, new { type = "password", id = "organisationPassword" })</td>
+    </tr>
+    <tr>
+        <td>Re-enter Password:</td>
+        <td>@Html.TextBoxFor(m => m.VerifyPassword, new { type = "password", id = "Password Reset" })</td>
+    </tr>
+</table>
     <button type="submit" class="btn btn-primary">Login</button>
 }

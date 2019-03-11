@@ -1,5 +1,6 @@
 #The ran python file will recieve a random number called 'seed' based on the question seed. 
 #You should then set 'question' equal to the question you wish to ask and 'answer' equal to the question's answer.
+#If your question has multiple answers use a , to seperate them. To ask for the answers use the variable 'ansName' also seperated by a comma.
 
 import sys
 import math
@@ -16,5 +17,10 @@ def BinaryConverter(num):
             output += "0"
     return output
 
-question = "What is " + str(seed) + " in binary?"
-answer = BinaryConverter(seed)
+def HexConverter(num):
+    y = "0x98"
+    return y
+
+question = "What is " + str(seed) + " in binary? and Hex"
+answer = BinaryConverter(seed) + "," + HexConverter(seed)
+ansName = "Binary,Hexidecimal"

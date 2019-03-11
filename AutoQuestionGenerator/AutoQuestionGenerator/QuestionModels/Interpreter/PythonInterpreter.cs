@@ -41,9 +41,18 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             scope.SetVariable("params", d);
             scope.SetVariable("seed", RandInt);
             object result = source.Execute(scope);
-            Question = scope.GetVariable<string>("question");
+                Question = scope.GetVariable<string>("question");
+            
             Answer = scope.GetVariable<string>("answer");
-            Boxes = scope.GetVariable<string>("ansName");
+            try
+            {
+                Boxes = scope.GetVariable<string>("ansName");
+            }
+            catch
+            {
+                Boxes = "";
+            }
+
             return (Question, Answer, Boxes);
         }
 

@@ -56,3 +56,6 @@ C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\Auto
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Set\Results.g.cshtml.cs
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Work\_currentWorkTable.g.cshtml.cs
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\Autoquestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Work\Later.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Organisation\UploadUsers.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Organisation\NewUsers.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Set\Delete.g.cshtml.cs

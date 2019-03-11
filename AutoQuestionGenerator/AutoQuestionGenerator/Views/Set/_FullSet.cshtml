@@ -11,11 +11,28 @@
         <div id="Question:@Model.questions[i].question.GetQuestion()">
             <p>Q: @Model.questions[i].question.GetQuestion() </p>
             <div id="answer-@Model.questions[i].questionID">
-                Answer: @Html.TextBoxFor(m => m.questions[i].answer, new { style = (Model.questions[i].correct < 0 ? "background:#FF0000" : (Model.questions[i].correct > 0 ? "background:#0F0" : "background:#FFF")) })
-                @Html.HiddenFor(m => m.questions[i].questionID)
-                @if (Model.questions[i].correct < 0)
+                @if (Model.questions[i].answer.Length == 1)
                 {
-                    correct++;
+                    <text>Answer: </text>@Html.TextBoxFor(m => m.questions[i].answer[0], new { style = (Model.questions[i].correct[0] < 0 ? "background:#FF0000" : (Model.questions[i].correct[0] > 0 ? "background:#0F0" : "background:#FFF")) })
+                    @Html.HiddenFor(m => m.questions[i].questionID)
+                    @if (Model.questions[i].correct[0] < 0)
+                    {
+                        correct++;
+                    }
+                }
+                else
+                {
+                    for (int q = 0; q < Model.questions[i].Boxes.Length; q++)
+                    {
+
+                        <text>@Model.questions[i].Boxes[q]: </text>@Html.TextBoxFor(m => m.questions[i].answer[q], new { style = (Model.questions[i].correct[q] < 0 ? "background:#FF0000" : (Model.questions[i].correct[q] > 0 ? "background:#0F0" : "background:#FFF")) })
+                        @Html.HiddenFor(m => m.questions[i].questionID)
+
+                    }
+                    @if (Model.questions[i].correct.Where(x => x <= 0).Count() == 0)
+                    {
+                        correct++;
+                    }
                 }
             </div>
         </div>

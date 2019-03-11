@@ -1,35 +1,69 @@
 ﻿@model CreatedWork
 
 @{ int i = 0; }
-@foreach (var piece in Model.WorkTypes)
+
+
+@foreach (var catagoryType in Model.CatagoryTypes)
 {
-    if (Model.SelectFromList)
-    {
-<div style="border-top: 3px solid black">
-    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#@piece.WorkType.Replace(" ", "--")"
-            style="background-color: Transparent;
+    <div style="border: 2px solid black">
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#@catagoryType.CatTypeName.Replace(" ", "--")"
+                style="background-color: Transparent;
 background-repeat:no-repeat;
 border: none;
 cursor:pointer;
 overflow: hidden;">
-        &raquo; @piece.WorkType
-    </button>
-    <div id="@piece.WorkType.Replace(" ", "--")" class="collapse">
-        <h5 style="color:darkblue" title="Click Refresh for more">Possible Answers</h5>
-        @foreach (var genWork in piece.PossibleWork)
-        {
-            <div ondragover="allowDrop(event)">
-                <p draggable="true" id="@genWork.Seed" ondragstart="drag(event, '@piece.WorkType', @piece.TypeID, false)">@genWork.Answer</p>
-            </div>
-        }
-    </div>
-</div>
-    }
-    else
-    {
-        <div ondragover="allowDrop(event)">
-            <p draggable="true" id="@i" ondragstart="drag(event, '', @piece.TypeID,true)">@piece.WorkType</p>
-            @{i++;}
+            &raquo; @catagoryType.CatTypeName
+        </button>
+        <div id="@catagoryType.CatTypeName.Replace(" ", "--")" class="collapse">
+            @foreach (var catagory in catagoryType.Catagories)
+            {
+                <div style="border: 2px solid navy">
+                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#@catagory.catagoryName.Replace(" ", "--")"
+                            style="background-color: Transparent;
+background-repeat:no-repeat;
+border: none;
+cursor:pointer;
+overflow: hidden;">
+                        &raquo; @catagory.catagoryName
+                    </button>
+                    <div id="@catagory.catagoryName.Replace(" ", "--")" class="collapse">
+                        @foreach (var piece in catagory.WorkTypes)
+                        {
+                            if (Model.SelectFromList)
+                            {
+                                <div style="border-top: 3px solid black">
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#@piece.WorkType.Replace(" ", "--")"
+                                            style="background-color: Transparent;
+background-repeat:no-repeat;
+border: none;
+cursor:pointer;
+overflow: hidden;">
+                                        &raquo; @piece.WorkType
+                                    </button>
+                                    <div id="@piece.WorkType.Replace(" ", "--")" class="collapse">
+                                        <h5 style="color:darkblue" title="Click Refresh for more">Possible Questions</h5>
+                                        @foreach (var genWork in piece.PossibleWork)
+                                        {
+                                            <div ondragover="allowDrop(event)">
+                                                <p draggable="true" id="@genWork.Seed" ondragstart="drag(event, '@piece.WorkType', @piece.TypeID, false)">@genWork.Answer</p>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div ondragover="allowDrop(event)">
+                                    <p draggable="true" id="@i" ondragstart="drag(event, '', @piece.TypeID,true)">@piece.WorkType</p>
+                                    @{i++;}
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+            }
+
         </div>
-    }
+    </div>
 }

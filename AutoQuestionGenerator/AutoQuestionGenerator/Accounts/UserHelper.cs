@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,8 @@ namespace AutoQuestionGenerator.Accounts
         public const string
             ROLE_ADMIN = "Admin",
             ROLE_STUDENT = "Student",
-            ROLE_TEACHER = "Teacher";
+            ROLE_TEACHER = "Teacher",
+            USER_ERROR = "Error";
 
         public static Users getUser(int uid, IdentityModels dbContext)
         {
@@ -92,6 +94,44 @@ namespace AutoQuestionGenerator.Accounts
             var user = dbContext.users.FirstOrDefault(x => x.UserID == uid);
             if (user == null) return false;
             return user.OrganisationID == setBy.OrganisationID;
+        }
+
+        internal static Users CreateNewUser(int uid, string uname, string password, string firstname, string lastname, IdentityModels dbContext)
+        {
+            Users usr = new Users()
+            {
+                Username = uname,
+                Password = Hasher.Hash(password),
+                First_Name = firstname,
+                Last_Name = lastname,
+                OrganisationID = getUser(uid, dbContext).OrganisationID
+            };
+            try
+            {
+                dbContext.users.Add(usr);
+                dbContext.SaveChanges();
+                return usr;
+            }
+            catch(Exception ex)
+            {
+                return new Users()
+                {
+                    Username = USER_ERROR
+                };
+            }
+        }
+
+        internal static void GiveRole(int userID, string role, IdentityModels dbContext)
+        {
+            var dbRole = dbContext.roles.FirstOrDefault(x => x.Role_Name.ToLower() == role.ToLower());
+            if(dbRole == null)
+                throw new KeyNotFoundException("Unable to find the key matching this role");
+
+            dbContext.userroles.Add(new UserRoles()
+            {
+                UserID = userID,
+                RoleID = dbRole.RoleID
+            });
         }
     }
 }

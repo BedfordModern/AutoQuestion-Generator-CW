@@ -25,6 +25,18 @@ namespace AutoQuestionGenerator.Models
     public class CreatedWork
     {
         public bool SelectFromList { get; set; }
+        public CatagoryTypes[] CatagoryTypes { get; set; }
+    }
+
+    public class CatagoryTypes
+    {
+        public string CatTypeName { get; set; }
+        public LengthCatagory[] Catagories { get; set; }
+    }
+
+    public class LengthCatagory
+    {
+        public string catagoryName { get; set; }
         public TypedWork[] WorkTypes { get; set; }
     }
 

@@ -65,7 +65,6 @@ namespace AutoQuestionGenerator.Controllers
             List<WorksetViewModel> workset = new List<WorksetViewModel>();
             foreach (var set in sets)
             {
-                set.ToPDF();
                 workset.Add(new WorksetViewModel()
                 {
                     WorksetID = set.WorksetID,

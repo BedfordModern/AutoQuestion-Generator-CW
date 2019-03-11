@@ -15,6 +15,7 @@ using iText.Kernel.Font;
 using iText.IO.Font;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using AutoQuestionGenerator.DatabaseModels;
+using AutoQuestionGenerator.QuestionModels.Interpreter;
 
 namespace AutoQuestionGenerator.Helper
 {
@@ -34,12 +35,36 @@ namespace AutoQuestionGenerator.Helper
 
     public static class Extentions
     {
+        public static int[] PositionsOf<T>(this T[] input, T searchValue)
+        {
+            List<int> positions = new List<int>();
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i].Equals(searchValue))
+                {
+                    positions.Add(i);
+                }
+            }
+            return positions.ToArray();
+        }
+
+        public static int PositionOf<T>(this T[] input, T searchValue)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                if(input[i].Equals(searchValue))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
         private static PdfWriter writer;
         private static PdfDocument pdf;
-        private static PageSize Page = PageSize.A4;
+        private static readonly PageSize Page = PageSize.A4;
         private static Document document;
-        public static string ToPDF(this Worksets set)
+        public static string ToPDF(this Worksets set, IdentityModels context)
         {
             var time = DateTime.Now.ToString("dd-hh-mm hh-MM-ss");
             var path = AppContext.BaseDirectory + "/prints/";
@@ -48,26 +73,55 @@ namespace AutoQuestionGenerator.Helper
                 Directory.CreateDirectory(path);
                 File.Create(path + set.WorksetName + "-" + time + ".pdf").Close();
             }
-            var writer = new PdfWriter(path + set.WorksetName + "-" + time + ".pdf");
-            var pdf = new PdfDocument(writer);
-            var document = new Document(pdf, Page);
+            writer = new PdfWriter(path + set.WorksetName + "-" + time + ".pdf");
+            pdf = new PdfDocument(writer);
+            document = new Document(pdf, Page);
 
 
-            Paragraph p = new Paragraph().Add(new Text(set.WorksetName + "\n").SetBold().SetUnderline().SetFontSize(22f)).SetTextAlignment(TextAlignment.CENTER);
+            Paragraph p = new Paragraph().Add(new Text(set.WorksetName + "\n\n").SetBold().SetUnderline().SetFontSize(22f)).SetTextAlignment(TextAlignment.CENTER);
             document.Add(p);
 
             Table tbl = new Table(1);
             tbl.SetWidth(UnitValue.CreatePercentValue(100));
 
-            for (int i = 0; i < 10; i++)
+            var interpreter = new PythonInterpreter();
+            var work = context.work.Where(x => x.WorkSetID == set.WorksetID).ToArray();
+
+            for (int i = 0; i < work.Length; i++)
             {
+                var question = interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + context.questionTypes.SingleOrDefault(x => x.TypeID == work[i].QuestionType).Class, work[i].Seed);
                 Table qTbl = new Table(1);
+                qTbl.SetKeepTogether(true);
                 qTbl.SetWidth(UnitValue.CreatePercentValue(100));
 
                 var qCell = new Cell().Add(new Paragraph("Question " + i + ":").SetBold()).SetTextAlignment(TextAlignment.CENTER).SetBorderLeft(Border.NO_BORDER).SetBorderRight(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER);
-                var AskQ = new Cell().Add(new Paragraph("This is a Question.")).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.TOP).SetBorder(Border.NO_BORDER);
-                var AnsCell = new Cell().Add(new Paragraph("Answer: ___________________.").SetTextAlignment(TextAlignment.RIGHT).SetVerticalAlignment(VerticalAlignment.BOTTOM)).SetVerticalAlignment(VerticalAlignment.BOTTOM).SetHeight(70f).SetBorder(Border.NO_BORDER);
-                qTbl.AddCell(qCell).AddCell(AskQ).AddCell(AnsCell);
+                var AskQ = new Cell().Add(new Paragraph(question.GetQuestion() as string)).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.TOP).SetBorder(Border.NO_BORDER);
+                var ans = question.Answer("");
+                qTbl.AddCell(qCell).AddCell(AskQ);
+                if (ans.Contains(","))
+                {
+                    var answerTitles = question.Boxes().Split(',');
+                    var workcell = new Cell().Add(new Paragraph("   ").SetTextAlignment(TextAlignment.RIGHT).SetVerticalAlignment(VerticalAlignment.BOTTOM)).SetVerticalAlignment(VerticalAlignment.BOTTOM).SetHeight(60f).SetBorder(Border.NO_BORDER);
+                    qTbl.AddCell(workcell);
+                    for (int q = 0; q < answerTitles.Length; q++)
+                    {
+                        try
+                        {
+                            var AnsCell = new Cell().Add(new Paragraph(answerTitles[q] + ": ___________________.").SetTextAlignment(TextAlignment.RIGHT).SetVerticalAlignment(VerticalAlignment.BOTTOM)).SetVerticalAlignment(VerticalAlignment.BOTTOM).SetHeight(70f).SetBorder(Border.NO_BORDER);
+                            qTbl.AddCell(AnsCell);
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                            var AnsCell = new Cell().Add(new Paragraph("Answer" + q +  ": ___________________.").SetTextAlignment(TextAlignment.RIGHT).SetVerticalAlignment(VerticalAlignment.BOTTOM)).SetVerticalAlignment(VerticalAlignment.BOTTOM).SetHeight(70f).SetBorder(Border.NO_BORDER);
+                            qTbl.AddCell(AnsCell);
+                        }
+                    }
+                }
+                else
+                {
+                    var AnsCell = new Cell().Add(new Paragraph("Answer: ___________________.").SetTextAlignment(TextAlignment.RIGHT).SetVerticalAlignment(VerticalAlignment.BOTTOM)).SetVerticalAlignment(VerticalAlignment.BOTTOM).SetHeight(70f).SetBorder(Border.NO_BORDER);
+                    qTbl.AddCell(AnsCell);
+                }
 
                 var cell = new Cell();
                 cell.Add(qTbl);

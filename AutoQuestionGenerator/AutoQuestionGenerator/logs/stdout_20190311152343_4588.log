@@ -1,0 +1,595 @@
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[0]
+      User profile is available. Using 'C:\Users\Daniel Ledger 13HJK\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Hosting environment: Development
+Content root path: C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator
+Now listening on: http://127.0.0.1:11181
+Application started. Press Ctrl+C to shut down.
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/  
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 DEBUG http://localhost:64499/  0
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 61.1558ms 200 
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Index", controller = "Home"}. Executing action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 1.3444ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Index.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Index executed in 280.4541ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) in 331.0839ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 762.8372ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/css/site.css  
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/js/site.js?v=uPOq6bthS4s2KM3dBx-WPyygk0BQXqgedd4Ep7oLcQE  
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/lib/chartjs/utils.js?v=ydbn73Etkp4uFy3JSw1P1V-dieLrHWeV8pdYgpWFzp4  
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[6]
+      The file /js/site.js was not modified
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[6]
+      The file /lib/chartjs/utils.js was not modified
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 25.7229ms 304 application/javascript
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 43.3268ms 304 application/javascript
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\wwwroot\css\site.css'
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 83.9154ms 200 text/css
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/User/Login  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Login", controller = "User"}. Executing action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.5334ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Login.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Login executed in 74.1132ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) in 85.3045ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 106.6175ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/User/Login  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Login", controller = "User"}. Executing action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.0579ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Login.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Login executed in 3282.7563ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) in 3292.1394ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 3303.1198ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/favicon.ico  
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\wwwroot\favicon.ico'
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 8.4731ms 200 image/x-icon
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 POST http://localhost:44319/User/Login application/x-www-form-urlencoded 242
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Login", controller = "User"}. Executing action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) with arguments (AutoQuestionGenerator.Models.LoginViewModel, ) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.RedirectToActionResult in 543.2767ms.
+info: Microsoft.AspNetCore.Mvc.RedirectToActionResult[1]
+      Executing RedirectResult, redirecting to /.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) in 646.341ms
+info: Microsoft.AspNetCore.Session.DistributedSession[3]
+      Session started; Key:ba99531f-4d9e-ad1c-397f-260d3dc27932, Id:78fb2d64-2770-c729-21ca-fd33f090b903
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 693.831ms 302 
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Index", controller = "Home"}. Executing action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.061ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Index.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Index executed in 63.3128ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) in 73.373ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 82.039ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/Work/Set  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Set", controller = "Work"}. Executing action AutoQuestionGenerator.Controllers.WorkController.Set (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.WorkController.Set (AutoQuestionGenerator) - Validation state: Valid
+7
+6
+5
+4
+3
+2
+1
+0
+7
+6
+5
+4
+3
+2
+1
+0
+7
+6
+5
+4
+3
+2
+1
+0
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+7
+6
+5
+4
+3
+2
+1
+0
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+7
+6
+5
+4
+3
+2
+1
+0
+7
+6
+5
+4
+3
+2
+1
+0
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+8
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+8
+7
+6
+5
+4
+3
+2
+1
+0
+8
+7
+6
+5
+4
+3
+2
+1
+0
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.WorkController.Set (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 7774.0254ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Set.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Set executed in 34.5115ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.WorkController.Set (AutoQuestionGenerator) in 7825.8684ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 7842.7479ms 200 text/html; charset=utf-8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

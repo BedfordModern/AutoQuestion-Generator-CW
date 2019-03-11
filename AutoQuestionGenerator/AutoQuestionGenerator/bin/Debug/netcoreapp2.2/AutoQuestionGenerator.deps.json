@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "c9f30572888d8d6096a045ef63ba5152143e2ba5"
+    "signature": "941dc106b29fcebc1dd3a529e8bd90fd5e6be082"
   },
   "compilationOptions": {
     "defines": [
@@ -31,6 +31,7 @@
           "Microsoft.AspNetCore.SignalR": "1.1.0",
           "Microsoft.CodeAnalysis.Common": "2.8.0",
           "Microsoft.NETCore.App": "2.2.0",
+          "Microsoft.Office.Interop.Excel": "15.0.4795.1000",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
           "Microsoft.jQuery.Unobtrusive.Ajax": "3.2.6",
           "MySql.Data": "8.0.13",
@@ -438,6 +439,17 @@
       },
       "Microsoft.NETCore.Platforms/2.2.0": {},
       "Microsoft.NETCore.Targets/2.0.0": {},
+      "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
+        "runtime": {
+          "lib/net20/Microsoft.Office.Interop.Excel.dll": {
+            "assemblyVersion": "15.0.0.0",
+            "fileVersion": "15.0.4795.1000"
+          }
+        },
+        "compile": {
+          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
+        }
+      },
       "Microsoft.VisualStudio.Web.CodeGeneration/2.2.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "2.2.0",
@@ -4565,6 +4577,13 @@
       "sha512": "sha512-odP/tJj1z6GylFpNo7pMtbd/xQgTC3Ex2If63dRTL38bBNMwsBnJ+RceUIyHdRBC0oik/3NehYT+oECwBhIM3Q==",
       "path": "microsoft.netcore.targets/2.0.0",
       "hashPath": "microsoft.netcore.targets.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iNGgO/2HBH9sy5AtVTvNW30NFpPBVngRqd8CN9d/LYk7KnstiOrRLPOOrJesqmdeDAUZwetCYEO8RvUxSd7UBg==",
+      "path": "microsoft.office.interop.excel/15.0.4795.1000",
+      "hashPath": "microsoft.office.interop.excel.15.0.4795.1000.nupkg.sha512"
     },
     "Microsoft.VisualStudio.Web.CodeGeneration/2.2.0": {
       "type": "package",
