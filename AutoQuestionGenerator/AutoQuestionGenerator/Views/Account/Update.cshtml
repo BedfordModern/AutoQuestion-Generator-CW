@@ -3,5 +3,45 @@
     ViewData["Title"] = "Update";
 }
 
-<h2>Update</h2>
-
+<h2>Update details</h2>
+<hr />
+<form asp-action="Update">
+    <div class="row">
+        <div class="col-md-8">
+            <section id="information">
+                <hr>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <b>Username:</b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Username, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <b>First Name:</b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.First_Name, new { @class="form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <b>Last Name:</b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Last_Name, new { @class = "form-control" })
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.UserID)
+                <button type="submit">Update</button>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <hr>
+            Information is displayed here about you as a user! <br />
+            If you ever need to contact support please have your user ID ready as this will be needed by them to view your account details.
+        </div>
+    </div>
+</form>
