@@ -33,10 +33,14 @@ namespace AutoQuestionGenerator.Controllers
         public IActionResult Login(LoginViewModel user, string returnUrl)
         {
             var DbOrganisation = _context.organisations.FirstOrDefault(x => x.Organisation_Username == user.Organisation);
-            var DbUser = UserHelper.getUser(user.Username, _context);
+            var DbUser = UserHelper.GetUser(user.Username, _context);
             if (!ModelState.IsValid || DbUser == null || DbOrganisation == null) return View(user);
 
-            if(DbUser.OrganisationID != DbOrganisation.OrganisationID) return View(user);
+            if (DbUser.OrganisationID != DbOrganisation.OrganisationID)
+            {
+                user.Error = "Organisation is incorrect";
+                return View(user);
+            }
 
             if (Hasher.ValidatePassword(user.Password, DbUser.Password))
             {
@@ -54,6 +58,7 @@ namespace AutoQuestionGenerator.Controllers
             }
             else
             {
+                user.Error = "Username or Password is incorrect";
                 return View(user);
             }
         }

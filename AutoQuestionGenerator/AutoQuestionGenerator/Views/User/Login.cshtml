@@ -12,9 +12,9 @@
     <text>Username: @Html.TextBoxFor(m => m.Username)</text><br /><br />
     <text>Password: @Html.TextBoxFor(m => m.Password, new { type = "password" })</text>
     <button type="submit" class="=btn btn-primary">Login</button>
-    if (Model != null && !string.IsNullOrEmpty(Model.Username))
+    if (Model != null && !string.IsNullOrEmpty(Model.Error))
     {
         <br />
-        <p style="color:red">Username or password incorrect</p>
+        <p style="color:red">@Model.Error</p>
     }
 }

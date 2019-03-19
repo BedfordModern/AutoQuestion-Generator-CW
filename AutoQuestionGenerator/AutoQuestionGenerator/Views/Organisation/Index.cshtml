@@ -1,7 +1,16 @@
-﻿
+﻿@model AutoQuestionGenerator.DatabaseModels.Organisations
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Index</h2>
-
+<br /><br />
+<h3>Info</h3>
+<p>
+    ID: @Model.OrganisationID <br />
+    Name: @Model.Organisation_Name <br />
+    Username: @Model.Organisation_Username <br />
+    <br />
+    Subscription Type: @Model.Subscription_Type
+    Next Renewal Date: @Model.Subscription_Renew_Date
+</p>

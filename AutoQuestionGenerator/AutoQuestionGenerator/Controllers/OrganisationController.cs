@@ -36,6 +36,32 @@ namespace AutoQuestionGenerator.Controllers
             return View();
         }
 
+        public IActionResult CreateUser()
+        {
+            if (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context))
+                return View();
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult CreateUser(Users user)
+        {
+            var uid = UserHelper.GetUserId(HttpContext.Session);
+            if (UserHelper.UserInRole(uid, UserHelper.ROLE_ADMIN, _context))
+            {
+                if (!ModelState.IsValid)
+                    return View(user);
+
+                var organisation = _context.users.FirstOrDefault(x => x.UserID == uid).OrganisationID;
+                user.OrganisationID = organisation;
+                user.Last_Logged_In = DateTime.MinValue;
+                _context.users.Add(user);
+            }
+
+            return Unauthorized();
+        }
+
         public IActionResult UploadUsers()
         {
             if (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context))
@@ -254,7 +280,7 @@ namespace AutoQuestionGenerator.Controllers
         {
             var user = _context.users.FirstOrDefault(x => x.Username == model.Username);
             var userid = UserHelper.GetUserId(HttpContext.Session);
-            if (user.OrganisationID == UserHelper.getUser(userid, _context).OrganisationID && UserHelper.UserInRole(userid, UserHelper.ROLE_ADMIN, _context))
+            if (user.OrganisationID == UserHelper.GetUser(userid, _context).OrganisationID && UserHelper.UserInRole(userid, UserHelper.ROLE_ADMIN, _context))
             {
                 user.Password = Hasher.Hash(model.Password);
             }

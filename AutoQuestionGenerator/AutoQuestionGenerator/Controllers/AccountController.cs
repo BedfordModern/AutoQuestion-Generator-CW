@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoQuestionGenerator.Accounts;
 using AutoQuestionGenerator.DatabaseModels;
 using AutoQuestionGenerator.Models;
 using AutoQuestionGenerator.Models.Hubs;
@@ -28,12 +29,19 @@ namespace AutoQuestionGenerator.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return View(UserHelper.GetUser(UserHelper.GetUserId(HttpContext.Session), _context));
         }
 
         public IActionResult AddQuestions()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(Users user)
+        {
+            user = UserHelper.GetUser(user.UserID, _context);
+            return View("Update", user);
         }
 
         [HttpPost]

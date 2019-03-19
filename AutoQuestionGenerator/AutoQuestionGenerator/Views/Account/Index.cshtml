@@ -1,7 +1,48 @@
-﻿
+﻿@model AutoQuestionGenerator.DatabaseModels.Users
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>User details - @Model.First_Name @Model.Last_Name</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="information">
+            <hr>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <b>Username:</b>
+                </div>
+                <div class="col-md-10">
+                    @Model.Username
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <b>Name:</b>
+                </div>
+                <div class="col-md-10">
+                    @Model.First_Name @Model.Last_Name
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <b>Usedr ID:</b>
+                </div>
+                <div class="col-md-10">
+                    @Model.UserID (Needed to contact support)
+                </div>
+            </div>
+            <form asp-action="Index">
+                @Html.HiddenFor(x => x.UserID)
+                <button type="submit">Update</button>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <hr>
+        Information is displayed here about you as a user! <br />
+        If you ever need to contact support please have your user ID ready as this will be needed by them to view your account details.
+    </div>
+</div>
 

@@ -17,12 +17,12 @@ namespace AutoQuestionGenerator.Accounts
             ROLE_TEACHER = "Teacher",
             USER_ERROR = "Error";
 
-        public static Users getUser(int uid, IdentityModels dbContext)
+        public static Users GetUser(int uid, IdentityModels dbContext)
         {
             return dbContext.users.FirstOrDefault(x => x.UserID == uid);
         }
 
-        public static Users getUser(string uname, IdentityModels dbContext)
+        public static Users GetUser(string uname, IdentityModels dbContext)
         {
             return dbContext.users.FirstOrDefault(x => x.Username == uname);
         }
@@ -104,7 +104,7 @@ namespace AutoQuestionGenerator.Accounts
                 Password = Hasher.Hash(password),
                 First_Name = firstname,
                 Last_Name = lastname,
-                OrganisationID = getUser(uid, dbContext).OrganisationID
+                OrganisationID = GetUser(uid, dbContext).OrganisationID
             };
             try
             {
