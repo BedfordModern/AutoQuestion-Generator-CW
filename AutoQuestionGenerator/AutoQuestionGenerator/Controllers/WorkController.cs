@@ -59,6 +59,35 @@ namespace AutoQuestionGenerator.Controllers
             return View(viewModels.ToArray());
         }
 
+        public IActionResult Assign(int setID)
+        {
+            var model = new CreateSetViewModel()
+            {
+                TimeAllowed = ,
+                RandomQuestions = ,
+                d
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Assign(CreateSetViewModel model)
+        {
+            Worksets sets = new Worksets()
+            {
+                GroupID = model.GroupID,
+                WorksetName = model.WorksetName,
+                SetBy = UserHelper.GetUserId(HttpContext.Session),
+                Time_Allowed = model.TimeAllowed,
+                Date_Set = DateTime.Now.Date,
+                SetType = model.SetType,
+                Date_Due = model.Date_Due,
+                ExamStyle = model.SelectFromList,
+                RandomOrdering = model.RandomQuestions
+            };
+        }
+
         public IActionResult Set()
         {
             var sets = _context.worksets.Where(x => x.SetBy == UserHelper.GetUserId(HttpContext.Session) && x.GroupID != null).ToList();
@@ -96,7 +125,6 @@ namespace AutoQuestionGenerator.Controllers
                     SetType = _context.worktype.FirstOrDefault(x => x.SetType_ID == set.SetType).SetType_Name,
                     Date_Set = set.Date_Set,
                     Date_Due = set.Date_Due,
-                    Group_Name = _context.groups.FirstOrDefault(x => x.GroupID == set.GroupID).Group_Name,
                     ExamStyle = set.ExamStyle,
                     RandomOrdering = set.RandomOrdering
                 });

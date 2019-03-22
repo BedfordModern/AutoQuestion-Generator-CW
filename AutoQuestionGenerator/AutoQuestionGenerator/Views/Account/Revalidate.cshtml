@@ -1,0 +1,13 @@
+﻿@model RevalidateModel
+@{
+    ViewData["Title"] = "Revalidate";
+}
+
+<h2>Revalidate</h2>
+
+<form asp-action="@Model.AspAction" asp-controller="@Model.AspController">
+    @Html.LabelFor(x => x.Password):
+    @Html.TextBoxFor(x => x.Password, new { @class="form-control", type="password" })
+    @Html.HiddenFor(x => x.id)
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

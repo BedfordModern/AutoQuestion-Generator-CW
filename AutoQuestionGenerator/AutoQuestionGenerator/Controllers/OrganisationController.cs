@@ -225,7 +225,7 @@ namespace AutoQuestionGenerator.Controllers
         [HttpPost]
         public IActionResult Login(Organisations org, string returnUrl)
         {
-            var Organisation = OrganisationHelper.getOrganisation(org.Organisation_Username, _context);
+            var Organisation = OrganisationHelper.GetOrganisation(org.Organisation_Username, _context);
 
             if (!ModelState.IsValid || Organisation == null) return View(org);
 

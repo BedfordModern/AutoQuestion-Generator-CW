@@ -65,6 +65,7 @@
                     <li><a asp-area="" asp-controller="Work" asp-action="@(teacher ? "Set" : "Index")">Work@(teacher ? " Set" : " to Do")</a></li>
                     @if (teacher)
                     {
+                        <li><a asp-area="" asp-controller="Work" asp-action="Later">Saved for Later</a></li>
                         <li><a asp-area="" asp-controller="Set" asp-action="Create">Create Workset</a></li>
                     }
                 </ul>

@@ -95,10 +95,21 @@ namespace AutoQuestionGenerator.Controllers
         {
             if (UserHelper.OwnsWorkset(UserHelper.GetUserId(HttpContext.Session), setID, _context))
             {
+                var questionSets = _context.questionSets.Where(x => x.WorkSetID == setID);
+
+                foreach (var qset in questionSets)
+                {
+                    _context.questions.RemoveRange(_context.questions.Where(x => x.QuestionSetID == qset.QuestionSetID));
+                }
+                _context.questionSets.RemoveRange(questionSets);
+
                 var workset = _context.worksets.FirstOrDefault(x => x.WorksetID == setID);
+                _context.work.RemoveRange(_context.work.Where(x => x.WorkSetID == setID));
+
                 string Name = workset.WorksetName + " - " + workset.WorksetID;
                 _context.worksets.Remove(workset);
-                return View(Name);
+                _context.SaveChanges();
+                return View("Delete",Name);
             }
             return Unauthorized();
         }
@@ -158,51 +169,7 @@ namespace AutoQuestionGenerator.Controllers
 
             _context.worksets.Add(sets);
             _context.SaveChanges();
-
-            List<CatagoryTypes> catagoryTypes = new List<CatagoryTypes>();
-            var catTypes = _context.CatagoryTypes.ToArray();
-            foreach (var CatType in catTypes)
-            {
-                List<LengthCatagory> lengthCatagories = new List<LengthCatagory>();
-                var catagories = _context.catagories.Where(x => x.CatagoryType == CatType.CatTypeID).ToArray();
-                foreach (var Cat in catagories)
-                {
-                    List<TypedWork> works = new List<TypedWork>();
-                    var qtypes = _context.questionTypes.Where(x => x.Catagory == Cat.CatagoryID).ToArray();
-                    int seed = 0;
-                    foreach (var item in qtypes)
-                    {
-                        WorkPartial[] possibleWork = new WorkPartial[5];
-                        for (int i = 0; i < 5; i++)
-                        {
-                            seed = StoredQuestion.GenerateSeed();
-                            var work = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == item.TypeID).Class, 0);
-
-                            possibleWork[i] = new WorkPartial()
-                            {
-                                Seed = seed,
-                                Answer = work.GetAnswer().ToString()
-                            };
-                        }
-                        works.Add(new TypedWork()
-                        {
-                            WorkType = item.Type_Name,
-                            TypeID = item.TypeID,
-                            PossibleWork = possibleWork.ToArray()
-                        });
-                    }
-                    lengthCatagories.Add(new LengthCatagory()
-                    {
-                        catagoryName = Cat.CatagoryName,
-                        WorkTypes = works.ToArray()
-                    });
-                }
-                catagoryTypes.Add(new CatagoryTypes()
-                {
-                    CatTypeName = CatType.CatTypeName,
-                    Catagories = lengthCatagories.ToArray()
-                });
-            }
+            
 
             var Model = new BuildViewModel()
             {
@@ -210,7 +177,7 @@ namespace AutoQuestionGenerator.Controllers
                 createdWork = new CreatedWork()
                 {
                     SelectFromList = sets.ExamStyle,
-                    CatagoryTypes = catagoryTypes.ToArray()
+                    CatagoryTypes = GetAllQuestions()
                 }
             };
 
@@ -222,51 +189,6 @@ namespace AutoQuestionGenerator.Controllers
             if (setID == 0) return Unauthorized();
             if (UserHelper.OwnsWorkset(UserHelper.GetUserId(HttpContext.Session), setID, _context) || (UserHelper.UserInRole(UserHelper.GetUserId(HttpContext.Session), UserHelper.ROLE_ADMIN, _context) && UserHelper.InSameOrganisation(UserHelper.GetUserId(HttpContext.Session), setID, _context)))
             {
-                List<CatagoryTypes> catagoryTypes = new List<CatagoryTypes>();
-                var catTypes = _context.CatagoryTypes.ToArray();
-                foreach (var CatType in catTypes)
-                {
-                    List<LengthCatagory> lengthCatagories = new List<LengthCatagory>();
-                    var catagories = _context.catagories.Where(x => x.CatagoryType == CatType.CatTypeID).ToArray();
-                    foreach (var Cat in catagories)
-                    {
-                        List<TypedWork> works = new List<TypedWork>();
-                        var qtypes = _context.questionTypes.Where(x => x.Catagory == Cat.CatagoryID).ToArray();
-                        int seed = 0;
-                        foreach (var item in qtypes)
-                        {
-                            WorkPartial[] possibleWork = new WorkPartial[5];
-                            for (int i = 0; i < 5; i++)
-                            {
-                                seed = StoredQuestion.GenerateSeed();
-                                var work = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == item.TypeID).Class, 0);
-
-                                possibleWork[i] = new WorkPartial()
-                                {
-                                    Seed = seed,
-                                    Answer = work.GetAnswer().ToString()
-                                };
-                            }
-                            works.Add(new TypedWork()
-                            {
-                                WorkType = item.Type_Name,
-                                TypeID = item.TypeID,
-                                PossibleWork = possibleWork.ToArray()
-                            });
-                        }
-                        lengthCatagories.Add(new LengthCatagory()
-                        {
-                            catagoryName = Cat.CatagoryName,
-                            WorkTypes = works.ToArray()
-                        });
-                    }
-                    catagoryTypes.Add(new CatagoryTypes()
-                    {
-                        CatTypeName = CatType.CatTypeName,
-                        Catagories = lengthCatagories.ToArray()
-                    });
-                }
-
                 List<WorkPartial> currentwork = new List<WorkPartial>();
                 var current = _context.work.Where(x => x.WorkSetID == setID);
 
@@ -275,6 +197,7 @@ namespace AutoQuestionGenerator.Controllers
                     currentwork.Add(new WorkPartial()
                     {
                         TypeName = _context.questionTypes.FirstOrDefault(x => x.TypeID == piece.QuestionType).Type_Name,
+                        TypeID = piece.QuestionType,
                         Seed = piece.Seed,
                         Answer = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == piece.QuestionType).Class, piece.Seed).GetAnswer().ToString()
                     });
@@ -286,7 +209,7 @@ namespace AutoQuestionGenerator.Controllers
                     createdWork = new CreatedWork()
                     {
                         SelectFromList = _context.worksets.FirstOrDefault(x => x.WorksetID == setID).ExamStyle,
-                        CatagoryTypes = catagoryTypes.ToArray()
+                        CatagoryTypes = GetAllQuestions()
                     },
                     Work = currentwork.ToArray()
                 };
@@ -301,58 +224,13 @@ namespace AutoQuestionGenerator.Controllers
         {
             if (!ModelState.IsValid)
             {
-                List<CatagoryTypes> catagoryTypes = new List<CatagoryTypes>();
-                var catTypes = _context.CatagoryTypes.ToArray();
-                foreach (var CatType in catTypes)
-                {
-                    List<LengthCatagory> lengthCatagories = new List<LengthCatagory>();
-                    var catagories = _context.catagories.Where(x => x.CatagoryType == CatType.CatTypeID).ToArray();
-                    foreach (var Cat in catagories)
-                    {
-                        List<TypedWork> works = new List<TypedWork>();
-                        var qtypes = _context.questionTypes.Where(x => x.Catagory == Cat.CatagoryID).ToArray();
-                        int seed = 0;
-                        foreach (var item in qtypes)
-                        {
-                            WorkPartial[] possibleWork = new WorkPartial[5];
-                            for (int i = 0; i < 5; i++)
-                            {
-                                seed = StoredQuestion.GenerateSeed();
-                                var work = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == item.TypeID).Class, 0);
-
-                                possibleWork[i] = new WorkPartial()
-                                {
-                                    Seed = seed,
-                                    Answer = work.GetAnswer().ToString()
-                                };
-                            }
-                            works.Add(new TypedWork()
-                            {
-                                WorkType = item.Type_Name,
-                                TypeID = item.TypeID,
-                                PossibleWork = possibleWork.ToArray()
-                            });
-                        }
-                        lengthCatagories.Add(new LengthCatagory()
-                        {
-                            catagoryName = Cat.CatagoryName,
-                            WorkTypes = works.ToArray()
-                        });
-                    }
-                    catagoryTypes.Add(new CatagoryTypes()
-                    {
-                        CatTypeName = CatType.CatTypeName,
-                        Catagories = lengthCatagories.ToArray()
-                    });
-                }
                 Model.createdWork = new CreatedWork()
                 {
                     SelectFromList = _context.worksets.FirstOrDefault(x => x.WorksetID == Model.WorkSetID).ExamStyle,
-                    CatagoryTypes = catagoryTypes.ToArray()
+                    CatagoryTypes = GetAllQuestions()
                 };
                 return View(Model);
             }
-
 
             _context.work.RemoveRange(_context.work.Where(x => x.WorkSetID == Model.WorkSetID).ToArray());
 
@@ -371,9 +249,7 @@ namespace AutoQuestionGenerator.Controllers
             return Redirect("~/Work/Set");
         }
 
-        #region Ajax Callbacks
-
-        public IActionResult UpdatePossibleQuestion()
+        public CatagoryTypes[] GetAllQuestions()
         {
             List<CatagoryTypes> catagoryTypes = new List<CatagoryTypes>();
             var catTypes = _context.CatagoryTypes.ToArray();
@@ -420,10 +296,17 @@ namespace AutoQuestionGenerator.Controllers
                 });
             }
 
+            return catagoryTypes.ToArray();
+        }
+
+        #region Ajax Callbacks
+
+        public IActionResult UpdatePossibleQuestion()
+        {
             return PartialView("_workSets", new CreatedWork()
             {
                 SelectFromList = true,
-                CatagoryTypes = catagoryTypes.ToArray()
+                CatagoryTypes = GetAllQuestions()
             });
         }
 

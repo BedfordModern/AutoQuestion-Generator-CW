@@ -1,0 +1,16 @@
+﻿@model CreateSetViewModel
+@{
+    ViewData["Title"] = "SetGroup";
+}
+
+<h2>Assign to Group - @Model.WorksetName</h2>
+
+<form asp-action="Assigm" method="post" id="AssignForm">
+    @Html.TextBoxFor(m => m.WorksetName, new { @class = "form-control" })
+    <br />
+    @Html.DropDownListFor(m => m.GroupID, new SelectList(Model.Groups, "GroupID", "Group_Name"), new { @class = "form-control", onchange = "GroupSelectorOnChange()", id = "groupSelector" })
+    <br />
+    @Html.TextBoxFor(m => m.Date_Due, new { @class = "form-control", type = "date" })
+    <br />
+    <button class="btn btn-primary" type="button" onclick="NextClick('AssignForm')" id="nextButton">Next</button>
+</form>

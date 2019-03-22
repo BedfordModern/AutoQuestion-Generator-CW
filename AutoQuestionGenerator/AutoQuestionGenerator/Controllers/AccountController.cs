@@ -40,8 +40,63 @@ namespace AutoQuestionGenerator.Controllers
         [HttpPost]
         public IActionResult Index(Users user)
         {
-            user = UserHelper.GetUser(user.UserID, _context);
-            return View("Update", user);
+            var model = new RevalidateModel()
+            {
+                id = user.UserID,
+                AspAction = "Revalidate",
+                AspController = "Account"
+            };
+            return View("Revalidate", model);
+        }
+
+        [HttpPost]
+        public IActionResult Revalidate(RevalidateModel model)
+        {
+            var user = UserHelper.GetUser(model.id, _context);
+            if (Hasher.ValidatePassword(model.Password, user.Password))
+            {
+                UpdateUser ret = new UpdateUser()
+                {
+                    UserID = user.UserID,
+                    Username = user.Username,
+                    Firstname = user.First_Name,
+                    Lastname = user.Last_Name
+                };
+                return View("Update", ret);
+            }
+            UserHelper.LogOut(HttpContext.Session);
+            OrganisationHelper.LogOut(HttpContext.Session);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(UpdateUser model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            if (UserHelper.GetUserId(HttpContext.Session) == model.UserID)
+            {
+                var user = UserHelper.GetUser(model.UserID, _context);
+
+                if (!string.IsNullOrWhiteSpace(model.Password) && !string.IsNullOrWhiteSpace(model.VerifyPassword))
+                {
+                    if(model.Password != model.VerifyPassword)
+                    {
+                        return View(model);
+                    }
+                    user.Password = Hasher.Hash(model.Password);
+                }
+                user.First_Name = model.Firstname;
+                user.Last_Name = model.Lastname;
+                user.Username = model.Username;
+
+                _context.SaveChanges();
+                return View("Index", user);
+            }
+            UserHelper.LogOut(HttpContext.Session);
+            OrganisationHelper.LogOut(HttpContext.Session);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

@@ -1,6 +1,6 @@
-﻿function NextClick() {
+﻿function NextClick(form) {
     if (document.getElementById("nextButton").innerHTML == "Next") {
-        document.getElementById("CreatetionForm").submit();
+        document.getElementById(form).submit();
     } else {
         var win = window.open("/groups/create?closeAfter=true", "MsgWindow", "width=1000,height=800");
         win.document.addEventListener("unload", function () {

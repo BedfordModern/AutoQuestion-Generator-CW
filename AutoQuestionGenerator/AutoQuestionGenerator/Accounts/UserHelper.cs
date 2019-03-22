@@ -54,6 +54,12 @@ namespace AutoQuestionGenerator.Accounts
             return -1;
         }
 
+        public static void LogOut(ISession session)
+        {
+            session.Remove("UId");
+            session.Remove("Username");
+        }
+
         public static bool UserInRole(byte[] uid, string roleName, IdentityModels dbContext)
         {
             if(uid == null || uid.Length == 0)

@@ -33,10 +33,14 @@
                     @Model.UserID (Needed to contact support)
                 </div>
             </div>
-            <form asp-action="Index">
-                @Html.HiddenFor(x => x.UserID)
-                <button type="submit">Update</button>
-            </form>
+            <br />
+            <br />
+            <div class="col-md-offset-0 col-md-3" >
+                <form asp-action="Index">
+                    @Html.HiddenFor(x => x.UserID)
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
         </section>
     </div>
     <div class="col-md-4">

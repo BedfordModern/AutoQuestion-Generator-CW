@@ -61,3 +61,7 @@ C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\Auto
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Set\Delete.g.cshtml.cs
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Organisation\Index.g.cshtml.cs
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Organisation\CreateUser.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Account\Update.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Account\Revalidate.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\bin\Debug\netcoreapp2.2\wwwroot\lib\Python\636886020291063148.py
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Work\SetGroup.g.cshtml.cs

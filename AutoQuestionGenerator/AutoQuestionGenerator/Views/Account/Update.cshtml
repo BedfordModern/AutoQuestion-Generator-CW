@@ -1,4 +1,4 @@
-﻿@model AutoQuestionGenerator.DatabaseModels.Users
+﻿@model UpdateUser
 @{
     ViewData["Title"] = "Update";
 }
@@ -23,7 +23,7 @@
                         <b>First Name:</b>
                     </div>
                     <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.First_Name, new { @class="form-control" })
+                        @Html.TextBoxFor(x => x.Firstname, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -31,11 +31,25 @@
                         <b>Last Name:</b>
                     </div>
                     <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.Last_Name, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.Lastname, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <b>Password:</b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", type = "password" })
+                    </div>
+                    <div class="col-md-2">
+                        <b>Verify Password:</b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.VerifyPassword, new { @class = "form-control", type = "password" })
                     </div>
                 </div>
                 @Html.HiddenFor(x => x.UserID)
-                <button type="submit">Update</button>
+                <button type="submit" class="btn">Update</button>
             </section>
         </div>
         <div class="col-md-4">

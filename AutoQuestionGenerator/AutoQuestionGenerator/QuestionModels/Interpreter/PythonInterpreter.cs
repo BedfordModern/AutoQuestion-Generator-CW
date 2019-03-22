@@ -42,7 +42,7 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             scope.SetVariable("seed", RandInt);
             object result = source.Execute(scope);
                 Question = scope.GetVariable<string>("question");
-            
+
             Answer = scope.GetVariable<string>("answer");
             try
             {

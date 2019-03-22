@@ -65,9 +65,8 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Logout(string returnUrl)
         {
-            HttpContext.Session.Remove("UId");
-            HttpContext.Session.Remove("Username");
-
+            UserHelper.LogOut(HttpContext.Session);
+            OrganisationHelper.LogOut(HttpContext.Session);
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 return Redirect(returnUrl);

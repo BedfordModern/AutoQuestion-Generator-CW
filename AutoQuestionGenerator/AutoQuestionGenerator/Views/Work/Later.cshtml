@@ -48,6 +48,7 @@
             <th onclick="sortTable(3, 'workTbl')">Date Set </th>
             <th onclick="sortTable(4, 'workTbl')">Date Due </th>
             <th>View</th>
+            <th>Prints</th>
         </tr>
         @foreach (var set in Model)
         {
@@ -58,9 +59,14 @@
                 <td>@set.Date_Set.ToString("dd-MM-yyyy")</td>
                 <td>@set.Date_Due.ToString("dd-MM-yyyy")</td>
                 <td>
-                    <a href="~/Set/Print?setID=@set.WorksetID">Print</a>
+                    <a href="~/Work/SetGroup?setID=@set.WorksetID">Assign</a>
                     <a href="~/Work/Workset?id=@set.WorksetID">Details</a>
                     <a href="~/Set/Build?setID=@set.WorksetID">Edit</a>
+                    <a href="~/Set/Delete?setID=@set.WorksetID">Delete</a>
+                </td>
+                <td>
+                    <a href="~/Set/Print?setID=@set.WorksetID">Print Questions</a>
+                    <a href="~/Set/Answers?setID=@set.WorksetID">Print Answers</a>
                 </td>
             </tr>
         }
