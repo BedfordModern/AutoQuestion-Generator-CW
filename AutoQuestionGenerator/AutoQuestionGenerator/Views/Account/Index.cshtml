@@ -35,7 +35,7 @@
             </div>
             <br />
             <br />
-            <div class="col-md-offset-0 col-md-3" >
+            <div class="col-md-offset-0 col-md-3">
                 <form asp-action="Index">
                     @Html.HiddenFor(x => x.UserID)
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -45,8 +45,18 @@
     </div>
     <div class="col-md-4">
         <hr>
-        Information is displayed here about you as a user! <br />
-        If you ever need to contact support please have your user ID ready as this will be needed by them to view your account details.
+        <div>
+            Information is displayed here about you as a user! <br />
+            If you ever need to contact support please have your user ID ready as this will be needed by them to view your account details.
+        </div>
+        @if (AutoQuestionGenerator.Accounts.UserHelper.UserInRole(Model.UserID, AutoQuestionGenerator.Accounts.UserHelper.ROLE_ADMIN, new AutoQuestionGenerator.DatabaseModels.IdentityModels()))
+        {
+            <div>
+                <form asp-action="AddQuestions">
+                    <button type="submit">Upload Questions</button>
+                </form>
+            </div>
+        }
     </div>
 </div>
 

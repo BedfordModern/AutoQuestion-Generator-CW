@@ -61,14 +61,16 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Assign(int setID)
         {
+            var saved = _context.worksets.FirstOrDefault(x => x.WorksetID == setID);
             var model = new CreateSetViewModel()
             {
-                TimeAllowed = ,
-                RandomQuestions = ,
-                d
-            }
+                TimeAllowed = saved.Time_Allowed,
+                RandomQuestions = saved.RandomOrdering,
+                Groups = UserHelper.GetGroups(UserHelper.GetUserId(HttpContext.Session), _context),
+                SetType = saved.SetType
+            };
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -86,6 +88,8 @@ namespace AutoQuestionGenerator.Controllers
                 ExamStyle = model.SelectFromList,
                 RandomOrdering = model.RandomQuestions
             };
+
+            return RedirectToAction("Set");
         }
 
         public IActionResult Set()

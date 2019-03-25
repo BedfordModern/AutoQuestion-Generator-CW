@@ -61,7 +61,7 @@ function sortTable(row, id) {
     span.classList = "up";
     headers[row].appendChild(span);
 
-    dir = "up";
+    dir = "asc";
     while (switching) {
         switching = false;
         var rows = table.rows;
@@ -75,14 +75,14 @@ function sortTable(row, id) {
 
             /*check if the two rows should switch place,*/
 
-            if (dir == "up") {
+            if (dir == "asc") {
                 if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
 
                     //if so, mark as a switch.
                     shouldSwitch = true;
                     break;
                 }
-            } else if (dir == "down") {
+            } else if (dir == "dsc") {
                 if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
 
                     //if so, mark as a switch
@@ -100,7 +100,7 @@ function sortTable(row, id) {
         } else if (switchcount == 0 && dir == "asc") {
             /*If no switching has been done AND the direction is "asc"*/
                 span.classList = "down";
-                dir = "down";
+                dir = "dsc";
                 switching = true;
             }
         }

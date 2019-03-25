@@ -1,4 +1,5 @@
 ﻿@model AutoQuestionGenerator.DatabaseModels.Organisations
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Index";
 }
@@ -10,7 +11,18 @@
     ID: @Model.OrganisationID <br />
     Name: @Model.Organisation_Name <br />
     Username: @Model.Organisation_Username <br />
-    <br />
-    Subscription Type: @Model.Subscription_Type
-    Next Renewal Date: @Model.Subscription_Renew_Date
 </p>
+<br />
+@if (AutoQuestionGenerator.Accounts.UserHelper.UserInRole(AutoQuestionGenerator.Accounts.UserHelper.GetUserId(HttpContextAccessor.HttpContext.Session), AutoQuestionGenerator.Accounts.UserHelper.ROLE_ADMIN, new AutoQuestionGenerator.DatabaseModels.IdentityModels()))
+{
+    <p>
+        Subscription Type: @Model.Subscription_Type
+        Next Renewal Date: @Model.Subscription_Renew_Date
+    </p>
+    <form asp-action="UploadUsers">
+        <button type="submit" class="btn">Upload Multiple Users</button>
+    </form>
+    <form asp-action="CreateUser">
+        <button type="submit" class="btn">Create New User</button>
+    </form>
+}

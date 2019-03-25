@@ -75,7 +75,7 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             }
             else
             {
-                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2);
+                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2, "");
             }
         }
 
