@@ -326,6 +326,7 @@ namespace AutoQuestionGenerator.Controllers
 
             string answer = Encoding.ASCII.GetString(vals);
             var question = _context.questions.FirstOrDefault(x => x.QuestionID == model.questionID);
+            _context.Entry<Questions>(question).Reload();
             if (answer.Contains(","))
             {
                 var allCorrect = true;
