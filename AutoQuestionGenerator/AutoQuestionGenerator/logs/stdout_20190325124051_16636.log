@@ -1,0 +1,249 @@
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[0]
+      User profile is available. Using 'C:\Users\Daniel Ledger 13HJK\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Hosting environment: Development
+Content root path: C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator
+Now listening on: http://127.0.0.1:25607
+Application started. Press Ctrl+C to shut down.
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 DEBUG http://localhost:64499/  0
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/  
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 52.201ms 200 
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Index", controller = "Home"}. Executing action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 1.4414ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Index.
+info: Microsoft.AspNetCore.Session.DistributedSession[2]
+      Accessing expired session, Key:dffca771-b9b8-6248-03b0-e7ea5c7ab3b0
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Index executed in 222.9572ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) in 267.9342ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 688.6922ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/User/Login  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Login", controller = "User"}. Executing action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.4924ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Login.
+info: Microsoft.AspNetCore.Session.DistributedSession[2]
+      Accessing expired session, Key:dffca771-b9b8-6248-03b0-e7ea5c7ab3b0
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Login executed in 58.5084ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) in 67.9156ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 86.2714ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 POST http://localhost:44319/User/Login application/x-www-form-urlencoded 242
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Login", controller = "User"}. Executing action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) with arguments (AutoQuestionGenerator.Models.LoginViewModel, ) - Validation state: Valid
+info: Microsoft.AspNetCore.Session.DistributedSession[2]
+      Accessing expired session, Key:dffca771-b9b8-6248-03b0-e7ea5c7ab3b0
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.RedirectToActionResult in 367.4678ms.
+info: Microsoft.AspNetCore.Mvc.RedirectToActionResult[1]
+      Executing RedirectResult, redirecting to /.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.UserController.Login (AutoQuestionGenerator) in 446.9656ms
+info: Microsoft.AspNetCore.Session.DistributedSession[3]
+      Session started; Key:dffca771-b9b8-6248-03b0-e7ea5c7ab3b0, Id:0e7482fe-c35c-d627-c688-2d3a659dbe34
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 489.902ms 302 
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Index", controller = "Home"}. Executing action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.0523ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Index.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Index executed in 57.7836ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.HomeController.Index (AutoQuestionGenerator) in 70.7497ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 81.2993ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/Organisation  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "Index", controller = "Organisation"}. Executing action AutoQuestionGenerator.Controllers.OrganisationController.Index (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.OrganisationController.Index (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.OrganisationController.Index (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 12.4475ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view Index.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view Index executed in 38.5239ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.OrganisationController.Index (AutoQuestionGenerator) in 59.1927ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 70.2095ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/Organisation/UploadUsers?  
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "UploadUsers", controller = "Organisation"}. Executing action AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 3.8692ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view UploadUsers.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view UploadUsers executed in 20.5123ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator) in 32.671ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 45.8013ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 POST http://localhost:44319/Organisation/UploadUsers multipart/form-data; boundary=----WebKitFormBoundaryUybZyCAefJBAS4N8 12277
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "UploadUsers", controller = "Organisation"}. Executing action AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator) with arguments (System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator) in 2893.5435ms
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+System.AggregateException: One or more errors occurred. (Object reference not set to an instance of an object.) ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at AutoQuestionGenerator.Controllers.OrganisationController.TestFile(KeyValuePair`2 item) in C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\Controllers\OrganisationController.cs:line 214
+   at AutoQuestionGenerator.Controllers.OrganisationController.UserFiles(Guid identifier, Dictionary`2 files) in C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\Controllers\OrganisationController.cs:line 126
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers(List`1 files) in C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\Controllers\OrganisationController.cs:line 109
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+---> (Inner Exception #0) System.NullReferenceException: Object reference not set to an instance of an object.
+   at AutoQuestionGenerator.Controllers.OrganisationController.TestFile(KeyValuePair`2 item) in C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\Controllers\OrganisationController.cs:line 214
+   at AutoQuestionGenerator.Controllers.OrganisationController.UserFiles(Guid identifier, Dictionary`2 files) in C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\Controllers\OrganisationController.cs:line 126<---
+
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 3174.5419ms 500 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 POST http://localhost:44319/Organisation/UploadUsers multipart/form-data; boundary=----WebKitFormBoundaryUybZyCAefJBAS4N8 12277
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Route matched with {action = "UploadUsers", controller = "Organisation"}. Executing action AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator)
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[1]
+      Executing action method AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator) with arguments (System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]) - Validation state: Valid
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action method AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator), returned result Microsoft.AspNetCore.Mvc.ViewResult in 43070.0818ms.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[1]
+      Executing ViewResult, running view NewUsers.
+info: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor[4]
+      Executed ViewResult - view NewUsers executed in 134.8802ms.
+info: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker[2]
+      Executed action AutoQuestionGenerator.Controllers.OrganisationController.UploadUsers (AutoQuestionGenerator) in 43217.3967ms
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 43235.8187ms 200 text/html; charset=utf-8
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]
+      Request starting HTTP/1.1 GET http://localhost:44319/favicon.ico  
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\wwwroot\favicon.ico'
+info: Microsoft.AspNetCore.Hosting.Internal.WebHost[2]
+      Request finished in 30.9716ms 200 image/x-icon
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

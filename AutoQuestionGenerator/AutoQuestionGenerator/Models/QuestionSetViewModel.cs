@@ -20,5 +20,6 @@ namespace AutoQuestionGenerator.Models
         public int[] correct { get; set; }
         public string[] answer { get; set; }
         public string[] Boxes { get; set; }
+        public string[] Hints { get; set; }
     }
 }

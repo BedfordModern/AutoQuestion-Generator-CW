@@ -33,12 +33,14 @@ namespace AutoQuestionGenerator.QuestionModels
         private object Quest;
         private object Ans;
         private object Box;
+        public string Hints;
 
-        public StoredQuestion(object Question, object Answer, object boxes = null)
+        public StoredQuestion(object Question, object Answer, object boxes = null, string Hints = null)
         {
             Quest = Question;
             Ans = Answer;
             Box = boxes;
+            this.Hints = Hints;
         }
 
         public string Boxes()

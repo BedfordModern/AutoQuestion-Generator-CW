@@ -16,9 +16,9 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
     {
         private Random rand;
 
-        private (string, string, string) GetParam(int serviceid, string path)
+        private (string, string, string, string) GetParam(int serviceid, string path)
         {
-            string Question= "", Answer = "", Boxes = "";
+            string Question= "", Answer = "", Boxes = "", Hints = "";
             int RandInt = rand.Next(1000);
 
             ScriptRuntimeSetup setup = Python.CreateRuntimeSetup(null);
@@ -35,6 +35,7 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
                 { "question", Question},
                 { "answer", Answer },
                 { "ansName", Boxes },
+                { "prompt", Hints }
             };
             
 
@@ -52,8 +53,16 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
             {
                 Boxes = "";
             }
+            try
+            {
+                Hints = scope.GetVariable<string>("prompt");
+            }
+            catch
+            {
+                Hints = "";
+            }
 
-            return (Question, Answer, Boxes);
+            return (Question, Answer, Boxes, Hints);
         }
 
         public StoredQuestion GenerateQuestion(string path, int seed = 0)
@@ -71,11 +80,11 @@ namespace AutoQuestionGenerator.QuestionModels.Interpreter
 
             if (scriptOutput.Item2.Contains(","))
             {
-                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2, scriptOutput.Item3);
+                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2, scriptOutput.Item3, scriptOutput.Item4);
             }
             else
             {
-                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2, "");
+                return new StoredQuestion(scriptOutput.Item1, scriptOutput.Item2, "", scriptOutput.Item4);
             }
         }
 

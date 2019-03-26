@@ -44,6 +44,11 @@ namespace AutoQuestionGenerator.Models
                     {
                         UserID = set.UserID,
                         Name = name,
+                        WorstPercentage = new PercentageModel()
+                        {
+                            Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),
+                            Total = qusts.Count()
+                        },
                         Percentage = new PercentageModel()
                         {
                             Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),

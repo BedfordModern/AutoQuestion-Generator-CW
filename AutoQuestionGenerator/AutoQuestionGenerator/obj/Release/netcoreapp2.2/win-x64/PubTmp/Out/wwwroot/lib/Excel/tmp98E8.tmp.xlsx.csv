@@ -1,0 +1,46 @@
+username,firstname,lastname,password,role,role,group,group
+hollingsworth.janine,Janine,Hollingsworth,z,student,teacher,Teachers,
+reed.bill,Bill,Reed,z,student,teacher,Teachers,
+leach.anton,Anton,Leach,z,student,teacher,Teachers,
+abhiram.ageer,Ageer,Abhiram,x,student,,GCSE,10A/CS
+kaushal.arunkumar,Arunkumar,Kaushal,x,student,,GCSE,10A/CS
+jirayu.bisok,Bisok,Jirayu,x,student,,GCSE,10A/CS
+oliver.bridge,Bridge,Oliver,x,student,,GCSE,10A/CS
+benjamin.carpenter,Carpenter,Benjamin,x,student,,GCSE,10A/CS
+zachary.chinn,Chinn,Zachary,x,student,,GCSE,10A/CS
+louis.cooke,Cooke,Louis,x,student,,GCSE,10A/CS
+liberty.decesare,Decesare,Liberty,x,student,,GCSE,10A/CS
+samuel.di-folco,Di-Folco,Samuel,x,student,,GCSE,10A/CS
+samuel.finch,Finch,Samuel,x,student,,GCSE,10A/CS
+joshua.inkson,Inkson,Joshua,x,student,,GCSE,10A/CS
+taahaa.qazi,Qazi,Taahaa,x,student,,GCSE,10A/CS
+pratham.rathod,Rathod,Pratham,x,student,,GCSE,10A/CS
+mukund.salil,Salil,Mukund,x,student,,GCSE,10A/CS
+aleta.swaby-kelly,Swaby-Kelly,Aleta,x,student,,GCSE,10A/CS
+ishaan.thakur,Thakur,Ishaan,x,student,,GCSE,10A/CS
+isaac.theakston,Theakston,Isaac,x,student,,GCSE,10A/CS
+matthew.cheyne,Cheyne,Matthew,x,student,,GCSE,11A/CS
+mark.ferreira,Ferreira,Mark,x,student,,GCSE,11A/CS
+ivor.luffman,Luffman,Ivor,x,student,,GCSE,11A/CS
+vyan-amar.parmar,Parmar,Vyan-Amar,x,student,,GCSE,11A/CS
+sage.ruskin,Ruskin,Sage,x,student,,GCSE,11A/CS
+jack.wood,Wood,Jack,x,student,,GCSE,11A/CS
+samuel.kelly,Kelly,Samuel,x,student,,GCSE,11E/CS
+timucin.kybelksties,Kybelksties,Timucin,x,student,,GCSE,11E/CS
+israel.martins,Martins,Israel,x,student,,GCSE,11E/CS
+archie.roberts,Roberts,Archie,x,student,,GCSE,11E/CS
+ajanthen.sivasuthan,Sivasuthan,Ajanthen,x,student,,GCSE,11E/CS
+niall.townley,Townley,Niall,x,student,,GCSE,11E/CS
+ethan.ward,Ward,Ethan,x,student,,GCSE,11E/CS
+alexander.weedon,Weedon,Alexander,x,student,,GCSE,11E/CS
+kofi.wilkinson,Wilkinson,Kofi,x,student,,GCSE,11E/CS
+rory.williams,Williams,Rory,x,student,,GCSE,11E/CS
+david.burkett,Burkett,David,x,student,,A Level,12C/CS
+molly.gardner,Gardner,Molly,x,student,,A Level,12C/CS
+felix.goldsmith,Goldsmith,Felix,x,student,,A Level,12C/CS
+nikita.kraevoy,Kraevoy,Nikita,x,student,,A Level,12C/CS
+jonas.toumazou,Toumazou,Jonas,x,student,,A Level,12C/CS
+joseph.cryer,Cryer,Joseph,x,student,,A Level,13B/CS
+samuel.kent,Kent,Samuel,x,student,,A Level,12C/CS
+daniel.ledger,Ledger,Daniel,x,student,,A Level,12C/CS
+joseph.walker,Walker,Joseph,x,student,,A Level,12C/CS

@@ -34,7 +34,19 @@ namespace AutoQuestionGenerator.Controllers
         {
             var DbOrganisation = _context.organisations.FirstOrDefault(x => x.Organisation_Username == user.Organisation);
             var DbUser = UserHelper.GetUser(user.Username, _context);
-            if (!ModelState.IsValid || DbUser == null || DbOrganisation == null) return View(user);
+            if (!ModelState.IsValid || DbOrganisation == null || DbUser == null)
+            {
+                if (DbOrganisation == null)
+                {
+                    user.Error = "Organisation does not exist.";
+                    return View(user);
+                }
+                else if (DbUser == null)
+                {
+                    user.Error = "Username or password incorrect.";
+                }
+                return View(user);
+            }
 
             if (DbUser.OrganisationID != DbOrganisation.OrganisationID)
             {

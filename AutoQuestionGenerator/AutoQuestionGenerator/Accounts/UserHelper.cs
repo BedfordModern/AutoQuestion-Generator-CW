@@ -91,6 +91,15 @@ namespace AutoQuestionGenerator.Accounts
             return (workset != null) && (workset.SetBy == uid);
         }
 
+        public static bool UserInSameOrg(int user1, int user2, IdentityModels dbContext)
+        {
+            var u1 = GetUser(user1, dbContext);
+            if (u1 == null) return false;
+            var u2 = GetUser(user2, dbContext);
+            if (u2 == null) return false;
+            return u2.OrganisationID == u1.OrganisationID;
+        }
+
         public static bool InSameOrganisation(int uid, int worksetID, IdentityModels dbContext)
         {
 

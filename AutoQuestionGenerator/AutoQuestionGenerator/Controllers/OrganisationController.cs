@@ -28,7 +28,7 @@ namespace AutoQuestionGenerator.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(OrganisationHelper.GetOrganisation(HttpContext.Session, _context));
         }
 
         public IActionResult Login()
@@ -105,30 +105,26 @@ namespace AutoQuestionGenerator.Controllers
                     documents = diction,
                     Catagories = _context.catagories.ToArray()
                 };
-
-                List<string> ret = UserFiles(model.identifier, file).Result;
+                
+                List<string> ret = UserFiles(model.identifier, file); ;
 
                 return View("NewUsers", ret.ToArray());
             }
             return Unauthorized();
         }
 
-        private async Task<List<string>> UserFiles(Guid identifier, Dictionary<int, FileInfo> files)
+        private List<string> UserFiles(Guid identifier, Dictionary<int, FileInfo> files)
         {
             List<string> output = new List<string>();
             List<Task<List<string>>> tasks = new List<Task<List<string>>>();
             foreach (var item in files)
             {
-                tasks.Add(TestFile(item));
-            }
-            foreach (var task in tasks)
-            {
-                output.AddRange(await task);
+                output.AddRange(TestFile(item));
             }
             return output;
         }
 
-        private async Task<List<string>> TestFile(KeyValuePair<int, FileInfo> item)
+        private List<string> TestFile(KeyValuePair<int, FileInfo> item)
         {
             if (item.Value.Extension.ToLower().Contains("xls"))
             {
@@ -155,6 +151,7 @@ namespace AutoQuestionGenerator.Controllers
                 List<string> Failed = new List<string>();
                 using (var stream = new StreamReader(new FileStream(item.Value.FullName, FileMode.Open)))
                 {
+                    int userID = UserHelper.GetUserId(HttpContext.Session);
                     string line = "";
                     while(string.IsNullOrEmpty(line = stream.ReadLine())) { }
                     string[] headers = line.ToLower().Split(',', StringSplitOptions.RemoveEmptyEntries);
@@ -163,6 +160,7 @@ namespace AutoQuestionGenerator.Controllers
                         fname = headers.PositionOf("firstname"),
                         lname = headers.PositionOf("lastname");
                     var roles = headers.PositionsOf("role");
+                    var groups = headers.PositionsOf("group");
                     int i = 1;
                     while (!stream.EndOfStream)
                     {
@@ -174,7 +172,7 @@ namespace AutoQuestionGenerator.Controllers
                             var usr = UserHelper.CreateNewUser(UserHelper.GetUserId(HttpContext.Session), items[uname], items[password], items[fname], items[lname], _context);
                             if (usr.Username == UserHelper.USER_ERROR)
                             {
-                                Failed.Add("Line: " + i + "User: " + items[uname] + "Failed to add user. Username probably not unique!");
+                                Failed.Add("Line: " + i + " User: " + items[uname] + " Failed to add user. Username probably not unique!");
                             }
                             else
                             {
@@ -193,7 +191,7 @@ namespace AutoQuestionGenerator.Controllers
                                             }
                                             catch (KeyNotFoundException)
                                             {
-                                                Failed.Add("Unable to find role of name: " + items[role]
+                                                Failed.Add("Failed: Unable to find role of name: " + items[role]
                                                     + ". Please make sure the user is in one of the following roles - Teacher, Student, Admin - and that it is spelt correctly");
                                             }
                                             _context.SaveChanges();
@@ -201,7 +199,48 @@ namespace AutoQuestionGenerator.Controllers
                                     }
                                     catch (IndexOutOfRangeException)
                                     {
-                                        Failed.Add("Line: " + i + "User: " + items[uname] + "Unable to find role at position: " + role + ".");
+                                        Failed.Add("Line: " + i + " User: " + items[uname] + " Failed to find role at position: " + role + ".");
+                                    }
+                                }
+                                foreach (var group in groups)
+                                {
+                                    if (!string.IsNullOrEmpty(items[group]))
+                                    {
+                                        var dbG = _context.groups.FirstOrDefault(x => x.Group_Name == items[group]);
+                                        if (dbG != null && !UserHelper.UserInSameOrg(dbG.CreatedBy, userID, _context)) dbG = null;
+                                        if(dbG == null )
+                                        {
+                                            Groups dbGNew = new Groups()
+                                            {
+                                                AccessType = 1,
+                                                CreatedBy = UserHelper.GetUserId(HttpContext.Session),
+                                                Group_Name = items[group]
+                                            };
+                                            _context.Add(dbGNew);
+                                            _context.SaveChanges();
+                                            Failed.Add("Line: " + i + " User: " + items[uname] + "created new group: " + items[group] + ".");
+                                            GroupUsers usrAdd = new GroupUsers()
+                                            {
+                                                UserID = usr.UserID,
+                                                GroupID = dbGNew.GroupID
+                                            };
+                                            _context.groupUsers.Add(usrAdd);
+                                        }
+                                        else
+                                        {
+                                            GroupUsers usrAdd = new GroupUsers()
+                                            {
+                                                UserID = usr.UserID,
+                                                GroupID = dbG.GroupID
+                                            };
+                                            _context.groupUsers.Add(usrAdd);
+                                            Failed.Add("Line: " + i + " User: " + items[uname] + " added user to group: " + items[group] + ".");
+                                        }
+                                        _context.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        Failed.Add("Line: " + i + " User: " + items[uname] + " group column blank: " + group + ".");
                                     }
                                 }
                             }
@@ -209,7 +248,7 @@ namespace AutoQuestionGenerator.Controllers
                         }
                         catch (IndexOutOfRangeException)
                         {
-                            Failed.Add("Line: " + i + "Failed to find index of item");
+                            Failed.Add("Line: " + i + " Failed to find index of item");
                         }
                         i++;
                     }

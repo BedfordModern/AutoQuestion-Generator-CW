@@ -70,12 +70,21 @@ namespace AutoQuestionGenerator.Controllers
                     _context.SaveChanges();
                     var curQuest = Interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + _context.questionTypes.SingleOrDefault(x => x.TypeID == qust.Question_Type).Class, seed);
                     var boxes = curQuest.Boxes().Split(',');
+                    var Hints = new List<string>();
+                    Hints.AddRange(curQuest.Hints.Split(','));
+
+                    for (int i = Hints.Count - 1; i < boxes.Length; i++)
+                    {
+                        Hints.Add("");
+                    }
+
                     var questionSet = new QuestionViewModel()
                     {
                         questionID = qust.QuestionID,
                         question = curQuest,
                         answer = new string[boxes.Length],
                         correct = new int[boxes.Length],
+                        Hints = Hints.ToArray(),
                         Boxes = boxes
                     };
                     Qusts.Add(questionSet);
@@ -109,7 +118,7 @@ namespace AutoQuestionGenerator.Controllers
                 string Name = workset.WorksetName + " - " + workset.WorksetID;
                 _context.worksets.Remove(workset);
                 _context.SaveChanges();
-                return View("Delete",Name);
+                return View("Delete", Name);
             }
             return Unauthorized();
         }
@@ -169,7 +178,7 @@ namespace AutoQuestionGenerator.Controllers
 
             _context.worksets.Add(sets);
             _context.SaveChanges();
-            
+
 
             var Model = new BuildViewModel()
             {

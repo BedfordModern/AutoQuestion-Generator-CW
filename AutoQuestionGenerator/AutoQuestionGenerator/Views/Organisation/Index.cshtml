@@ -16,13 +16,14 @@
 @if (AutoQuestionGenerator.Accounts.UserHelper.UserInRole(AutoQuestionGenerator.Accounts.UserHelper.GetUserId(HttpContextAccessor.HttpContext.Session), AutoQuestionGenerator.Accounts.UserHelper.ROLE_ADMIN, new AutoQuestionGenerator.DatabaseModels.IdentityModels()))
 {
     <p>
-        Subscription Type: @Model.Subscription_Type
+        Subscription Type: @Model.Subscription_Type<br />
         Next Renewal Date: @Model.Subscription_Renew_Date
     </p>
-    <form asp-action="UploadUsers">
+    <form asp-action="UploadUsers" method="get">
         <button type="submit" class="btn">Upload Multiple Users</button>
     </form>
-    <form asp-action="CreateUser">
+    <br />
+    <form asp-action="CreateUser" method="get">
         <button type="submit" class="btn">Create New User</button>
     </form>
 }

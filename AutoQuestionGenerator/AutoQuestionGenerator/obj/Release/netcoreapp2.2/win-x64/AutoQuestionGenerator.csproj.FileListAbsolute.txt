@@ -60,3 +60,9 @@ C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\Auto
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\AutoQuestionGenerator.dll
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\AutoQuestionGenerator.pdb
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\AutoQuestionGenerator.csproj.CopyComplete
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\bin\Release\netcoreapp2.2\win-x64\wwwroot\lib\Python\636886020291063148.py
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\Razor\Views\Account\Revalidate.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\Razor\Views\Account\Update.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\Razor\Views\Organisation\CreateUser.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\Razor\Views\Organisation\Index.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Release\netcoreapp2.2\win-x64\Razor\Views\Work\Assign.g.cshtml.cs

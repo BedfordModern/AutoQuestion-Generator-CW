@@ -10,6 +10,6 @@
 <p>
     @foreach (var item in Model)
     {
-        @item<br />
+    <div @(item.ToLower().Contains("failed") ? "style='color:red'" : "")>@item</div><br />
     }
 </p>

@@ -1,0 +1,5 @@
+username,firstname,lastname,password,role,role,role,group,group
+walk,Joseph,Walker,abc123,teacher,student,,13B_CS,
+cryer,Joseph,Cryer,hi123,student,teacher,admin,,
+kent,Samuel,Kent,122Hi,student,,,,
+leach,Anton,Leach,123efg,teacher,admin,,,
