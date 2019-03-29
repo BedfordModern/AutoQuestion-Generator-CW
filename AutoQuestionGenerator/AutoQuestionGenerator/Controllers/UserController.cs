@@ -12,17 +12,14 @@ namespace AutoQuestionGenerator.Controllers
 {
     public class UserController : Controller
     {
-        IdentityModels _context;
-
         public UserController()
         {
-            _context = new IdentityModels();
         }
 
-        /*public IActionResult Index()
+        public IActionResult Delete(int id)
         {
             return View();
-        }*/
+        }
 
         public IActionResult Login()
         {
@@ -32,19 +29,20 @@ namespace AutoQuestionGenerator.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel user, string returnUrl)
         {
-            var DbOrganisation = _context.organisations.FirstOrDefault(x => x.Organisation_Username == user.Organisation);
-            var DbUser = UserHelper.GetUser(user.Username, _context);
-            if (!ModelState.IsValid || DbOrganisation == null || DbUser == null)
+            var DbOrganisation = DatabaseConnector.Get<Organisations>().FirstOrDefault(x => x.Organisation_Username == user.Organisation);
+            if (!ModelState.IsValid || DbOrganisation == null)
             {
                 if (DbOrganisation == null)
                 {
                     user.Error = "Organisation does not exist.";
                     return View(user);
                 }
-                else if (DbUser == null)
-                {
-                    user.Error = "Username or password incorrect.";
-                }
+                return View(user);
+            }
+            var DbUser = UserHelper.GetUser(user.Username, DbOrganisation.OrganisationID);
+            if (DbUser == null)
+            {
+                user.Error = "Username or password incorrect.";
                 return View(user);
             }
 
@@ -56,12 +54,13 @@ namespace AutoQuestionGenerator.Controllers
 
             if (Hasher.ValidatePassword(user.Password, DbUser.Password))
             {
-                HttpContext.Session.Set("OrgId", Encoding.ASCII.GetBytes(DbOrganisation.OrganisationID.ToString()));
-                HttpContext.Session.Set("Org_Uname", Encoding.ASCII.GetBytes(DbOrganisation.Organisation_Username));
-                HttpContext.Session.Set("UId", Encoding.ASCII.GetBytes(DbUser.UserID.ToString()));
-                HttpContext.Session.Set("Username", Encoding.ASCII.GetBytes(user.Username));
+                HttpContext.Session.Set("OrgId", Encoding.UTF8.GetBytes(DbOrganisation.OrganisationID.ToString()));
+                HttpContext.Session.Set("Org_Uname", Encoding.UTF8.GetBytes(DbOrganisation.Organisation_Name));
+                HttpContext.Session.Set(UserHelper.SESSION_UID, Encoding.UTF8.GetBytes(DbUser.UserID.ToString()));
+                HttpContext.Session.Set("Username", Encoding.UTF8.GetBytes(user.Username));
                 DbUser.Last_Logged_In = DateTime.Now;
-                _context.SaveChanges();
+                DatabaseConnector.Update(DbUser);
+                DatabaseConnector.PushChanges();
                 if (!string.IsNullOrEmpty(returnUrl))
                 {
                     return Redirect(returnUrl);
@@ -70,7 +69,7 @@ namespace AutoQuestionGenerator.Controllers
             }
             else
             {
-                user.Error = "Username or Password is incorrect";
+                user.Error = "Username or password incorrect.";
                 return View(user);
             }
         }
@@ -92,14 +91,20 @@ namespace AutoQuestionGenerator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Lost(Users user)
+        public IActionResult Lost(LoginViewModel user)
         {
-            var DbUser = _context.users.FirstOrDefault(x => x.Username == user.Username);
+            var DbOrganisation = DatabaseConnector.Get<Organisations>().FirstOrDefault(x => x.Organisation_Username == user.Organisation);
+            if (!ModelState.IsValid || DbOrganisation == null)
+            {
+                return View(user);
+            }
+            var DbUser = UserHelper.GetUser(user.Username, DbOrganisation.OrganisationID);
 
             if (!ModelState.IsValid || DbUser == null) return View(user);
 
             DbUser.Password = Hasher.Hash(user.Password);
-            _context.SaveChanges();
+            DatabaseConnector.Update(DbUser);
+            DatabaseConnector.PushChanges();
 
             return RedirectToAction("Index", "Home");
         }

@@ -6,15 +6,15 @@
     @{byte[] username, orgUname; }
     @if (HttpContextAccessor.HttpContext.Session.TryGetValue("Username", out username))
     {
-        <li><a asp-area="" asp-controller="Account" asp-action="Index">Welcome @System.Text.Encoding.ASCII.GetString(username)!</a></li>
-        <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Index">Welcome @System.Text.Encoding.UTF8.GetString(username)!</a></li>
+        @if (HttpContextAccessor.HttpContext.Session.TryGetValue("Org_Uname", out orgUname))
+        {
+            <li style="overflow:hidden;"><a asp-area="" asp-controller="Organisation" asp-action="Index">Of  @System.Text.Encoding.UTF8.GetString(orgUname)!</a></li>
+            <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+        }
     }
     else
     {
         <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
-    }
-    @if (HttpContextAccessor.HttpContext.Session.TryGetValue("Org_Uname", out orgUname))
-    {
-        <li><a asp-area="" asp-controller="Organisation" asp-action="Index">Of @System.Text.Encoding.ASCII.GetString(orgUname)!</a></li>
     }
 </ul>

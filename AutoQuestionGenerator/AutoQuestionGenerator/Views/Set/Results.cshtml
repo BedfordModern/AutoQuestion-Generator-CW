@@ -13,9 +13,10 @@
     questionTypes = questionTypes.Unique().ToList();*@
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-5" >
         @if (Model.Question.Length != 0)
         {
+            <p>Number of Questions that were correct by type</p>
             <div style="max-width: 50%; max-height:30%">
                 <canvas id="CorrectByType" width="400" height="400"></canvas>
             </div>
@@ -29,7 +30,7 @@
             <h3>No one has complete this work yet.</h3>
         }
     </div>
-    <div class="col-md-4">
+    <div class="col-md-7">
         <table id="studentTbl">
             <tr>
                 <th onclick="sortTable(0, 'studentTbl')">Name</th>
@@ -41,34 +42,14 @@
             </tr>
             @foreach (var item in Model.Averages)
             {
-                var x = new List<CompletedQuestion>();
-                foreach (var list in item.Questions) { x.AddRange(list); }
-
-                string best = "";
-                string worst = "";
-                decimal bestper = 0.0m, worstper = 100.0m;
-                foreach(var group in x.GroupBy(q => q.Type))
-                {
-                    if(((decimal)group.Sum(q => q.AnsweredCorrent) / group.Count()) > bestper)
-                    {
-                        bestper = ((decimal)group.Sum(q => q.AnsweredCorrent) / group.Count());
-                        best = group.Key.Type_Name + " " + bestper + "%";
-                    }
-                    else if (((decimal)group.Sum(q => q.AnsweredCorrent) / group.Count()) < worstper)
-                    {
-                        worstper = ((decimal)group.Sum(q => q.AnsweredCorrent) / group.Count());
-                        worst = group.Key.Type_Name + " " + worstper + "%";
-                    }
-                }
-
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Attempts</td>
-                <td>@item.Percentage</td>
-                <td>@item.WorstPercentage</td>
-                <td>@best</td>
-                <td>@worst</td>
-            </tr>
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Attempts</td>
+                    <td>@item.Percentage.Percentage</td>
+                    <td>@item.WorstPercentage.Percentage</td>
+                    <td>@item.bestType</td>
+                    <td>@item.worstType</td>
+                </tr>
             }
         </table>
     </div>
@@ -147,34 +128,36 @@
                         beginAtZero: true
                     },
 
+                    beginAtZero: true,
                     min: 0,
                     max: 100
                 }],
                 xAxes: [{
-                    min: 0,
-                    max: 100
+                    ticks: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 100
+                    }
                 }]
             }
         }
     });
-    new Chart('Placement', {
-        type: 'line',
+        new Chart('Placement', {
+            type: 'scatter',
         data: {
+            @{ var orderedAverages = Model.Averages.OrderBy(x => x.Percentage.Percentage); }
+        labels: ['0%', @foreach (var item in orderedAverages)
+        {
+<Text>'@item.Percentage.Percentage%',</Text>
+        } '100%'],
             datasets: [{
                 backgroundColor: 'rgba(255, 99, 132, 0.4)',
                 borderColor: 'rgba(255, 99, 132, 1)',
-                data: [{ x: 0, y: 0 }, @foreach (var pos in Model.Averages)
-                {
-                    <Text>{y:@pos.sameCount, x:@pos.Percentage.Percentage}</Text>
-                }, { x: 100, y: 0 }],
-                label: 'Dataset',
+                data: [{ x: 0, y: 0 },@foreach (var pos in orderedAverages){<Text>{ x: @pos.Percentage.Percentage, y: @pos.sameCount },</Text>} { x: 100, y: 0 }],
+                label: 'Percentage Distribution',
                 fill: 'origin'
             }],
         },
-        labels: ['0%', @foreach (var item in Model.Averages)
-        {
-<Text>'@item.UserID',</Text>
-        }],
         options: Chart.helpers.merge(options, {
         title: {
             text: 'Averages',
@@ -190,7 +173,7 @@
                 yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                        
+
                     }
                 }]
             },

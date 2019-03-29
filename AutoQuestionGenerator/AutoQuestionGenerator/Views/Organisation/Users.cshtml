@@ -1,0 +1,60 @@
+﻿@model AutoQuestionGenerator.DatabaseModels.Users[]
+@{
+    ViewData["Title"] = "Users";
+}
+<script>
+    function Confirm(name, id) {
+        var r = confirm("Are you sure you want to delete " + name);
+        if (r == true) {
+            location.href = "~/User/Delete?id=" + id
+        }
+    }
+</script>
+<h2>Users</h2>
+
+<table id="UserTable">
+    <tr>
+        <th onclick="sortTable(0,'UserTable')">
+            Username
+        </th>
+        <th onclick="sortTable(0,'UserTable')">Firstname</th>
+        <th onclick="sortTable(0,'UserTable')">Lastname</th>
+        <th onclick="sortTable(0,'UserTable')">Last Logged In</th>
+        <th onclick="sortTable(0,'UserTable')">Edit / Delete</th>
+    </tr>
+    @for (int i = 0; i < Model.Length; i++)
+    {
+    <tr>
+        <td>
+            @Model[i].Username
+        </td>
+        <td>
+            @Model[i].First_Name
+        </td>
+        <td>
+            @Model[i].Last_Name
+        </td>
+        <td>
+            @Model[i].Last_Logged_In
+        </td>
+        <td>
+            <a href="~/User/Edit?ID=@Model[i].UserID">Edit</a>
+            <a onclick="Confirm('@Model[i].First_Name @Model[i].Last_Name', @Model[i].UserID)" href="">Delete</a>
+        </td>
+    </tr>
+    }
+</table><br />
+<div class="row">
+    <div class="col-md-offset-1 col-md-3">
+
+        <form asp-action="UploadUsers" method="get">
+            <button type="submit" class="btn">Upload Multiple Users</button>
+        </form>
+        <br />
+    </div>
+    <div class="col-md-1">
+        <form asp-action="CreateUser" method="get">
+            <button type="submit" class="btn">Create New User</button>
+        </form>
+    </div>
+</div>

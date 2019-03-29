@@ -197,8 +197,8 @@ i {
     -webkit-transform: rotate(45deg);
 }
 
-.short-group{
-    max-width:400px;
+.short-group {
+    max-width: 400px;
 }
 
 .editableBox {
@@ -211,4 +211,41 @@ i {
     margin-left: -295px;
     height: 25px;
     border: none;
+}
+
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    table td, table th {
+        border: 1px solid #ddd;
+        padding: 3px;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #9d9393
+    }
+
+    table tr:hover {
+        background-color: #ddd;
+    }
+
+    table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #0d6fa8;
+        color: white;
+        cursor: pointer;
+    }
+
+        table th:hover {
+            background-color: #0d49a8;
+        }
+
+.ItemLabel {
+    text-align: center;
+    vertical-align: middle;
 }

@@ -65,3 +65,6 @@ C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\Auto
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Account\Revalidate.g.cshtml.cs
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\bin\Debug\netcoreapp2.2\wwwroot\lib\Python\636886020291063148.py
 C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Work\Assign.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Organisation\Users.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\User\Edit.g.cshtml.cs
+C:\Users\Daniel Ledger 13HJK\Documents\CourseWork\AutoQuestion-Generator-CW\AutoQuestionGenerator\AutoQuestionGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Organisation\Update.g.cshtml.cs

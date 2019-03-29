@@ -18,9 +18,10 @@ def BinaryConverter(num):
     return output
 
 def HexConverter(num):
-    y = "0x98"
+    y = hex(num)
     return y
 
 question = "What is " + str(seed) + " in binary? and Hex"
 answer = BinaryConverter(seed) + "," + HexConverter(seed)
 ansName = "Binary,Hexidecimal"
+prompt = "#"*len(BinaryConverter(seed)) + ",0x...";

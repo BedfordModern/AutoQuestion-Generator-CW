@@ -66,7 +66,7 @@ namespace AutoQuestionGenerator.Controllers
             {
                 TimeAllowed = saved.Time_Allowed,
                 RandomQuestions = saved.RandomOrdering,
-                Groups = UserHelper.GetGroups(UserHelper.GetUserId(HttpContext.Session), _context),
+                Groups = UserHelper.GetGroups(UserHelper.GetUserId(HttpContext.Session)),
                 SetType = saved.SetType
             };
 

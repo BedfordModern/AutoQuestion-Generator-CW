@@ -13,7 +13,14 @@
             <div id="answer-@Model.questions[i].questionID">
                 @if (Model.questions[i].answer.Length == 1)
                 {
-                    <text>Answer: </text>@Html.TextBoxFor(m => m.questions[i].answer[0], new { style = (Model.questions[i].correct[0] < 0 ? "background:#FF0000" : (Model.questions[i].correct[0] > 0 ? "background:#0F0" : "background:#FFF")), placeholder = Model.questions[i].Hints[0] })
+                    <div class="row">
+                        <div class="col-md-1">
+                            Answer:
+                        </div>
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(m => m.questions[i].answer[0], new { style = (Model.questions[i].correct[0] < 0 ? "background:#FF0000" : (Model.questions[i].correct[0] > 0 ? "background:#0F0" : "background:#FFF")), placeholder = Model.questions[i].Hints[0], @class = "form-control" })
+                        </div>
+                    </div>
                     @Html.HiddenFor(m => m.questions[i].questionID)
                     @if (Model.questions[i].correct[0] < 0)
                     {
@@ -24,8 +31,14 @@
                 {
                     for (int q = 0; q < Model.questions[i].Boxes.Length; q++)
                     {
-
-                        <text>@Model.questions[i].Boxes[q]: </text>@Html.TextBoxFor(m => m.questions[i].answer[q], new { style = (Model.questions[i].correct[q] < 0 ? "background:#FF0000" : (Model.questions[i].correct[q] > 0 ? "background:#0F0" : "background:#FFF")), placeholder = Model.questions[i].Hints[q] })
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Model.questions[i].Boxes[q]:
+                            </div>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(m => m.questions[i].answer[q], new { style = (Model.questions[i].correct[q] < 0 ? "background:#FF0000" : (Model.questions[i].correct[q] > 0 ? "background:#0F0" : "background:#FFF")), placeholder = Model.questions[i].Hints[q], @class="form-control" })
+                            </div>
+                        </div>
                         @Html.HiddenFor(m => m.questions[i].questionID)
 
                     }

@@ -8,9 +8,27 @@
 <br />
 @using (Html.BeginForm())
 {
-    <text>Organisation: @Html.TextBoxFor(x => x.Organisation) </text><br /><br />
-    <text>Username: @Html.TextBoxFor(m => m.Username)</text><br /><br />
-    <text>Password: @Html.TextBoxFor(m => m.Password, new { type = "password" })</text>
+    <div class="row">
+        <div class="col-md-1">
+            Organisation:
+        </div>
+        <div class="col-md-3">
+            @Html.TextBoxFor(x => x.Organisation, new { @class = "form-control" })
+        </div>
+    </div><br />
+    <div class="row">
+        <div class="col-md-1">
+            Username:
+        </div><div class="col-md-3">@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })</div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            Password:
+        </div><div class="col-md-3">
+            @Html.TextBoxFor(m => m.Password, new { type = "password", @class = "form-control" })
+        </div>
+    </div><br />
+
     <button type="submit" class="=btn btn-primary">Login</button>
     if (Model != null && !string.IsNullOrEmpty(Model.Error))
     {

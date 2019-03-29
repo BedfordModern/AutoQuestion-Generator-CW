@@ -1,123 +1,196 @@
-﻿using AutoQuestionGenerator.DatabaseModels;
+﻿using AutoQuestionGenerator.Accounts;
+using AutoQuestionGenerator.DatabaseModels;
 using AutoQuestionGenerator.Helper;
 using AutoQuestionGenerator.Models.Statistics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoQuestionGenerator.Models
 {
     public class GroupResultsViewModel
     {
-        public GroupResultsViewModel(int WorksetID, IdentityModels _context)
+        /// <summary>
+        /// This will convert a workset into a number of question sets based on the user
+        /// </summary>
+        /// <param name="WorksetID"></param>
+        /// <param name="_context"></param>
+        public GroupResultsViewModel(int WorksetID)
         {
-            var sets = _context.questionSets.Where(x => x.WorkSetID == WorksetID).ToList();
+            //Get each question set that has been answered by the students in the group.
+            var sets = DatabaseConnector.GetWhere<QuestionSets>($"WorkSetID = {WorksetID}").ToList();
             int correct = 0, total = 0;
-            List<UserQuestions> usrQs = new List<UserQuestions>();
-            List<CompletedQuestion> qs = new List<CompletedQuestion>();
+            List<UserQuestions> usrSpecificSets = new List<UserQuestions>();
+            List<CompletedQuestion> allQuestions = new List<CompletedQuestion>();
+
+            var dbQuestionTypes = DatabaseConnector.Get<QuestionTypes>();
+
+            //Itterates through each question set.
             foreach (var set in sets)
             {
-                var questions = _context.questions.Where(x => x.QuestionSetID == set.QuestionSetID).ToList();
-                List<CompletedQuestion> qusts = new List<CompletedQuestion>();
-                foreach (var q in questions)
+                // Collect the list of questions for this set.
+                var questionsDB = DatabaseConnector.GetWhere<Questions>($"QuestionSetID={set.QuestionSetID}").ToList();
+
+                List<CompletedQuestion> questionsLists = new List<CompletedQuestion>();
+
+                //Convert each question in the set into a program usable one.
+                foreach (var question in questionsDB)
                 {
-                    qusts.Add(new CompletedQuestion()
+                    questionsLists.Add(new CompletedQuestion()
                     {
-                        Type = _context.questionTypes.First(x => x.TypeID == q.Question_Type),
-                        AnsweredCorrent = q.AnswerCorrect
+                        Type = dbQuestionTypes.First(x => x.TypeID == question.Question_Type),
+                        AnsweredCorrect = question.AnswerCorrect
                     });
                     total++;
-                    if (q.AnswerCorrect > 0)
+                    if (question.AnswerCorrect > 0)
                         correct++;
                 }
-                qs.AddRange(qusts);
+
+                //Add this question to the list of all questions completed by the students.
+                allQuestions.AddRange(questionsLists);
                 string name = "User not found / deleted";
-                Users usr = _context.users.FirstOrDefault(x => x.UserID == set.UserID);
+                Users usr = UserHelper.GetUser(set.UserID);
                 if (usr != null)
                 {
-                    name = usr.First_Name + usr.Last_Name;
+                    name = usr.First_Name + " " + usr.Last_Name;
                 }
-                if (usrQs.FirstOrDefault(x => x.UserID == set.UserID) == null)
+
+                //See if we have already added a question set by this user.
+                if (usrSpecificSets.FirstOrDefault(x => x.UserID == set.UserID) == null)
                 {
-                    usrQs.Add(new UserQuestions()
+                    //If not create a new one.
+                    usrSpecificSets.Add(new UserQuestions()
                     {
                         UserID = set.UserID,
                         Name = name,
+                        //Set the percentage scores (highest and lowest) to the current one.
                         WorstPercentage = new PercentageModel()
                         {
-                            Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),
-                            Total = qusts.Count()
+                            Current = questionsLists.Where(x => x.AnsweredCorrect > 0).Count(),
+                            Total = questionsLists.Count()
                         },
                         Percentage = new PercentageModel()
                         {
-                            Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),
-                            Total = qusts.Count()
+                            Current = questionsLists.Where(x => x.AnsweredCorrect > 0).Count(),
+                            Total = questionsLists.Count()
                         },
-                        Questions = new CompletedQuestion[][] { qusts.ToArray() }
+                        Questions = new CompletedQuestion[][] { questionsLists.ToArray() },
+                        Attempts = 1,
+                        NumberAnswered = questionsLists.Where(x => x.AnsweredCorrect != 0).Count()
                     });
                 }
                 else
                 {
-                    UserQuestions qust = usrQs.FirstOrDefault(x => x.UserID == set.UserID);
-                    qust.Attempts += 1;
-                    var qrs = new List<CompletedQuestion[]>() { qusts.ToArray() };
-                    qrs.AddRange(qust.Questions);
-                    qust.Questions = qrs.ToArray();
-                    if (qust.Percentage.Percentage < new PercentageModel()
+                    //Get the user's question information from the list.
+                    UserQuestions userQuestionSet = usrSpecificSets.FirstOrDefault(x => x.UserID == set.UserID);
+                    //Increase the number of attempt to the current number;
+                    userQuestionSet.Attempts += 1;
+
+                    //Add the new questions to the list of questions answered by the user.
+                    var qrs = new List<CompletedQuestion[]>() { questionsLists.ToArray() };
+                    qrs.AddRange(userQuestionSet.Questions);
+                    userQuestionSet.Questions = qrs.ToArray();
+
+                    //Calculate result as percentage score of the current question set and 
+                    //check to see if it is higher or lower than other attempts.
+                    var percent = new PercentageModel()
                     {
-                        Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),
-                        Total = qusts.Count()
-                    }.Percentage)
+                        Current = questionsLists.Where(x => x.AnsweredCorrect > 0).Count(),
+                        Total = questionsLists.Count()
+                    };
+
+                    if (userQuestionSet.Percentage.Percentage < percent.Percentage)
                     {
-                        qust.Percentage = new PercentageModel()
-                        {
-                            Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),
-                            Total = qusts.Count()
-                        };
+                        userQuestionSet.Percentage = percent;
                     }
-                    else if (qust.WorstPercentage.Percentage > new PercentageModel()
+                    else if (userQuestionSet.WorstPercentage.Percentage > percent.Percentage)
                     {
-                        Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),
-                        Total = qusts.Count()
-                    }.Percentage)
+                        userQuestionSet.WorstPercentage = percent;
+                    }
+
+                    //Check if the number of questions answered is greater than before.
+                    //If so, set the number of questions answered equal to this set's number of questions answered.
+                    if (questionsLists.Where(x => x.AnsweredCorrect != 0).Count() > userQuestionSet.NumberAnswered)
+                        userQuestionSet.NumberAnswered = questionsLists.Where(x => x.AnsweredCorrect != 0).Count();
+                }
+            }
+
+            foreach (var item in usrSpecificSets)
+            {
+                // Grab all of the questions completed by the user and compile them into a single array.
+                var allQuestionsByUser = new List<CompletedQuestion>();
+                foreach (var list in item.Questions) { allQuestionsByUser.AddRange(list); }
+
+
+                decimal bestper = 0.0m, worstper = 100.0m;
+
+                // Group the questions by their type.
+                foreach (var group in allQuestionsByUser.GroupBy(q => q.Type))
+                {
+                    // Count how many questions of a type the users got correct.
+                    int correctForType = 0;
+                    foreach (var question in group)
                     {
-                        qust.WorstPercentage = new PercentageModel()
+                        if (question.AnsweredCorrect > 0)
                         {
-                            Current = qusts.Where(x => x.AnsweredCorrent > 0).Count(),
-                            Total = qusts.Count()
-                        };
+                            correctForType++;
+                        }
+                    }
+
+                    // Calculate the percentage of this type which were correct.
+                    decimal percent = ((decimal)correctForType / (decimal)group.Count()) * 100.0m;
+
+                    // Check if the highest and lowest percentages are different to the current values,
+                    // and set them to the new value if they are.
+                    if (percent > bestper)
+                    {
+                        bestper = percent;
+                        item.bestType = group.Key.Type_Name + " @ " + bestper.ToString("0.###") + "%";
+                    }
+                    else if (percent < worstper)
+                    {
+                        worstper = percent;
+                        item.worstType = group.Key.Type_Name + " @ " + worstper.ToString("0.###") + "%";
                     }
                 }
             }
 
-            Averages = usrQs.ToArray();
+            if (sets.Count != 0)
+            {
+                // Calculates where the student sits on a distribution, compared to other students.
+                for (int i = 0; i < usrSpecificSets.Count; i++)
+                {
+                    usrSpecificSets[i].sameCount = usrSpecificSets
+                        .Where(x => x.Percentage.Percentage == usrSpecificSets[i].Percentage.Percentage)
+                        .Count();
+                }
 
+                // Get the percentage of questions by their induvidual types.
+                List = (from question in allQuestions
+                        group question by question.Type.TypeID into QGroup
+                        select new PercentageModel
+                        {
+                            Current = QGroup.Where(x => x.AnsweredCorrect > 0).Count(),
+                            Total = QGroup.Count()
+                        }).ToArray();
+
+                //  Compile the name of question types.
+                questionTypes = (from question in allQuestions
+                                 select question.Type.Type_Name).ToArray();
+                // Remove all repeats from the array.
+                questionTypes = questionTypes.Unique().ToArray();
+            }
+
+            // Set the class variable equal to the local list.
+            Averages = usrSpecificSets.ToArray();
+            Question = allQuestions.ToArray();
+
+            // Calculate total percentage for the group.
             Percentage = new PercentageModel()
             {
                 Current = correct,
                 Total = total
             };
 
-            Question = qs.ToArray();
-            if (sets.Count != 0)
-            {
-                for (int i = 0; i < usrQs.Count; i++)
-                {
-                    usrQs[i].sameCount = usrQs.Where(x => x.Percentage.Percentage == usrQs[i].Percentage.Percentage).Count();
-                }
-                Question = qs.ToArray();
-                List = (from question in Question
-                        group question by question.Type.TypeID into QGroup
-                        select new PercentageModel
-                        {
-                            Current = QGroup.Where(x => x.AnsweredCorrent > 0).Count(),
-                            Total = QGroup.Count()
-                        }).ToArray();
-                questionTypes = (from question in Question
-                                 select question.Type.Type_Name).ToArray();
-                questionTypes = questionTypes.Unique().ToArray();
-            }
         }
         public PercentageModel Percentage { get; set; }
         public CompletedQuestion[] Question { get; set; }
@@ -133,7 +206,10 @@ namespace AutoQuestionGenerator.Models
         public int Attempts { get; set; }
         public PercentageModel Percentage { get; set; }
         public PercentageModel WorstPercentage { get; set; }
+        public int NumberAnswered { get; set; }
         public int sameCount { get; set; }
         public CompletedQuestion[][] Questions { get; set; }
+        public string bestType { get; set; }
+        public string worstType { get; set; }
     }
 }

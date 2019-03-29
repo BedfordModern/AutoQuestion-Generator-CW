@@ -35,6 +35,21 @@ namespace AutoQuestionGenerator.Helper
 
     public static class Extentions
     {
+        public static TValue GetAttributeValue<TAttribute, TValue>(
+        this Type type,
+        Func<TAttribute, TValue> valueSelector)
+        where TAttribute : Attribute
+        {
+            var att = type.GetCustomAttributes(
+                typeof(TAttribute), true
+            ).FirstOrDefault() as TAttribute;
+            if (att != null)
+            {
+                return valueSelector(att);
+            }
+            return default(TValue);
+        }
+
         public static int[] PositionsOf<T>(this T[] input, T searchValue)
         {
             List<int> positions = new List<int>();
@@ -52,7 +67,7 @@ namespace AutoQuestionGenerator.Helper
         {
             for (int i = 0; i < input.Length; i++)
             {
-                if(input[i].Equals(searchValue))
+                if (input[i].Equals(searchValue))
                 {
                     return i;
                 }
@@ -64,7 +79,7 @@ namespace AutoQuestionGenerator.Helper
         private static PdfDocument pdf;
         private static readonly PageSize Page = PageSize.A4;
         private static Document document;
-        public static string ToPDF(this Worksets set, IdentityModels context)
+        public static string ToPDF(this Worksets set)
         {
             var time = DateTime.Now.ToString("dd-hh-mm hh-MM-ss");
             var path = AppContext.BaseDirectory + "/prints/";
@@ -85,11 +100,11 @@ namespace AutoQuestionGenerator.Helper
             tbl.SetWidth(UnitValue.CreatePercentValue(100));
 
             var interpreter = new PythonInterpreter();
-            var work = context.work.Where(x => x.WorkSetID == set.WorksetID).ToArray();
+            var work = DatabaseConnector.GetWhere<Work>($"WorksetID={set.WorksetID}");
 
             for (int i = 0; i < work.Length; i++)
             {
-                var question = interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + context.questionTypes.SingleOrDefault(x => x.TypeID == work[i].QuestionType).Class, work[i].Seed);
+                var question = interpreter.GenerateQuestion(AppContext.BaseDirectory + @"wwwroot\lib\Python\" + DatabaseConnector.Get<QuestionTypes>().SingleOrDefault(x => x.TypeID == work[i].QuestionType).Class, work[i].Seed);
                 Table qTbl = new Table(1);
                 qTbl.SetKeepTogether(true);
                 qTbl.SetWidth(UnitValue.CreatePercentValue(100));
@@ -112,7 +127,7 @@ namespace AutoQuestionGenerator.Helper
                         }
                         catch (IndexOutOfRangeException)
                         {
-                            var AnsCell = new Cell().Add(new Paragraph("Answer" + q +  ": ___________________.").SetTextAlignment(TextAlignment.RIGHT).SetVerticalAlignment(VerticalAlignment.BOTTOM)).SetVerticalAlignment(VerticalAlignment.BOTTOM).SetHeight(70f).SetBorder(Border.NO_BORDER);
+                            var AnsCell = new Cell().Add(new Paragraph("Answer" + q + ": ___________________.").SetTextAlignment(TextAlignment.RIGHT).SetVerticalAlignment(VerticalAlignment.BOTTOM)).SetVerticalAlignment(VerticalAlignment.BOTTOM).SetHeight(70f).SetBorder(Border.NO_BORDER);
                             qTbl.AddCell(AnsCell);
                         }
                     }
@@ -183,7 +198,14 @@ namespace AutoQuestionGenerator.Helper
             string ret = "";
             foreach (var item in list)
             {
-                ret += item.ToString() + joiner;
+                if (typeof(double).IsAssignableFrom(typeof(T)) && Convert.ToDouble(item) == 0.0)
+                {
+                    ret += item.ToString() + ".1" + joiner;
+                }
+                else
+                {
+                    ret += item.ToString() + joiner;
+                }
             }
             return ret.Substring(0, ret.Length - 1);
         }

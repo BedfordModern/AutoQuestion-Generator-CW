@@ -65,8 +65,7 @@
                     <a href="~/Set/Delete?setID=@set.WorksetID">Delete</a>
                 </td>
                 <td>
-                    <a href="~/Set/Print?setID=@set.WorksetID">Print Questions</a>
-                    <a href="~/Set/Answers?setID=@set.WorksetID">Print Answers</a>
+                    <button onclick="window.open('/Set/Print?setID=@set.WorksetID')">Print Questions & Answers</button>
                 </td>
             </tr>
         }

@@ -10,11 +10,17 @@ namespace AutoQuestionGenerator.Models
     {
         public string GroupName { get; set; }
         public int AccessType { get; set; }
-        public int[] GroupUsers { get; set; }
+        public GroupUser[] GroupUsers { get; set; }
 
         public bool CloseAfter { get; set; }
 
         public Users[] Users { get; set; }
         public AccessTypes[] AccessTypes { get; set; }
+    }
+
+    public class GroupUser
+    {
+        public int UserID { get; set; }
+        public bool Selected { get; set; }
     }
 }

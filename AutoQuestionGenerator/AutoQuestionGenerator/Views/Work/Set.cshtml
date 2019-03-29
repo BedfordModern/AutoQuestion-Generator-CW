@@ -3,39 +3,6 @@
     ViewData["Title"] = "Work Set";
 }
 
-<style>
-    #workTbl {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-        #workTbl td, #workTbl th {
-            border: 1px solid #ddd;
-            padding: 3px;
-        }
-
-        #workTbl tr:nth-child(odd) {
-            background-color: #9d9393
-        }
-
-        #workTbl tr:hover {
-            background-color: #ddd;
-        }
-
-        #workTbl th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #0d6fa8;
-            color: white;
-            cursor: pointer;
-        }
-            #workTbl th:hover {
-                background-color: #0d49a8;
-            }
-</style>
-
 <h2>Work You've Set</h2>
 @if (Model.Length > 0)
 {

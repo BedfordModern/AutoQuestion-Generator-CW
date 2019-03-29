@@ -10,16 +10,22 @@ namespace AutoQuestionGenerator.Models
 {
     public class CompleteQuestionViewModel
     {
-        public CompleteQuestionViewModel(int QuestionSetID, IdentityModels _context)
+        /// <summary>
+        /// Generates statistical model about the users performance from the
+        /// question set that they have completed
+        /// </summary>
+        /// <param name="QuestionSetID"></param>
+        public CompleteQuestionViewModel(int QuestionSetID)
         {
-            var questions = _context.questions.Where(x => x.QuestionSetID == QuestionSetID).ToList();
+            var questions = DatabaseConnector.GetWhere<Questions>($"QuestionSetID={QuestionSetID}").ToList();
             List<CompletedQuestion> qs = new List<CompletedQuestion>();
+            var types = DatabaseConnector.Get<QuestionTypes>();
             foreach (var q in questions)
             {
                 qs.Add(new CompletedQuestion()
                 {
-                    Type = _context.questionTypes.First(x => x.TypeID == q.Question_Type),
-                    AnsweredCorrent = q.AnswerCorrect
+                    Type = types.First(x => x.TypeID == q.Question_Type),
+                    AnsweredCorrect = q.AnswerCorrect
                 });
             }
 
@@ -34,7 +40,7 @@ namespace AutoQuestionGenerator.Models
                     group question by question.Type.TypeID into QGroup
                     select new PercentageModel
                     {
-                        Current = QGroup.Where(x => x.AnsweredCorrent > 0).Count(),
+                        Current = QGroup.Where(x => x.AnsweredCorrect > 0).Count(),
                         Total = QGroup.Count()
                     }).ToArray();
             questionTypes = (from question in Question
@@ -49,7 +55,7 @@ namespace AutoQuestionGenerator.Models
     }
     public class CompletedQuestion
     {
-        public int AnsweredCorrent { get; set; }
+        public int AnsweredCorrect { get; set; }
         public QuestionTypes Type { get; set; }
     }
 }

@@ -18,18 +18,16 @@ namespace AutoQuestionGenerator.Controllers
     public class AccountController : Controller
     {
         IHubContext<FileHub> HubContext;
-        IdentityModels _context;
         PythonInterpreter pythonInterpreter;
         private IHostingEnvironment _env;
         public AccountController(IHubContext<FileHub> hubcontext, IHostingEnvironment env)
         {
-            _context = new IdentityModels();
             HubContext = hubcontext;
             _env = env;
         }
         public IActionResult Index()
         {
-            return View(UserHelper.GetUser(UserHelper.GetUserId(HttpContext.Session), _context));
+            return View(UserHelper.GetUser(UserHelper.GetUserId(HttpContext.Session)));
         }
 
         public IActionResult AddQuestions()
@@ -52,7 +50,7 @@ namespace AutoQuestionGenerator.Controllers
         [HttpPost]
         public IActionResult Revalidate(RevalidateModel model)
         {
-            var user = UserHelper.GetUser(model.id, _context);
+            var user = UserHelper.GetUser(model.id);
             if (Hasher.ValidatePassword(model.Password, user.Password))
             {
                 UpdateUser ret = new UpdateUser()
@@ -77,7 +75,7 @@ namespace AutoQuestionGenerator.Controllers
                 return View(model);
             if (UserHelper.GetUserId(HttpContext.Session) == model.UserID)
             {
-                var user = UserHelper.GetUser(model.UserID, _context);
+                var user = UserHelper.GetUser(model.UserID);
 
                 if (!string.IsNullOrWhiteSpace(model.Password) && !string.IsNullOrWhiteSpace(model.VerifyPassword))
                 {
@@ -91,7 +89,8 @@ namespace AutoQuestionGenerator.Controllers
                 user.Last_Name = model.Lastname;
                 user.Username = model.Username;
 
-                _context.SaveChanges();
+                DatabaseConnector.Update(user);
+
                 return View("Index", user);
             }
             UserHelper.LogOut(HttpContext.Session);
@@ -127,7 +126,7 @@ namespace AutoQuestionGenerator.Controllers
             {
                 identifier = Guid.NewGuid(),
                 documents = diction,
-                Catagories = _context.catagories.ToArray()
+                Catagories = DatabaseConnector.GetCatagories()
             };
             TestPython(new UploadViewModel()
             {
@@ -162,16 +161,16 @@ namespace AutoQuestionGenerator.Controllers
                         temp.CopyToAsync(stream);
                     }
 
-                    var catagory = _context.catagories.FirstOrDefault(x => x.CatagoryName == item.Catagory);
+                    var catagory = DatabaseConnector.GetCatagories().FirstOrDefault(x => x.CatagoryName == item.Catagory);
                     if (catagory == null)
                     {
                         catagory = new Catagory()
                         {
                             CatagoryName = item.Catagory,
-                            CatagoryType = _context.CatagoryTypes.FirstOrDefault(x => x.CatTypeName.ToLower() == "unknown").CatTypeID
+                            CatagoryType = DatabaseConnector.GetCatagoryTypes().FirstOrDefault(x => x.CatTypeName.ToLower() == "unknown").CatTypeID
                         };
-                        _context.catagories.Add(catagory);
-                        _context.SaveChanges();
+                        catagory.CatagoryID = DatabaseConnector.AddCatagory(catagory);
+                        DatabaseConnector.PushChanges();
                         setTypes = true;
                         new_catagories.Add(catagory);
                     }
@@ -181,14 +180,14 @@ namespace AutoQuestionGenerator.Controllers
                         Type_Name = item.Name,
                         Catagory = catagory.CatagoryID
                     };
-                    _context.questionTypes.Add(questiontype);
+                    questiontype.TypeID = DatabaseConnector.AddQesutionType(questiontype);
                 }
             }
-            _context.SaveChanges();
+            DatabaseConnector.PushChanges();
             if (setTypes) return View(new UploadCompleteViewModel()
             {
                 Catagories = new_catagories.ToArray(),
-                Types = _context.CatagoryTypes.Where(x => x.CatTypeName.ToLower() != "unknown").ToArray()
+                Types = DatabaseConnector.GetCatagoryTypes().Where(x => x.CatTypeName.ToLower() != "unknown").ToArray()
             });
 
             return RedirectToAction("index");
@@ -199,10 +198,11 @@ namespace AutoQuestionGenerator.Controllers
         {
             foreach (var item in model.Catagories)
             {
-                var cat = _context.catagories.FirstOrDefault(x => x.CatagoryID == item.CatagoryID);
+                var cat = DatabaseConnector.GetCatagories().FirstOrDefault(x => x.CatagoryID == item.CatagoryID);
                 cat.CatagoryType = item.CatagoryType;
+                DatabaseConnector.Update(cat);
             }
-            _context.SaveChanges();
+            DatabaseConnector.PushChanges();
             return RedirectToAction("index");
         }
 

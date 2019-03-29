@@ -60,7 +60,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    @{ byte[] uid; HttpContextAccessor.HttpContext.Session.TryGetValue("UId", out uid);
+                    @{ byte[] uid; HttpContextAccessor.HttpContext.Session.TryGetValue(AutoQuestionGenerator.Accounts.UserHelper.SESSION_UID, out uid);
                         bool teacher = AutoQuestionGenerator.Accounts.UserHelper.UserInRole(uid, AutoQuestionGenerator.Accounts.UserHelper.ROLE_TEACHER, new AutoQuestionGenerator.DatabaseModels.IdentityModels()); }
                     <li><a asp-area="" asp-controller="Work" asp-action="@(teacher ? "Set" : "Index")">Work@(teacher ? " Set" : " to Do")</a></li>
                     @if (teacher)
@@ -77,7 +77,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - AutoQuestionGenerator</p>
+            <p>&copy; 2018 to @DateTime.Now.Year - AutoQuestionGenerator</p>
         </footer>
     </div>
 </body>
